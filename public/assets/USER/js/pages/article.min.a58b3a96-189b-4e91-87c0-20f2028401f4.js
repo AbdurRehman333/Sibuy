@@ -1,0 +1,1 @@
+!function(t){"use strict";t(document).ready((function(){t('[data-iframe="true"]').each((function(){lightGallery&&lightGallery(this,{selector:"this"})}))}))}(jQuery),function(t){"use strict";t(document).ready((function(){t(".wp-block-image").find("a").each((function(){lightGallery&&lightGallery(this,{selector:"this",plugins:[lgZoom]})}))}))}(jQuery);

@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+
+<head>
+    <title>Pusher Test</title>
+    <script src="https://js.pusher.com/7.2/pusher.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <script>
+        // Enable pusher logging - don't include this in production
+        Pusher.logToConsole = true;
+
+        var pusher = new Pusher('814fe1b741785e7ace5e', {
+            cluster: 'ap2',
+            // channelAuthorization: {
+            //     endpoint: "https://gigiapi.zanforthstaging.com/api/channelAuthorization",
+            //     headers: {
+            //         "Authorization": 'Bearer 360|JfUY7cW7SzcEo0V8WY9uVsxO2gggRQs0oQVEtoA7',
+            //         'X-CSRF-TOKEN': '{{ csrf_token() }}',
+            //     }
+            // },
+            authEndpoint: "https://gigiapi.zanforthstaging.com/api/channelAuthorization",
+            auth: {
+                headers: {
+                    "Authorization": 'Bearer 395|YeNFXJ75fD0RzDpodaMkrN8CNw5k6JIb3PUulJd7',
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            }
+            // userAuthentication: {
+            //   endpoint: "https://gigiapi.zanforthstaging.com/api/channelAuthorization",
+            //   headers: { "Authorization": 'Bearer 360|JfUY7cW7SzcEo0V8WY9uVsxO2gggRQs0oQVEtoA7' }
+            // }
+        });
+
+        var channel = pusher.subscribe('private-messages-channel.4');
+        channel.bind('message.created', function(data) {
+            console.log(data);
+            //alert(JSON.stringify(data));
+        });
+    </script>
+</head>
+
+<body>
+    <h1>Pusher Test</h1>
+    <p>
+        Try publishing an event to channel <code>my-channel</code> with event name <code>my-event</code>.
+    </p>
+</body>
+
+
+<!-- <!DOCTYPE html>
+
+<head>
+    <title>Pusher Test</title>
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+
+    <script src="{{asset('js/app.js')}}"></script>
+
+    <script src="https://js.pusher.com/7.2/pusher.min.js"></script>
+    <script>
+        Pusher.logToConsole = true;
+
+        var pusher = new Pusher('814fe1b741785e7ace5e', {
+            cluster: 'ap2',
+            authEndpoint: "https://gigiapi.zanforthstaging.com/api/channelAuthorization",
+            auth: {
+                headers: {
+                    "Authorization": `Bearer ${bearer_token}`,
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            }
+        });
+
+        var channel = pusher.subscribe(`private-messages-channel.${id}`);
+        channel.bind('message.created', function(data) {
+            console.log(data);
+        });
+    </script>
+
+</head>
+
+<body>
+    <h1>Pusher Test</h1>
+    <p>
+        Try publishing an event to channel <code>my-channel</code> with event name <code>my-event</code>.
+    </p>
+</body> -->

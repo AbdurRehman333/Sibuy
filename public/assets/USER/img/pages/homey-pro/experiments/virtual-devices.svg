@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="128px" height="128px" viewBox="0 0 128 128" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>icon</title>
+    <defs>
+        <radialGradient cx="50%" cy="50%" fx="50%" fy="50%" r="50%" id="radialGradient-1">
+            <stop stop-color="#32C5FF" offset="0%"></stop>
+            <stop stop-color="#0091FF" offset="100%"></stop>
+        </radialGradient>
+        <rect id="path-2" x="0" y="0" width="128" height="128" rx="27.1390231"></rect>
+    </defs>
+    <g id="---↳-Homey-Pro" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Homey-Pro-Desktop" transform="translate(-736.000000, -4933.000000)">
+            <g id="Homey-Experiments" transform="translate(432.000000, 4476.000000)">
+                <g id="Icons" transform="translate(82.000000, 457.000000)">
+                    <g id="virtual-devices" transform="translate(204.000000, 0.000000)">
+                        <g id="icon" transform="translate(18.000000, 0.000000)">
+                            <g id="Icon-BG">
+                                <mask id="mask-3" fill="white">
+                                    <use xlink:href="#path-2"></use>
+                                </mask>
+                                <use id="Mask" fill="url(#radialGradient-1)" xlink:href="#path-2"></use>
+                                <g id="lines" opacity="0.25" mask="url(#mask-3)" stroke="#FFFFFF" stroke-width="0.508856683">
+                                    <line x1="12.8" y1="0" x2="12.8" y2="128" id="Path-3-Copy-9"></line>
+                                    <line x1="0" y1="25.6" x2="128" y2="25.6" id="Path-3-Copy"></line>
+                                    <line x1="0" y1="51.2" x2="128" y2="51.2" id="Path-3-Copy-2"></line>
+                                    <line x1="0" y1="76.8" x2="128" y2="76.8" id="Path-3-Copy-3"></line>
+                                    <line x1="0" y1="102.4" x2="128" y2="102.4" id="Path-3-Copy-4"></line>
+                                    <line x1="25.6" y1="0" x2="25.6" y2="128" id="Path-3-Copy-5"></line>
+                                    <line x1="51.2" y1="0" x2="51.2" y2="128" id="Path-3-Copy-6"></line>
+                                    <line x1="76.8" y1="0" x2="76.8" y2="128" id="Path-3-Copy-7"></line>
+                                    <line x1="102.4" y1="0" x2="102.4" y2="128" id="Path-3-Copy-8"></line>
+                                    <line x1="25.6" y1="0" x2="25.6" y2="128" id="Path-3-Copy-10" stroke-opacity="0.5"></line>
+                                    <line x1="38.4" y1="0" x2="38.4" y2="128" id="Path-3-Copy-11"></line>
+                                    <line x1="51.2" y1="0" x2="51.2" y2="128" id="Path-3-Copy-12" stroke-opacity="0.5"></line>
+                                    <line x1="64" y1="0" x2="64" y2="128" id="Path-3-Copy-13"></line>
+                                    <line x1="76.8" y1="0" x2="76.8" y2="128" id="Path-3-Copy-14" stroke-opacity="0.5"></line>
+                                    <line x1="89.6" y1="0" x2="89.6" y2="128" id="Path-3-Copy-15"></line>
+                                    <line x1="102.4" y1="0" x2="102.4" y2="128" id="Path-3-Copy-16" stroke-opacity="0.5"></line>
+                                    <line x1="115.2" y1="0" x2="115.2" y2="128" id="Path-3-Copy-17"></line>
+                                    <line x1="-3.66373598e-15" y1="12.8" x2="128" y2="12.8" id="Path-3-Copy-18"></line>
+                                    <line x1="-3.66373598e-15" y1="25.6" x2="128" y2="25.6" id="Path-3-Copy-19" stroke-opacity="0.5"></line>
+                                    <line x1="-3.66373598e-15" y1="38.4" x2="128" y2="38.4" id="Path-3-Copy-20"></line>
+                                    <line x1="-3.66373598e-15" y1="51.2" x2="128" y2="51.2" id="Path-3-Copy-21" stroke-opacity="0.5"></line>
+                                    <line x1="-3.66373598e-15" y1="64" x2="128" y2="64" id="Path-3-Copy-22"></line>
+                                    <line x1="-3.66373598e-15" y1="76.8" x2="128" y2="76.8" id="Path-3-Copy-23" stroke-opacity="0.5"></line>
+                                    <line x1="-3.66373598e-15" y1="89.6" x2="128" y2="89.6" id="Path-3-Copy-24"></line>
+                                    <line x1="-3.66373598e-15" y1="102.4" x2="128" y2="102.4" id="Path-3-Copy-25" stroke-opacity="0.5"></line>
+                                    <line x1="-3.66373598e-15" y1="115.2" x2="128" y2="115.2" id="Path-3-Copy-26"></line>
+                                </g>
+                            </g>
+                            <g id="Cube" transform="translate(30.577778, 22.755556)" stroke="#FFFFFF">
+                                <polygon id="Path-4" stroke-width="2.44251208" points="32.768 75.776 66.048 57.2186122 66.048 19.2901145 32.768 0 0 18.5573878 0 56.2089939"></polygon>
+                                <polyline id="Path-5" stroke-width="2.44251208" points="66.048 19.2901145 32.768 37.888 0 18.432"></polyline>
+                                <line x1="32.768" y1="37.888" x2="32.768" y2="75.264" id="Path-6" stroke-width="2.44251208"></line>
+                                <line x1="33.024" y1="37.632" x2="33.024" y2="0.256" id="Path-7" stroke-width="1.95400966" stroke-dasharray="3.90801905433912,3.90801905433912"></line>
+                                <line x1="65.28" y1="56.576" x2="33.024" y2="38.144" id="Path-7-Copy" stroke-width="1.95400966" stroke-dasharray="3.90801905433912,3.90801905433912"></line>
+                                <line x1="32.768" y1="56.576" x2="0.512" y2="38.144" id="Path-7-Copy" stroke-width="1.95400966" stroke-dasharray="3.90801905433912,3.90801905433912" transform="translate(16.640000, 47.360000) scale(-1, 1) translate(-16.640000, -47.360000) "></line>
+                            </g>
+                        </g>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="960px" height="960px" viewBox="0 0 960 960" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>devices / netatmo / icon</title>
+    <g id="devices-/-netatmo-/-icon" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <path d="M593.618068,21.8438916 L662.070517,50.1339194 L657.601511,899.268415 L353.141192,939.452961 L300,860.209937 L300,33.3491828 L593.618068,21.8438916 Z" id="Path-2" stroke="#000000" stroke-width="40" stroke-linejoin="round"></path>
+        <polygon id="Path-3" stroke="#000000" stroke-width="20" fill="#000000" stroke-linejoin="round" points="362 918 355.499207 72.720285 665.977024 63 585 18.0553819 312.60018 32.7121578 298.591852 56.5805817 298.591852 856.00722 345.119183 930.804146"></polygon>
+        <line x1="642" y1="63" x2="356" y2="73" id="Path-4" stroke="#000000" stroke-width="20" stroke-linejoin="round"></line>
+        <line x1="649" y1="336" x2="358.548863" y2="357" id="Path-4" stroke="#000000" stroke-width="20" stroke-linejoin="round"></line>
+        <line x1="649" y1="612" x2="358.548571" y2="641" id="Path-4" stroke="#000000" stroke-width="20" stroke-linejoin="round"></line>
+        <g id="Group" transform="translate(425.000000, 381.000000)" fill="#000000">
+            <circle id="Oval" cx="17" cy="56" r="17"></circle>
+            <circle id="Oval" cx="17" cy="116" r="17"></circle>
+            <circle id="Oval" cx="17" cy="175" r="17"></circle>
+            <circle id="Oval" cx="80" cy="17" r="17"></circle>
+            <circle id="Oval" cx="80" cy="77" r="17"></circle>
+            <circle id="Oval" cx="80" cy="136" r="17"></circle>
+            <circle id="Oval" cx="80" cy="193" r="17"></circle>
+            <ellipse id="Oval" cx="142.5" cy="43" rx="15.5" ry="17"></ellipse>
+            <ellipse id="Oval" cx="142.5" cy="102" rx="15.5" ry="17"></ellipse>
+            <ellipse id="Oval" cx="142.5" cy="160" rx="15.5" ry="16"></ellipse>
+        </g>
+        <path d="M665.977024,58.254694 L660.005753,336 L343.368408,357 L343.368408,68 L665.977024,58.254694 Z M460.594433,196.824751 C454.439925,218.605031 466.645469,241.264767 487.856278,247.436686 C509.067087,253.608606 531.25106,240.955529 537.405567,219.175249 C543.560075,197.394969 531.354531,174.735233 510.143722,168.563314 C488.932913,162.391394 466.74894,175.044471 460.594433,196.824751 Z M569.311889,122.79547 C568.094361,127.041496 570.549444,131.470582 574.79547,132.688111 C579.041496,133.905639 583.470582,131.450556 584.688111,127.20453 C585.905639,122.958504 583.450556,118.529418 579.20453,117.311889 C574.958504,116.094361 570.529418,118.549444 569.311889,122.79547 Z" id="Combined-Shape" fill="#000000"></path>
+    </g>
+</svg>

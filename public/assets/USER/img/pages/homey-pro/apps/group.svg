@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="40px" height="40px" viewBox="0 0 40 40" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>pro-apps / group</title>
+    <g id="pro-apps-/-group" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <circle id="Oval-Copy-11" fill="#000000" cx="20" cy="20" r="20"></circle>
+        <g id="icon-(10)" transform="translate(7.000000, 9.000000)">
+            <polygon id="contain" stroke="#FFFFFF" stroke-width="0.5" points="26 11.5 19.5000001 23 6.50000001 23 0 11.5 6.50000001 0 19.5000001 0"></polygon>
+            <polygon id="center" stroke="#FFFFFF" stroke-width="0.5" fill="#FFFFFF" fill-rule="nonzero" points="17.3246841 11.5076514 15.1623419 15.3333333 10.837658 15.3333333 8.67531605 11.5076514 10.837658 7.68196939 15.1623419 7.68196939"></polygon>
+            <polygon id="htl" stroke="#FFFFFF" stroke-width="0.5" points="10.8530193 7.65136394 8.69067732 11.4770459 4.36599335 11.4770459 2.20365137 7.65136394 4.36599335 3.82568197 8.69067732 3.82568197"></polygon>
+            <polygon id="hbl" stroke="#FFFFFF" stroke-width="0.5" points="10.8530193 15.3027279 8.69067732 19.1284098 4.36599335 19.1284098 2.20365137 15.3027279 4.36599335 11.4770459 8.69067732 11.4770459"></polygon>
+            <polygon id="hb" stroke="#FFFFFF" stroke-width="0.5" points="17.3246841 19.1284098 15.1623419 22.9540918 10.837658 22.9540918 8.67531605 19.1284098 10.837658 15.3027279 15.1623419 15.3027279"></polygon>
+            <polygon id="hbr" stroke="#FFFFFF" stroke-width="0.5" points="23.8113294 15.3027279 21.6489873 19.1284098 17.3243034 19.1284098 15.1619614 15.3027279 17.3243034 11.4770459 21.6489873 11.4770459"></polygon>
+            <polygon id="htr" stroke="#FFFFFF" stroke-width="0.5" points="23.8113294 7.65136394 21.6489873 11.4770459 17.3243034 11.4770459 15.1619614 7.65136394 17.3243034 3.82568197 21.6489873 3.82568197"></polygon>
+            <polygon id="ht" stroke="#FFFFFF" stroke-width="0.5" points="17.3246841 3.82568197 15.1623419 7.65136394 10.837658 7.65136394 8.67531605 3.82568197 10.837658 0 15.1623419 0"></polygon>
+            <polygon id="sl" stroke="#FFFFFF" stroke-width="0.5" fill="#FFFFFF" fill-rule="nonzero" points="2.19379108 15.3333333 0.0314491018 11.5076514 2.19379108 7.68196939 4.35613308 11.5076514"></polygon>
+            <polygon id="sbl" stroke="#FFFFFF" stroke-width="0.5" fill="#FFFFFF" fill-rule="nonzero" points="10.8329182 22.9540918 6.5082342 22.9540918 4.34589222 19.1284098 8.6705762 19.1284098"></polygon>
+            <polygon id="sbr" stroke="#FFFFFF" stroke-width="0.5" fill="#FFFFFF" fill-rule="nonzero" points="19.5067465 23 15.1820625 23 17.3444045 19.174318 21.6690886 19.174318"></polygon>
+            <polygon id="sr" stroke="#FFFFFF" stroke-width="0.5" fill="#FFFFFF" fill-rule="nonzero" points="23.8361703 15.3333333 21.6738283 11.5076514 23.8361703 7.68196939 25.9985124 11.5076514"></polygon>
+            <polygon id="str" fill="#FFFFFF" fill-rule="nonzero" points="17.3294238 3.82568197 15.1670818 0 19.4917658 0 21.6541079 3.82568197"></polygon>
+            <polygon id="stl" stroke="#FFFFFF" stroke-width="0.5" fill="#FFFFFF" fill-rule="nonzero" points="4.34589222 3.82568197 6.5082342 0 10.8329182 0 8.6705762 3.82568197"></polygon>
+        </g>
+    </g>
+</svg>
