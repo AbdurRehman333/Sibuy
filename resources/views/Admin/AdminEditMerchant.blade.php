@@ -86,13 +86,11 @@
                                         } );
                                     </script>
 
-                                    {{-- <div class="form-group col-md-6">
-                                        <label>DOB</label> --}}
-                                        <input type="hidden" id="datepicker"  class="form-control" name="date_of_birth"
-                                            value="{{$merchant['date_of_birth']}}"
-                                            placeholder="Contact Number">
-                                    {{-- </div> --}}
-
+                                  
+                                    <input type="hidden" id="datepicker"  class="form-control" name="date_of_birth"
+                                        value="{{$merchant['date_of_birth']}}"
+                                        placeholder="Contact Number">
+                              
                                     <div class="form-group col-md-6">
                                         <label>Upload Profile Picture</label>
                                         <input type="file" class="form-control" style="" name="profile_picture">
@@ -108,6 +106,59 @@
 
 
                         </div>
+
+
+
+                        <div class="basic-form">
+                            <h3>Branch Settings</h3>
+                            <form method="POST" action="{{url('AdminMerchantProfileUpdate')}}" enctype="multipart/form-data">
+                                @csrf
+                                <div class="form-row">
+
+                                    <input type="hidden" value="{{$merchant['id']}}" name="id">
+
+                                    <div class="form-group col-md-6">
+                                        <label>Branch Name</label>
+                                        <input type="text" class="form-control" name="branch_name"
+                                            value=""
+                                            placeholder="...">
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label>Branch Country</label>
+                                        <input type="text" class="form-control" name="branch_country"
+                                            value=""
+                                            placeholder="...">
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label>Branch City</label>
+                                        <input type="text" class="form-control" name="branch_city"
+                                            value=""
+                                            placeholder="...">
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label>Branch Description</label>
+                                        <input type="text" class="form-control" name="branch_description"
+                                            value=""
+                                            placeholder="...">
+                                    </div>
+
+                                    
+
+
+                                </div>
+
+                                <div style="    text-align: center;">
+                                    <button type="submit" class="btn btn-primary">Apply Changes</button>
+                                </div>
+                            </form>
+
+
+                        </div>
+
+
+
+
+
                     </div>
                 </div>
 

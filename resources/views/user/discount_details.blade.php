@@ -5,14 +5,14 @@
     <meta charset="utf-8">
     <meta name="viewport"
         content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>GiGi</title>
+    <title>SiBuy365</title>
     <link rel="canonical" href="index.html" />
     <link rel="alternate" hreflang="en-US" href="index.html" />
     <link rel="alternate" href="index.html" hreflang="x-default" />
-    <meta property="og:image" content="{{asset('assets/USER/img/icons/128.png')}}" />
-    <link rel="icon" href="{{asset('assets/USER/img/icons/128.png')}}" />
+    <meta property="og:image" content="{{asset('assets/images/sibuy.png')}}" />
+    <link rel="icon" href="{{asset('assets/images/sibuy.png')}}" />
     <link href="{{asset('assets/USER/admin/assets/css/icons.min.css')}}" rel="stylesheet" type="text/css" />
-    <link rel="icon" type="image/png" href="{{asset('assets/USER/img/icons/128.png')}}" />
+    <link rel="icon" type="image/png" href="{{asset('assets/images/sibuy.png')}}" />
     <script src="{{asset('assets/USER/vendor/jquery/jquery-3.6.0.min.js')}}"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" />
@@ -299,12 +299,22 @@
 
 
                                 <div class="container">
-                                    <div id="myCarousel" class="carousel slide" data-ride="carousel">
+                                    <div id="myCarousel" class="carousel slide" data-ride="carousel" data-interval="false">
                                       <!-- Indicators -->
-                                      <ol class="carousel-indicators" style="display: none;">
-                                        <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+                                      {{-- <ol class="carousel-indicators" style="display: none;"> --}}
+                                      <ol class="carousel-indicators" style="">
+                                        {{-- <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
                                         <li data-target="#myCarousel" data-slide-to="1"></li>
-                                        <li data-target="#myCarousel" data-slide-to="2"></li>
+                                        <li data-target="#myCarousel" data-slide-to="2"></li> --}}
+
+                                        @foreach($deal['images'] as $key => $image)
+                                            @if($loop->first)
+                                            <li data-target="#myCarousel" data-slide-to="{{$key}}" class="active"></li>
+                                            @else
+                                            <li data-target="#myCarousel" data-slide-to="{{$key}}"></li>
+                                            @endif
+                                        @endforeach
+                                        
                                       </ol>
                                   
                                       <!-- Wrapper for slides -->
@@ -314,45 +324,76 @@
                                             <img src="{{'https://gigiapi.zanforthstaging.com/'.config('path.path.DealsPath').'/'.$deal['images'][0]['image'].''}}" class="crs_images" alt="Los Angeles" >
                                         </div> --}}
 
+                                        <style>
+                                            .iframeVid{
+                                                width: 700px;
+                                                height: 500px;
+                                                max-width: 100%;
+                                                /* height: auto; */
+                                            }
+
+                                            @media only screen and (max-width: 600px) {
+                                                .iframeVid{
+                                                /* width: 700px; */
+                                                height: 200px;
+                                                max-width: 100%;
+                                                /* height: auto; */
+                                                }
+                                            }
+
+                                        </style>
+                                        
                                         @foreach($deal['images'] as $key => $image)
 
                                         @if($loop->first)
                                         <div class="item active">
-                                            <img src="{{'https://gigiapi.zanforthstaging.com/'.config('path.path.DealsPath').'/'.$image['image'].''}}" class="crs_images" alt="Los Angeles" >
+                                            <img src="{{''.config('path.path.WebPath').''.config('path.path.DealsPath').'/'.$image['image'].''}}" class="crs_images" alt="Los Angeles" >
                                         </div>
+
                                         @else
-                                        <div class="item ">
-                                            <img src="{{'https://gigiapi.zanforthstaging.com/'.config('path.path.DealsPath').'/'.$image['image'].''}}" class="crs_images" alt="Los Angeles" >
-                                        </div>
+
+                                            @if($image['mime_type'] == 'video')
+
+                                            <div class="item ">
+                                                <iframe class="iframeVid" 
+                                                {{-- frameborder="0" --}}
+                                                 allow="autoplay"
+                                                {{-- width="700"  --}}
+                                                {{-- allow="autoplay"  --}}
+                                                {{-- height="500"  --}}
+                                                {{-- src="{{''.config('path.path.WebPath').''.config('path.path.DealsVidPath').'/'.$image['image'].''}}?autoplay=1&muted=1&mute=1"> --}}
+                                                src="{{''.config('path.path.WebPath').''.config('path.path.DealsVidPath').'/'.$image['image'].''}}?&autoplay=1&mute=1">
+                                                </iframe>                                        
+                                            </div> 
+
+                                            @else
+
+                                            <div class="item ">
+                                                <img src="{{''.config('path.path.WebPath').''.config('path.path.DealsPath').'/'.$image['image'].''}}" class="crs_images" alt="Los Angeles" >
+                                            </div>
+
+                                            @endif
+
                                         @endif
                                         
                                         @endforeach
 
-                                        {{-- <div class="item active">
-                                            <img src="{{'https://gigiapi.zanforthstaging.com/'.config('path.path.DealsPath').'/'.$deal['images'][0]['image'].''}}" class="crs_images" alt="Los Angeles" >
-                                        </div> --}}
-
-                                        {{-- <div class="item">
-                                          <img src="https://i.picsum.photos/id/95/536/354.jpg?hmac=w7CamUSoFA7koWKE64GTZazZqsyUSETOyZXW9AB2nQI" class="crs_images" alt="Chicago" >
-                                        </div>
-                                      
-                                        <div class="item">
-                                          <img src="https://picsum.photos/200" class="crs_images" alt="New york" >
-                                        </div> --}}
-
 
                                       </div>
                                   
+                                      <style>
+                                         @import url("//netdna.bootstrapcdn.com/bootstrap/3.0.0-rc2/css/bootstrap-glyphicons.css");
+                                      </style>
                                       <!-- Left and right controls -->
                                       <a class="left carousel-control" href="#myCarousel" data-slide="prev">
-                                        {{-- <span class="glyphicon glyphicon-chevron-left"></span> --}}
+                                        <span class="glyphicon glyphicon-chevron-left"></span>
                                         <span class="sr-only">Previous</span>
                                       </a>
                                       <a class="right carousel-control" href="#myCarousel" data-slide="next">
                                         
 
-                                        {{-- <span class="glyphicon glyphicon-chevron-right">  </span> --}}
-                                        {{-- <i class="fa fa-arrow-right" aria-hidden="true"></i> --}}
+                                        <span class="glyphicon glyphicon-chevron-right">  </span>
+                                   
                                         <span class="sr-only">Next</span>
                                       </a>
                                     </div>
@@ -394,14 +435,14 @@
                                 <span class="btn btn-default"> {{$value['tag']}} </span>
                                 @endforeach
 
-                                <h2>Branches</h2>
+                                {{-- <h2>Branches</h2>
                                 @if(count($deal['branches']) > 0)
                                 @foreach($deal['branches'] as $key => $value)
                                 <span class="btn btn-default visible" title="{{$value['address']}}" > {{$value['name']}} </span>
                                 @endforeach
                                 @else
                                 <span>No Branch Available Yet.</span>
-                                @endif
+                                @endif --}}
 
 
                                 <br />
@@ -431,16 +472,16 @@
 
                                 @endphp
 
-                                {{-- <span class='old-price'>{{$deal['price']}}</span>
-                                <img style="    margin-bottom: 7px;margin-left: -4px;" src="{{asset('assets/mannatIconBlack.png')}}" width="20px" alt=""> --}}
-                                {{-- <span class='new-price'>${{$blue_text}}</span>&nbsp; --}}
+                                {{-- <span class='old-price'>{{$deal['price']}}</span> --}}
+                                {{-- <img style="    margin-bottom: 7px;margin-left: -4px;" src="{{asset('assets/mannatIconBlack.png')}}" width="20px" alt=""> --}}
+                                {{-- <span class='new-price'>${{$blue_text}}</span>&nbsp;
                                 
-                                @if($deal['type'] == 'Entire Menu')
+                                {{-- @if($deal['type'] == 'Entire Menu')
 
 
                                     <span
                                     class='new-price' style="color: #000000;">Entire Menu
-                                    {{-- Azn --}}
+                                   
                                     </span>
 
                                     <span class='percent-off'>{{$deal['discount_on_price']}}%
@@ -459,9 +500,9 @@
 
                                 @else
                                 
-                                <span class='old-price'>{{$deal['price']}}</span>
-                                <img style="    margin-bottom: 7px;margin-left: -4px;" src="{{asset('assets/mannatIconBlack.png')}}" width="20px" alt="">
-                                
+                                    <span class='old-price'>{{$deal['price']}}</span>
+                                    <img style="    margin-bottom: 7px;margin-left: -4px;" src="{{asset('assets/mannatIconBlack.png')}}" width="20px" alt="">
+                                    
                                 
                                     @if($deal['additional_discount'])
 
@@ -469,9 +510,9 @@
 
                                             <span class='old-price' style="color: #1caffc;">{{$blue_text}}
                                                 
-                                                {{-- Azn --}}
+                                               
                                             </span>
-                                            {{-- &nbsp; --}}
+                                         
                                             <img style="    margin-bottom: 7px;margin-left: -5px;" src="{{asset('assets/mannatIconBlack.png')}}" width="20px" alt="">
 
                                             @php
@@ -480,7 +521,7 @@
                                             
                                             <span
                                             class='new-price' style="color: #d30b0b;">{{$price_to_pay_in_double_discount}}
-                                            {{-- Azn --}}
+                                           
                                             </span>
                                             <img style="    margin-bottom: 7px;margin-left: -5px;" src="{{asset('assets/mannatIcon.webp')}}" width="20px" alt="">
 
@@ -488,7 +529,7 @@
 
 
                                             <span class='new-price' style="">{{$blue_text}}
-                                                {{-- Azn --}}
+                                               
                                             </span>
                                             <img style="    margin-bottom: 7px;margin-left: -5px;" src="{{asset('assets/mannatIcon.webp')}}" width="20px" alt="">
 
@@ -497,7 +538,7 @@
                                     @else
                                         
                                         <span class='new-price'>{{$blue_text}}
-                                            {{-- Azn --}}
+                                           
                                         </span>
                                         <img style="    margin-bottom: 7px;margin-left: -5px;" src="{{asset('assets/mannatIcon.webp')}}" width="20px" alt="">
 
@@ -519,7 +560,7 @@
                                         OFF</span>
                                     @endif
 
-                                @endif
+                                @endif --}}
 
                                 
 {{-- <div title="This is my tooltip" class="visible"> Hover</div> --}}
@@ -544,54 +585,103 @@
                                 </a>
 
                                 @else
-                                <p style="margin-top:20px;"> <a href="{{urL('login')}}"> Login Now to Buy Discounts </a>
+                                <p style="margin-top:20px;"> <a href="{{urL('login')}}"> Login / Signup to Buy Vouchers </a>
                                 </p>
                                 @endif
 
 
+                               
+                                    <div style="margin-top:14px;" class='nearkm'>Voucher Deal : 
+                                        {{-- <a href="{{ URL('merchant_details/'.$deal['merchant_id'])}}">  --}}
+                                            <span>{{$deal['name']}}</span>
+                                        {{-- </a> --}}
+                                    </div>
+                                 
+                                    <div style="margin-top:14px;" class='nearkm'>Price : 
+                                        {{-- <a --}}
+                                            {{-- href="{{ URL('merchant_details/'.$deal['merchant_id'])}}"><span>{{$deal['price']}}</span></a> --}}
+
+                                            {{-- href="{{ URL('merchant_details/'.$deal['merchant_id'])}}"><span>$120</span> --}}
+                                        {{-- </a> --}}
+                                        <span>${{$deal['price']}}</span>
+                                    </div>
+
+                                    <div style="margin-top:14px;" class='nearkm'>Discount : 
+                                        {{-- <a --}}
+                                            {{-- href="{{ URL('merchant_details/'.$deal['merchant_id'])}}"><span>{{$deal['price']}}</span></a> --}}
+
+                                            {{-- href="{{ URL('merchant_details/'.$deal['merchant_id'])}}"><span>$120</span> --}}
+                                        {{-- </a> --}}
+                                        <span>${{$deal['discount']}}</span>
+                                    </div>
+                                  
+                                    {{-- <div style="margin-top:14px;" class='nearkm'>Product Name : <a
+                                        href="{{ URL('merchant_details/'.$deal['merchant_id'])}}"><span>$120</span></a>
+                                        </div>
+                                    
+
+                                        <div style="margin-top:14px;" class='nearkm'>Product Price : <a
+                                            href="{{ URL('merchant_details/'.$deal['merchant_id'])}}"><span>$120</span></a>
+                                    </div> --}}
+                          
+
+                                    <br>
+
                                 @if(session()->has('Authenticated_user_data') && session()->get('Authenticated_user_data')['type'] == 1)
-                                <div style="margin-top: 20px;" class='nearkm'>Near <span>{{$deal['nearby']}} KMs</span></div>
-                                <div style="margin-top: 20px;" class='nearkm'>Nearest Branch <span>{{$deal['nearbyBranch']}}</span></div>
-                                <br />
-                                <div style=";" class='nearkm'>Merchant : <a
-                                        href="{{ URL('merchant_details/'.$deal['merchant_id'])}}"><span>{{$deal['merchant_name']}}</span></a>
-                                </div>
-                                <br />
+                                    {{-- <div style="margin-top: 20px;" class='nearkm'>Near <span>{{$deal['nearby']}} KMs</span></div>
+                                    <div style="margin-top: 20px;" class='nearkm'>Nearest Branch <span>{{$deal['nearbyBranch']}}</span></div>
+                                    <br /> --}}
+                                    <div style=";" class='nearkm'>Merchant : 
+                                        {{-- <a href="{{ URL('merchant_details/'.$deal['merchant_id'])}}"> --}}
+                                            <span>{{$deal['merchant_name']}}</span>
+                                        {{-- </a> --}}
+                                    </div>
+                                    <br />
                                 @elseif(!session()->has('Authenticated_user_data') && session()->has('unAuthUserLocations'))
-                                <div style="margin-top: 20px;" class='nearkm'>Near <span>{{$deal['nearby']}} KMs</span></div>
-                                <div style="margin-top: 20px;" class='nearkm'>Nearest Branch <span>{{$deal['nearbyBranch']}}</span></div>
-                                <br />
-                                <div style=";" class='nearkm'>Merchant : <a
-                                        href="{{ URL('merchant_details/'.$deal['merchant_id'])}}"><span>{{$deal['merchant_name']}}</span></a>
-                                </div>
-                                <br />
+                                    {{-- <div style="margin-top: 20px;" class='nearkm'>Near <span>{{$deal['nearby']}} KMs</span></div>
+                                    <div style="margin-top: 20px;" class='nearkm'>Nearest Branch <span>{{$deal['nearbyBranch']}}</span></div>
+                                    <br /> --}}
+                                    <div style=";" class='nearkm'>Merchant :
+                                         {{-- <a
+                                            href="{{ URL('merchant_details/'.$deal['merchant_id'])}}"> --}}
+                                            <span>{{$deal['merchant_name']}}</span>
+                                        {{-- </a> --}}
+                                    </div>
+                                    <br />
                                 @else
-                                <br />
-                                <div style="margin-top:14px;" class='nearkm'>Merchant : <a
-                                        href="{{ URL('merchant_details/'.$deal['merchant_id'])}}"><span>{{$deal['merchant_name']}}</span></a>
-                                </div>
-                                <br />
+                                    {{-- <br /> --}}
+                                    <div style="margin-top:14px;" class='nearkm'>Merchant : 
+                                        {{-- <a
+                                            href="{{ URL('merchant_details/'.$deal['merchant_id'])}}"> --}}
+                                            <span>{{$deal['merchant_name']}}</span>
+                                        {{-- </a> --}}
+                                    </div>
+                                    <br />
                                 @endif
 
                                 
 
-                                @if($deal['additional_discount'] && $result)
+                                {{-- @if($deal['additional_discount'] && $result)
 
-                                <div style="" class='nearkm'>Valid Till :   <span style="color: #d30b0b;"> 
+                                <div style="" class='nearkm'>Deal Expiry :   <span style="color: #d30b0b;"> 
                                     
                                     {{Carbon\Carbon::parse($deal['additional_discount_date'])->format('d/m/Y')}}
-                                    {{-- {{}} --}}
+                               
                                 </span>
                                 </div>
                                 <br />
 
-                                @else
+                                @else --}}
 
-                                <div style="" class='nearkm'>Valid Till :   <span>{{$deal['expiry']}}</span>
+                                <div style="" class='nearkm'>Deal Expiry :   <span>{{$deal['expiry']}}</span>
                                 </div>
                                 <br />
 
-                                @endif
+                                <div style="" class='nearkm'>Deal Redemption Period :   <span>{{$deal['redeem_expiry']}}</span>
+                                </div>
+                                <br />
+
+                                {{-- @endif --}}
 
                                
                                 {{-- <span class='deal_des'> --}}
@@ -1006,14 +1096,14 @@
     
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.0/js/toastr.min.js" integrity="sha512-i5xofbBta9oP3xclkdj0jO68kXE1tPeN8Jf3rwzsbwNrpFVifjhklWi8zMOOUscuMQaCPyIXl0TMWFjGwBaJxw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
-
+    <input type="hidden" id="WebPath" value="{{config('path.path.WebPath')}}">
 
     <script>
         Pusher.logToConsole = true;
-    
-        var pusher = new Pusher('814fe1b741785e7ace5e', {
+    WebPath = document.getElementById('WebPath').value;
+        var pusher = new Pusher('5c357c77e10eb34aedcb', {
             cluster: 'ap2',
-            authEndpoint: "https://gigiapi.zanforthstaging.com/api/channelAuthorization",
+            authEndpoint: `${WebPath}api/channelAuthorization`,
             auth: {
                 headers: {
                     "Authorization": `Bearer ${bearer_token}`,

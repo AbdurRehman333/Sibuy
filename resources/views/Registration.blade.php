@@ -16,9 +16,10 @@
     <link href="{{asset('assets/vendor/datatables/css/jquery.dataTables.min.css')}}" rel="stylesheet"> --}}
 
     <!-- Favicon icon -->
-    {{-- <link rel="icon" type="image/png" sizes="16x16" href="{{asset('assets/images/favicon.png')}}"> --}}
-    {{-- gigi icon  --}}
-    <link rel="icon" type="image/png" href="{{asset('assets/USER/img/icons/128.png')}}" />
+    {{--
+    <link rel="icon" type="image/png" sizes="16x16" href="{{asset('assets/images/favicon.png')}}"> --}}
+    {{-- Sibuy icon --}}
+    <link rel="icon" type="image/png" href="{{asset('assets/images/sibuy.png')}}" />
 
     <link rel="stylesheet" href="{{asset('asset/vendor/chartist/css/chartist.min.css')}}">
     <link href="{{asset('assets/vendor/bootstrap-select/dist/css/bootstrap-select.min.css')}}" rel="stylesheet">
@@ -30,14 +31,14 @@
         href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&family=Roboto:wght@100;300;400;500;700;900&display=swap"
         rel="stylesheet">
 
-        
 
 
-        <link rel="stylesheet" href="//code.jquery.com/ui/1.13.1/themes/base/jquery-ui.css">
-        <link rel="stylesheet" href="/resources/demos/style.css">
-        <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
-        <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.js"></script>
-        <script>
+
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.13.1/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="/resources/demos/style.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+    <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.js"></script>
+    <script>
         $( function() {
           $( "#datepicker" ).datepicker({
             // dateFormat: 'mm:dd:yyyy',
@@ -45,11 +46,11 @@
             yearRange: "1960:2020"
           });  
         } );
-        </script>
+    </script>
 
 
-<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
-<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
 
 </head>
@@ -64,8 +65,7 @@
 
 
 <script>
-
-        let map, infoWindow;
+    let map, infoWindow;
 
         function initMap() {
         map = new google.maps.Map(document.getElementById("map"), {
@@ -101,7 +101,7 @@
         // console.log(document.getElementById('long'));
 
 
-        var locAPI = "https://maps.googleapis.com/maps/api/geocode/json?address="+query+"&key=AIzaSyCbFOBJYJrSGajJcEs9qkLS_woaNxpY8R0";
+        var locAPI = "https://maps.googleapis.com/maps/api/geocode/json?address="+query+"&key=AIzaSyC-n4y_PakeAxZrbCGvHOqwmG63JGtsiYM";
         console.log(locAPI);
 
         $.get({
@@ -175,33 +175,36 @@
     <div class="authincation h-100">
         <div class="container h-100">
             <div class="row justify-content-center h-100 align-items-center">
-                <div class="col-md-6">
+                <div class="col-md-9">
                     <div class="">
 
 
                         <div class="row n">
                             <div class="col-xl-12">
                                 <div style="    text-align: -webkit-center; margin-top: 31px;">
-                                    {{-- <img src="{{asset('assets/images/logo.png')}}"  alt=""> --}}
+                                    {{-- <img src="{{asset('assets/images/logo.png')}}" alt=""> --}}
                                     <a href="{{url('home')}}">
-                                        <img src="{{asset('assets/USER/img/icons/128.png')}}" alt="" width="60px;">
+                                        <img src="{{asset('assets/images/sibuy.png')}}" alt="" width="60px;">
                                     </a>
-                                    <h2 style="margin-top:10px;" > Hi Business!</h2>
-                                    <p style="color: #082073; margin-bottom: -2px !important;font-size: 17px;"> Please Register to Get more Customers on GiGi </p>
-                                    <p style="color: #0909db !important;font-size: 17px;"> <a style="color:#0909db" href="{{url('/login')}}">Already have Account?</a> </p>
+                                    <h2 style="margin-top:10px;"> Hi Business!</h2>
+                                    <p style="color: #082073; margin-bottom: -2px !important;font-size: 17px;"> SiBuy365
+                                        Merchant Registration Form – Your Ultimate Sales Channel to More Customers
+                                    </p>
+                                    <p style="color: #0909db !important;font-size: 17px;"> <a style="color:#0909db"
+                                            href="{{url('/login')}}">Already have Account?</a> </p>
 
-                                    
+
                                     @if (session('alert'))
                                     <div class="alert alert-danger">
                                         <strong>Welcome!</strong> {{ session('alert') }}
-                                        {{-- Welcome! Your account has registered successfully.  --}}
+                                        {{-- Welcome! Your account has registered successfully. --}}
                                     </div>
                                     @endif
 
                                     @if (session('success'))
                                     <div class="alert alert-success">
                                         <strong>Welcome!</strong> {{ session('success') }}
-                                        {{-- Welcome! Your account has registered successfully.  --}}
+                                        {{-- Welcome! Your account has registered successfully. --}}
                                     </div>
                                     @endif
 
@@ -211,7 +214,23 @@
                                     </div>
 
                                 </div>
-                                <form method="POST" action="{{url('register_merchant')}}" enctype="multipart/form-data" id="form_target">
+
+                                <div id="error_message">
+                                    This is eror
+                                </div>
+                                <style>
+                                    #error_message{
+                                        display: none;
+                                        text-align: center;
+                                        border: 2px solid #ffa6a6;
+                                        color: #e93939;
+                                        padding: 20px;
+                                        margin-bottom: 23px;
+                                    }
+                                </style>
+
+                                <form method="POST" action="{{url('register_merchant')}}" enctype="multipart/form-data"
+                                    id="form_target">
                                     @csrf
                                     <input type="hidden" name="type" value="{{$type}}">
 
@@ -220,17 +239,17 @@
                                     </div> --}}
 
                                     <div class="form-group" style="border: 1px solid #ccc;
-                                    border-radius: 16px;
-                                    background: white;
-                                    padding: 8px;
-                                    text-align: center;" > 
+                                        border-radius: 16px;
+                                        background: white;
+                                        padding: 8px;
+                                        text-align: center;">
 
                                         <label for="inputTag1" style="margin-top: 9px;">
-                                            Select Profile Image
-                                            <input id="inputTag1" class="imageRS" name="profile_picture" onchange="loadFile(event)" type="file"/>
-                                            {{-- <br>  --}}
-                                            <p id="profile_pic_name" style="margin-bottom: 0;">  </p>
-                                            {{-- <img id="blah" src="#" width="50px" alt="your image" /> --}}
+                                            Company / Shop Logo
+                                            <input id="inputTag1" class="imageRS" name="logo"
+                                                onchange="loadFile(event)" type="file" />
+        
+                                            <p id="profile_pic_name" style="margin-bottom: 0;"> </p>
                                         </label>
 
                                         <script>
@@ -243,7 +262,7 @@
                                             }
                                             }
                                         </script>
-                                        
+
                                         <script>
                                             function loadFile(e)
                                             {
@@ -260,10 +279,11 @@
                                         </script>
 
                                         <style>
-                                            #inputTag1{
+                                            #inputTag1 {
                                                 display: none;
                                             }
-                                            label{
+
+                                            label {
                                                 cursor: pointer;
                                             }
                                         </style>
@@ -271,37 +291,42 @@
 
 
                                     <div class="form-group">
-                                        <input style="text-align-last: center;" name="name" type="text" class="form-control" id="name"
-                                            aria-describedby="emailHelp" placeholder="Business Name">
+                                        <input style="text-align-last: center;" name="name" type="text" required
+                                            class="form-control" id="name" aria-describedby="emailHelp"
+                                            placeholder="Business Name">
                                     </div>
-                                    
-                                   
+
+
                                     <div class="form-group">
-                                        <input style="    text-align-last: center;" name="website" type="text" class="form-control" id="website"
-                                            aria-describedby="emailHelp" placeholder="Website (Optional)">
+                                        <input style="    text-align-last: center;" name="website" type="text"
+                                            class="form-control" id="website" aria-describedby="emailHelp"
+                                            placeholder="Website (Optional)">
                                     </div>
 
                                     <div class="form-group">
-                                        <input style="    text-align-last: center;" required name="phone_no" type="text" class="form-control" id="contact"
-                                            aria-describedby="emailHelp" placeholder="Owner / Manager Contact Number">
+                                        <input style="    text-align-last: center;" name="phone_no" type="text" required
+                                            class="form-control" id="contact" aria-describedby="emailHelp"
+                                            placeholder="Owner / Manager Contact Number">
                                     </div>
 
                                     <div class="form-group">
-                                        <input style="    text-align-last: center;" required name="email" type="text" class="form-control" id="email"
-                                            aria-describedby="emailHelp" placeholder="Business E-mail">
+                                        <input style="    text-align-last: center;" name="email" type="text" 
+                                            class="form-control" id="email" aria-describedby="emailHelp"
+                                            placeholder="Business E-mail (Optional)">
                                     </div>
 
                                     <style>
-                                        .select2-selection{
+                                        .select2-selection {
                                             text-align-last: center !important;
-                                            
+
                                         }
 
-                                        .select2-selection--multiple{
+                                        .select2-selection--multiple {
                                             padding: 11px !important;
                                             border: 1px solid #ccc !important;
                                             border-radius: 17px !important;
                                         }
+
                                         /* padding: 11px;
                                         border: 1px solid #ccc;
                                         border-radius: 17px; */
@@ -311,107 +336,322 @@
                                         $(document).ready(function() {
                                             $('.js-example-basic-multiple').select2({
                                               width: '100%',
-                                              placeholder: "Select Categories",
+                                              placeholder: "Select Business Category",
                                               allowClear: true
                                             });
                                         });
                                     </script>
 
-                                
+
                                     <div class="form-group">
-                                        <select class="form-control js-example-basic-multiple" name="cats[]" multiple="multiple">
-                                          {{-- <option value="">Select An Option</option> --}}
-                                          @foreach ($categories as $cat)
+                                        <select class="form-control js-example-basic-multiple" name="categories[]" required
+                                            multiple="multiple">
+                                            {{-- <option value="">Select An Option</option> --}}
+                                            @foreach ($categories as $cat)
 
-                                          @if($cat['parent_id'] == 0)
-                                          <option value="{{$cat['id']}}">{{$cat['name']}}</option>
-                                          @endif
+                                            @if($cat['parent_id'] == 0)
+                                            <option value="{{$cat['id']}}">{{$cat['name']}}</option>
+                                            @endif
 
-                                          @endforeach
+                                            @endforeach
                                         </select>
                                     </div>
 
                                     <div class="form-group">
-                                        <input style="    text-align-last: center;" required name="password" type="password" class="form-control" id="pass"
-                                            aria-describedby="emailHelp" placeholder="Password">
+                                        <input style="    text-align-last: center;" required name="password"
+                                            type="password" class="form-control" id="pass" aria-describedby="emailHelp"
+                                            placeholder="Password">
                                     </div>
                                     <div class="form-group">
-                                        <input style="    text-align-last: center;" required name="password_confirmation" type="password" class="form-control" id="passC"
+                                        <input style="    text-align-last: center;" required
+                                            name="password_confirmation" type="password" class="form-control" id="passC"
                                             aria-describedby="emailHelp" placeholder="Confirm Password">
                                     </div>
 
-                                    {{-- <div class="form-group"> 
-                                        <input  style="    text-align-last: center;" required class="form-control"
-                                       aria-describedby="emailHelp" name="date_of_birth" placeholder="DOB: MM/DD/YYYY"
-                                       type="text" id="datepicker">
+                                    {{-- <div class="form-group">
+                                        <input style="    text-align-last: center;" required class="form-control"
+                                            aria-describedby="emailHelp" name="date_of_birth"
+                                            placeholder="DOB: MM/DD/YYYY" type="text" id="datepicker">
+                                    </div> --}}
+
+                                    <div class="form-group" style="display: flex;">
+                                        <select class="form-control" id="country" name="country" style="width: 50%;text-align: center;">
+                                            <option value="0">Country</option>
+                                            @foreach($countries as $key => $country)
+                                            {{-- @if($country['name'] == 'Cambodia')
+                                            <option value="{{$country['id']}}" selected>{{$country['name']}}</option>
+                                            @else --}}
+                                            <option value="{{$country['id']}}">{{$country['name']}}</option>
+                                            {{-- @endif --}}
+                                            @endforeach
+                                        </select>
+
+                                        <select class="form-control" id="city" name="city" style="width: 50%;text-align: center;">
+                                            <option value="0">City</option>
+                                        </select>
+                                    </div>
+
+                                    <script>
+                                        $('#country').change(function() {
+                                        var country_id = $(this).val();
+
+                                        $.ajaxSetup({
+                                            headers: {
+                                                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                                            }
+                                        });
+                        
+                                        $.ajax({
+                                            type: 'POST',
+                                            url: `{{ url('getCities') }}`,
+                                            data: {
+                                              "_token": "{{ csrf_token() }}",
+                                              country_id : country_id},
+                                            success: function(data) {
+                                                jQuery('#city').html(data);
+                                            },
+                                            error: function (data) {
+                                              console.log('Error:', data);
+                                              }
+                                          });
+                        
+                                      });
+                                      </script>
+
+
+
+                                    <div class="form-group">
+                                        <select class="form-control" name="language" id="lang" style="text-align: center;" required>
+                                            <option value="0">Language </option>
+                                            @foreach($languages as $key => $lang)
+                                            <option value="{{$lang['id']}}">{{$lang['name']}}</option>
+                                            @endforeach
+
+                                        </select>
+                                    </div>
+
+                                    {{-- <div class="form-group">
+                                        <input style="    text-align-last: center;" required name="branch_name"
+                                            type="text" class="form-control" id="branchname"
+                                            aria-describedby="emailHelp" placeholder="Shop / Outlet / Branch">
+                                    </div> --}}
+
+                                    {{-- <div class="form-group">
+                                        <input style="    text-align-last: center;" required name="description"
+                                            type="text" class="form-control" id="branchDescription"
+                                            aria-describedby="emailHelp" placeholder="Branch Description">
                                     </div> --}}
 
 
                                     <div class="form-group">
-                                        <input style="    text-align-last: center;" required name="branch_name" type="text" class="form-control" id="branchname"
-                                            aria-describedby="emailHelp" placeholder="Shop / Outlet / Branch">
+                                        <input style="    text-align-last: center;" required name="address" required
+                                            type="text" class="form-control" id="branchDescription"
+                                            aria-describedby="emailHelp" placeholder="Business / Shop Address">
+                                    </div>
+
+
+
+                                    {{-- disabled --}}
+
+                                    {{-- <div class="form-group">
+                                        <input style="    text-align-last: center;" required name="description"
+                                            type="text" class="form-control" id="branchDescription"
+                                            aria-describedby="emailHelp"
+                                            placeholder="Business Operating Hours (Optional)">
+                                    </div> --}}
+
+
+                                    <div class="form-group">
+                                        <select class="businessOperatingHours form-control" name="operation_days[]" required
+                                            multiple="multiple" style="width: 90%;">
+                                            <option value="mon">Monday</option>
+                                            <option value="tue">Tuesday</option>
+                                            <option value="wed">Wednesday</option>
+                                            <option value="thur">Thursday</option>
+                                            <option value="fri">Friday</option>
+                                            <option value="sat">Saturday</option>
+                                            <option value="sun">Sunday</option>
+                                        </select>
                                     </div>
 
                                     <div class="form-group">
-                                        <input style="    text-align-last: center;" required name="description" type="text" class="form-control" id="branchDescription"
-                                            aria-describedby="emailHelp" placeholder="Branch Description">
+                                        {{-- <span>Operating Hours: </span> --}}
+                                        {{-- <br> --}}
+
+                                        <span>From : </span>
+                                        <input type="time" id="opnening_time" name="opnening_time" required style="    padding: 4px; width: 45%;">
+                                        <span>To : </span>
+                                        <input type="time" id="closing_time" name="closing_time" required style="    padding: 4px;width: 45%;">
+                                    </div>
+
+
+
+
+
+                                    <script>
+                                        $(document).ready(function() {
+                                        $('.businessOperatingHours').select2({
+                                        width: '100%',
+                                        placeholder: "Select Business Operating Days",
+                                        allowClear: true
+                                        });
+                                    });
+                                    </script>
+
+
+                                    <div class="form-group">
+                                        <select class="form-control" name="is_registered_with_ministry_of_commerce" id="commerce" style="text-align: center;" required>
+                                            <option value="NO">Registered with Ministry of Commerce? </option>
+                                            <option value="1">Yes</option>
+                                            <option value="0">No</option>
+                                        </select>
                                     </div>
 
                                     <div class="form-group">
-                                        <input style="    text-align-last: center;" required name="address" type="text" class="form-control" id="branchAddress"
-                                            aria-describedby="emailHelp" placeholder="Branch Address ">
-                                        <div style="text-align: center;
-                                        margin-top: 12px;">
-                                            <button class="btn btn-sm btn-warning" type="button" onclick="fetchBranchInfo()" id="fetch_branch_info">Fetch Branch Address</button>
-                                        </div>
+                                        <input style="    text-align-last: center;" name="registration_number" type="text"
+                                            class="form-control" id="regNo" aria-describedby="emailHelp"
+                                            placeholder="Business Registration Number (Optional)">
                                     </div>
 
                                     <div class="form-group">
-                                        <input style="    text-align-last: center;" required name="country" type="text" class="form-control" id="country"
-                                            aria-describedby="emailHelp" placeholder="Country">
+                                        <input style="    text-align-last: center;" name="patent_number"
+                                            type="text" class="form-control" id="patentNo"
+                                            aria-describedby="emailHelp"
+                                            placeholder="Business Patent Number (Optional)">
                                     </div>
 
-                                    <div class="form-group">
-                                        <input style="    text-align-last: center;" required name="city" type="text" class="form-control" id="city"
-                                            aria-describedby="emailHelp" placeholder="City">
-                                    </div>
 
-                                    <div class="form-group">
-                                        <input style="    text-align-last: center;" required name="lat" type="hidden" class="form-control" id="lat"
-                                            aria-describedby="emailHelp" placeholder="lat">
-                                    </div>
 
-                                    <div class="form-group">
-                                        <input style="    text-align-last: center;" required name="long" type="hidden" class="form-control" id="long"
-                                            aria-describedby="emailHelp" placeholder="long">
-                                    </div>
+
 
 
                                     <div class="form-group" style="border: 1px solid #ccc;
                                     border-radius: 16px;
                                     background: white;
                                     padding: 8px;
-                                    text-align: center;" > 
+                                    text-align: center;" id="DocsDiv">
 
                                         <label for="inputTag" style="margin-top: 9px;">
-                                            Select Branch Logo
-                                            <input id="inputTag" name="logo" type="file"/>
-                                            <p id="image_name" style="margin-bottom: 0;">  </p>
+                                            Business Documents
+                                            <input id="docs" name="documents[]" multiple type="file" />
+                                            <p id="we" style="margin-bottom: 0;"> </p>
                                         </label>
 
                                         <style>
-                                            #inputTag{
+                                            #inputTag {
                                                 display: none;
                                             }
-                                            label{
+
+                                            label {
                                                 cursor: pointer;
                                             }
                                         </style>
                                     </div>
 
-                                    
-                                            <script>
-                                            inputTag.onchange = evt => {
+
+                                    <script>
+                                        $(document).ready(function(){
+                                            $('#sel25').on('change', function() {
+                                                // alert( this.value );
+                                                if(this.value == 'No')
+                                                {
+                                                    // alert(1);
+                                                    // document.getElementById('BranchRegnUmber').attr('disabled', 'disabled');
+                                                    // $("#BranchRegnUmber").prop( "disabled", true );
+                                                    // $("#BranchRegnUmber").attr('disabled', 'disabled');
+                                                    // $("#BranchRegnUmber").css.display = 'none';
+                                                    // $("#branchPatentNumber").css.display = 'none';
+                                                    // $("#BranchRegnUmber").value = "hi";
+                                                    $("#BranchRegnUmber").css("display", "none");
+                                                    $("#branchPatentNumber").css("display", "none");
+                                                    $("#DocsDiv").css("display", "none");
+                                                    // $('select[name="select-states"]').attr('disabled');
+                                                }
+                                                if(this.value == 'Yes')
+                                                {
+                                                    // alert(1);
+                                                    // document.getElementById('BranchRegnUmber').attr('disabled', 'disabled');
+                                                    // $("#BranchRegnUmber").prop( "disabled", true );
+                                                    // $("#BranchRegnUmber").attr('disabled', 'disabled');
+                                                    // $("#BranchRegnUmber").css.display = 'none';
+                                                    // $("#branchPatentNumber").css.display = 'none';
+                                                    // $("#BranchRegnUmber").value = "hi";
+                                                    $("#BranchRegnUmber").css("display", "block");
+                                                    $("#branchPatentNumber").css("display", "block");
+                                                    $("#DocsDiv").css("display", "block");
+                                                    // $('select[name="select-states"]').attr('disabled');
+                                                }
+                                            });
+                                        });
+                                    </script>
+
+
+                                    {{-- <div class="form-group">
+                                        <input style="    text-align-last: center;" required name="address" type="text"
+                                            class="form-control" id="branchAddress" aria-describedby="emailHelp"
+                                            placeholder="Branch Address ">
+                                        <div style="text-align: center;
+                                        margin-top: 12px;">
+                                            <button class="btn btn-sm btn-warning" type="button"
+                                                onclick="fetchBranchInfo()" id="fetch_branch_info">Fetch Branch
+                                                Address</button>
+                                        </div>
+                                    </div> --}}
+
+
+
+
+                                    {{-- <div class="form-group">
+                                        <input style="    text-align-last: center;" required name="country" type="text"
+                                            class="form-control" id="country" aria-describedby="emailHelp"
+                                            placeholder="Country">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <input style="    text-align-last: center;" required name="city" type="text"
+                                            class="form-control" id="city" aria-describedby="emailHelp"
+                                            placeholder="City">
+                                    </div> --}}
+
+                                    {{-- <div class="form-group">
+                                        <input style="    text-align-last: center;" required name="lat" type="hidden"
+                                            class="form-control" id="lat" aria-describedby="emailHelp"
+                                            placeholder="lat">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <input style="    text-align-last: center;" required name="long" type="hidden"
+                                            class="form-control" id="long" aria-describedby="emailHelp"
+                                            placeholder="long">
+                                    </div> --}}
+
+
+                                    {{-- <div class="form-group" style="border: 1px solid #ccc;
+                                    border-radius: 16px;
+                                    background: white;
+                                    padding: 8px;
+                                    text-align: center;">
+
+                                        <label for="inputTag" style="margin-top: 9px;">
+                                            Select Branch Logo
+                                            <input id="inputTag" name="logo" type="file" />
+                                            <p id="image_name" style="margin-bottom: 0;"> </p>
+                                        </label>
+
+                                        <style>
+                                            #inputTag {
+                                                display: none;
+                                            }
+
+                                            label {
+                                                cursor: pointer;
+                                            }
+                                        </style>
+                                    </div> --}}
+
+
+                                    <script>
+                                        inputTag.onchange = evt => {
                                             const [file] = inputTag.files
                                             if (file) {
                                                 console.log(file.name);
@@ -419,31 +659,112 @@
                                                 // blah.src = URL.createObjectURL(file)
                                             }
                                             }
-                                        </script>
+                                    </script>
 
 
                                     <div class="form-group" style="text-align: center;">
-                                        <button type="submit" class="btn btn-primary">Proceed</button>
+                                        <button type="submit" class="btn btn-primary" >Proceed</button>
                                     </div>
 
                                 </form>
 
 
                                 <script>
+                                    
                                     $( "#form_target" ).submit(function( event ) {
                                         // alert( "Handler for .submit() called." );
+                                        
+                                        /*
+                                            VALIDATION REQUIRD TO CHECK IF CELL NUMBER ALREADY USED
+                                        */
 
-                                        if(document.getElementById('lat').value == '' || document.getElementById('lat').value == null)
-                                        {
-                                            alert('Write Your Branch Address more precisely.');
-                                            event.preventDefault();
+                                        if( document.getElementById("inputTag1").files.length == 0 ){
+                                            console.log("no files selected");
+                                            document.body.scrollTop = document.documentElement.scrollTop = 0;
+                                            document.getElementById('error_message').innerHTML = 'Upload Company Logo';
+                                            document.getElementById('error_message').style.display = 'block';
+                                            event.preventDefault();  // to stop
                                             return;
                                         }
-                                        if(document.getElementById('long').value == '' || document.getElementById('lat').value == null)
+
+                                        const $select = document.querySelector('#country');
+                                        country = $select.value;
+                                        if(country == 0 || country == '0')
                                         {
-                                            alert('Write Your Branch Address more precisely.');
-                                            event.preventDefault();
+                                            console.log('Country');
+                                            document.body.scrollTop = document.documentElement.scrollTop = 0;
+                                            document.getElementById('error_message').innerHTML = 'Select a Country ';
+                                            document.getElementById('error_message').style.display = 'block';
+                                            event.preventDefault();  // to stop
                                             return;
+                                        }
+
+                                        const $lang = document.querySelector('#lang');
+                                        language = $lang.value;
+                                        if(language == 0 || language == '0')
+                                        {
+                                            console.log('Language');
+                                            document.body.scrollTop = document.documentElement.scrollTop = 0;
+                                            document.getElementById('error_message').innerHTML = 'Select a Language ';
+                                            document.getElementById('error_message').style.display = 'block';
+                                            event.preventDefault();  // to stop
+                                            return;
+                                        }
+
+                                        const $city = document.querySelector('#city');
+                                        city = $city.value;
+                                        if(city == 0 || city == '0')
+                                        {
+                                            console.log('City');
+                                            document.body.scrollTop = document.documentElement.scrollTop = 0;
+                                            document.getElementById('error_message').innerHTML = 'Select a City ';
+                                            document.getElementById('error_message').style.display = 'block';
+                                            event.preventDefault();  // to stop
+                                            return;
+                                        }
+
+                                        const $commerce = document.querySelector('#commerce');
+                                        commerce_val = $commerce.value;
+
+                                        if(commerce_val == 'NO')
+                                        {
+                                            console.log('commerce_val');
+                                            document.body.scrollTop = document.documentElement.scrollTop = 0;
+                                            document.getElementById('error_message').innerHTML = 'Select Commerce Registration ';
+                                            document.getElementById('error_message').style.display = 'block';
+                                            event.preventDefault();  // to stop
+                                            return;
+                                        }
+                                        if(commerce_val == 'Yes')
+                                        {
+                                            if(document.getElementById('regNo').value == '' || document.getElementById('regNo').value == null)
+                                            {
+                                                console.log('regNo');
+                                                document.body.scrollTop = document.documentElement.scrollTop = 0;
+                                                document.getElementById('error_message').innerHTML = 'Enter Business Registration Number';
+                                                document.getElementById('error_message').style.display = 'block';
+                                                event.preventDefault();  // to stop
+                                                return;
+                                            }
+
+                                            if(document.getElementById('patentNo').value == '' || document.getElementById('patentNo').value == null)
+                                            {
+                                                console.log('patentNo');
+                                                document.body.scrollTop = document.documentElement.scrollTop = 0;
+                                                document.getElementById('error_message').innerHTML = 'Enter Busniess Patent Number';
+                                                document.getElementById('error_message').style.display = 'block';
+                                                event.preventDefault();  // to stop
+                                                return;
+                                            }
+
+                                            if( document.getElementById("docs").files.length == 0 ){
+                                                console.log("no files selected Docs");
+                                                document.body.scrollTop = document.documentElement.scrollTop = 0;
+                                                document.getElementById('error_message').innerHTML = 'Upload Business Documents';
+                                                document.getElementById('error_message').style.display = 'block';
+                                                event.preventDefault();  // to stop
+                                                return;
+                                            }
                                         }
                                     });
                                 </script>
@@ -465,14 +786,14 @@
     <script src="./js/custom.min.js"></script>
     <script src="./js/deznav-init.js"></script> --}}
 
-    {{-- <script src="{{asset("assets/vendor/global/global.min.js")}}"></script>
-    <script src="{{asset("assets/vendor/bootstrap-select/dist/js/bootstrap-select.min.js")}}"></script> --}}
-    <script src="{{asset("assets/js/custom.min.js")}}"></script>
-    <script src="{{asset("assets/js/deznav-init.js")}}"></script>
+    {{-- <script src="{{asset(" assets/vendor/global/global.min.js")}}"></script>
+    <script src="{{asset(" assets/vendor/bootstrap-select/dist/js/bootstrap-select.min.js")}}"></script> --}}
+    <script src="{{asset(" assets/js/custom.min.js")}}"></script>
+    <script src="{{asset(" assets/js/deznav-init.js")}}"></script>
 
-    <script async defer
-src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCbFOBJYJrSGajJcEs9qkLS_woaNxpY8R0&callback=initMap">
-</script>
+    {{-- <script async defer
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC-n4y_PakeAxZrbCGvHOqwmG63JGtsiYM&callback=initMap">
+    </script> --}}
 
 
     {{-- <script src="{{asset('assets/USER/vendor/global/global.min.js')}}"></script>

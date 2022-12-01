@@ -4,8 +4,9 @@ return [
         'UserPath' => env('UserPath'),
         'HomeSectionsPath' => env('HomeSectionsPath'),
         'DealsPath' => env('DealsPath'),
+        'DealsVidPath' => env('DealsVidPath'),
         'BranchesPath' => env('BranchesPath'),
-        'WebPath' => env('WebPath',)
+        'WebPath' => env('WebPath')
     ],
 
     // UserPath = 'images/user'

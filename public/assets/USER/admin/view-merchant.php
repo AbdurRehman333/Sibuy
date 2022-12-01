@@ -5,7 +5,7 @@ require_once "layouts/config.php";
 
 ?>
 <head>
-    <title>GiGi</title>
+    <title>Sibuy</title>
 
     <?php include 'layouts/head.php'; ?>
 
@@ -38,7 +38,7 @@ require_once "layouts/config.php";
 
                             <div class="page-title-right">
                                 <ol class="breadcrumb m-0">
-                                    <li class="breadcrumb-item"><a href="javascript: void(0);">GiGi</a></li>
+                                    <li class="breadcrumb-item"><a href="javascript: void(0);">Sibuy</a></li>
                                     <li class="breadcrumb-item active">View Merchant</li>
                                 </ol>
                             </div>
@@ -61,7 +61,7 @@ require_once "layouts/config.php";
                                         <div class="col-lg-6">
                                             <div class="mt-3 mt-lg-0">
                                                 <div class="mb-3">
-                                                    <label class="form-label">Merchant ID: GIGI<?php echo $_GET['id'] ?></label>
+                                                    <label class="form-label">Merchant ID: Sibuy<?php echo $_GET['id'] ?></label>
                                                 </div>
                                                 <div class="mb-3">
                                                     <label for="merchant-name" class="form-label">Merchant Name</label><br />

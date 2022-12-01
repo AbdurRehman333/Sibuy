@@ -26,6 +26,13 @@
             // yearRange: "1960:2020"
           });  
         } );
+  $( function() {
+          $( "#datepicker1" ).datepicker({
+            // dateFormat: 'mm:dd:yyyy',
+            // changeYear:true,
+            // yearRange: "1960:2020"
+          });  
+        } );
 </script>
 
 <div class="content-body">
@@ -202,7 +209,7 @@
                     </script>
 
 
-                    <div class="form-group col-md-6">
+                    {{-- <div class="form-group col-md-6">
                       <label>Offer Type</label>
                       <select class="form-control" id='type' name="type" onchange="myFunction(this)">
 
@@ -215,7 +222,7 @@
 
                         @endif
                       </select>
-                    </div>
+                    </div> --}}
 
                     {{-- <div class="form-group col-md-6 thing_to_hide_on_specific_product" >
                       <label> Products List</label>
@@ -272,46 +279,98 @@
                       <select class="form-control" id='category' name="category">
                         @foreach($categories as $cat)
                         @if($offer['data']['category_id'] == $cat['id'] )
-                        <option value="{{$cat['id']}}" selected>{{$cat['name']}}</option>
+                        <option value="{{$cat['category_id']}}" selected>{{$cat['category_name']}}</option>
                         @else
-                        <option value="{{$cat['id']}}">{{$cat['name']}}</option>
+                        <option value="{{$cat['category_id']}}">{{$cat['category_name']}}</option>
                         @endif
                         @endforeach
                       </select>
                     </div>
 
                     <div class="form-group col-md-6">
-                      <label>Upload Images</label>
+                      <label>Upload Images - Multiple</label>
                       <input type="file" class="form-control" id="files" name="images[]" placeholder="files" multiple
                         >
                     </div>
 
+
                     <div class="form-group col-md-6">
-                      <label>Expiry</label>
+                      <div id="vid_err"> BIG FILE </div>
+                      <label>Upload Video ( MAX SIZE - 5MB )</label>
+                      <input type="file" class="form-control" id="files" name="videos[]" placeholder="files">
+                    </div>
+                    <style>
+                      #vid_err {
+                        display: none;
+                      }
+                    </style>
+                    <script>
+                      var uploadField = document.getElementById("video");
+                      uploadField.onchange = function() {
+                          if(this.files[0].size > 5242880){
+                            alert("File is too big!");
+                            this.value = "";
+                          };
+                      };
+                    </script>
+
+
+                    {{-- <div class="form-group col-md-6">
+                      <label>Upload Video</label>
+                      <input type="file" class="form-control" id="files" name="video" placeholder="files"
+                        >
+                    </div> --}}
+
+
+                    
+                  <div class="form-group col-md-6">
+                    <label>Deal Sale Expiry</label>
+                    <input style="    text-align-last: center; color:#827591;" class="form-control"
+                      aria-describedby="emailHelp" name="expiry" value="{{$offer['data']['expiry']}}" placeholder="Expiry: MM/DD/YYYY" type="date"
+                      id="datepicker">
+                  </div>
+
+                  <div class="form-group col-md-6">
+                    <label>Deal Redemption Expiry</label>
+                    <input style="    text-align-last: center; color:#827591;" class="form-control"
+                      aria-describedby="emailHelp" name="redeem_expiry" value="{{$offer['data']['redeem_expiry']}}" placeholder="Expiry: MM/DD/YYYY" type="date"
+                      id="datepicker1">
+                  </div>
+
+
+                    {{-- <div class="form-group col-md-6">
+                      <label>Deal Sale Expiry</label>
                       <input style="    text-align-last: center; color:#827591;" class="form-control"
                         aria-describedby="emailHelp" name="expiry" placeholder="Expiry: MM/DD/YYYY" type="text" value="{{$offer['data']['expiry']}}"
                         id="datepicker">
                     </div>
 
                     <div class="form-group col-md-6">
+                      <label>Deal Redemption Expiry</label>
+                      <input style="    text-align-last: center; color:#827591;" class="form-control"
+                        aria-describedby="emailHelp" name="expiry" placeholder="Expiry: MM/DD/YYYY" type="text" value="{{$offer['data']['expiry']}}"
+                        id="datepicker1">
+                    </div> --}}
+
+                    <div class="form-group col-md-6">
                       <label>Limit</label>
-                      <input type="text" required name="limit" id="limit" value="{{$offer['data']['limit']}}" class="form-control" placeholder="Offer Limit">
+                      <input type="number" required name="limit" id="limit" value="{{$offer['data']['limit']}}" class="form-control" placeholder="Offer Limit">
                     </div>
 
                     <div>
                       {{-- {{print_r($offer['data']['branches'])}} --}}
-                      @php
+                      {{-- @php
                       foreach($offer['data']['branches'] as $b)
                       {
                       $offer_branches_array[] = $b['id'];
                       }
-                      @endphp
+                      @endphp --}}
 
                       {{-- {{print_r($offer_branches_array)}} --}}
 
                     </div>
 
-                    <div class="form-group col-md-6">
+                    {{-- <div class="form-group col-md-6">
                       <label>Branch / Outlet</label>
                       <select class="form-control" id='branches' name="branches[]" multiple>
                         <option value="">Select An Option</option>
@@ -323,7 +382,7 @@
                         @endif
                         @endforeach
                       </select>
-                    </div>
+                    </div> --}}
 
                     <script>
                       $('#branches').select2({
@@ -339,6 +398,7 @@
                       foreach($offer['data']['tags'] as $t)
                       {
                       $offer_tags[] = $t['tag'];
+                      // $offer_tags_ids[] = $t['tag'];
                       }
                       @endphp
                       {{-- {{print_r($tags)}} --}}
@@ -351,7 +411,6 @@
                         <option value="">Select An Option</option>
                         @foreach($tags as $tag)
                         
-                        {{-- <option value="">{{print_r($tag)}}</option> --}}
                         @if(in_array($tag['name'], $offer_tags))
                         <option value="{{$tag['name']}}" selected>{{$tag['name']}}</option>
                         @else
@@ -371,7 +430,67 @@
                       });
                     </script>
 
-                    <div class="form-group col-md-6 thing_to_hide_on_entire_menu" >
+                    <div class="form-group col-md-6 ">
+                      <label> Actual Price</label>
+                      <input type="text" name="price"  value="{{$offer['data']['price']}}" class="form-control" placeholder="Actual Price">
+                    </div>
+
+                    <div class="form-group col-md-6 ">
+                      <label> Voucher Price</label>
+                      <input type="text" name="discount" value="{{$offer['data']['discount']}}"  class="form-control" placeholder="Voucher Price">
+                    </div>
+
+
+                    <div class="form-group col-md-6">
+                      <label>Language</label>
+                      <select class="form-control" id='myselect' name="language" style="color: rgb(37, 37, 37);">
+                        @foreach($languages as $key => $lang)
+                        
+
+                        @if($offer['data']['language_id'] == $lang['id'] )
+                        <option value="{{$lang['id']}}" selected>{{$lang['name']}}</option>
+                        @else
+                        <option value="{{$lang['id']}}">{{$lang['name']}}</option>
+                        @endif
+
+
+                        @endforeach
+                      </select>
+                    </div>
+
+                    
+
+                    <div class="form-group col-md-6">
+                      <label>Mark as Sponsored Deal</label>
+                      <select class="form-control" id='myselect' required name="is_sponsored" style="color: rgb(37, 37, 37);">
+                        @if($offer['data']['is_sponsored'] == 1)
+                        <option value="1" selected>Yes</option>
+                        <option value="0" >No</option>
+                        @else
+                        <option value="1">Yes</option>
+                        <option value="0" selected>No</option>
+                        @endif
+                       
+                      </select>
+                    </div>
+  
+                    {{-- <div class="form-group col-md-6 ">
+                      <label> Unique Code </label>
+                      <input type="text" name="price" class="form-control" placeholder="Voucher Price">
+                    </div> --}}
+  
+                    <div class="form-group col-md-6 ">
+                      <label> Product Name</label>
+                      <input type="text" name="product_name" value="{{$offer['data']['products'][0]['product_name']}}" class="form-control" placeholder="Product Name">
+                    </div>
+  
+                    <div class="form-group col-md-6 ">
+                      <label> Product Price</label>
+                      <input type="text" name="product_price" value="{{$offer['data']['products'][0]['product_price']}}" class="form-control" placeholder="Product Price">
+                    </div>
+
+
+                    {{-- <div class="form-group col-md-6 thing_to_hide_on_entire_menu" >
                       <label> Price</label>
                       <input type="text" name="price" class="form-control" placeholder="Price" value="{{$offer['data']['price']}}">
                     </div>
@@ -379,7 +498,7 @@
                     <div class="form-group col-md-6">
                       <label>Discount on Price (%)</label>
                       <input type="text" name="discount_on_price" class="form-control" placeholder="1% to 100%" value="{{$offer['data']['discount_on_price']}}">
-                    </div>
+                    </div> --}}
 
                     {{-- <div class="form-group col-md-6">
                       <label>Actual Price</label>
@@ -393,7 +512,7 @@
 
 
                     <div class="form-group col-md-12">
-                      <label>Description</label>
+                      <label>Description (Optional) </label>
                       <textarea style="width:100%;" id="" value="{{$offer['data']['description']}}" name="description" cols="5" rows="5">{{$offer['data']['description']}}</textarea>
                     </div>
                   </div>

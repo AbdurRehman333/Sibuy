@@ -234,7 +234,7 @@
                                     <td>{{$box['text']}}</td>
                                     <td>{{$box['category_name']}}</td>
                                     <td> <img
-                                        src="{{'https://gigiapi.zanforthstaging.com/'.config('path.path.HomeSectionsPath').'/'.$box['image'].''}}"
+                                        src="{{''.config('path.path.WebPath').''.config('path.path.HomeSectionsPath').'/'.$box['image'].''}}"
                                             width="50px" alt=""> </td>
                                     <td> <a href="{{url('AdminHomeSectionEdit/'.$box['id'])}}">  <button class="btn btn-info">Edit</button>  </a> </td>
                                 </tr>
@@ -244,7 +244,7 @@
                         </table>
                     </div>
 
-                    <h2>Category Exhibition # 1</h2>
+                    {{-- <h2>Category Exhibition # 1</h2>
                     <div class="table-wrapper">
                         <table class="fl-table">
                             <thead>
@@ -263,17 +263,17 @@
                                     <td>{{$box['text']}}</td>
                                     <td>{{$box['category_name']}}</td>
                                     <td> <img
-                                            src="{{'https://gigiapi.zanforthstaging.com/'.config('path.path.HomeSectionsPath').'/'.$box['image'].''}}"
+                                            src="{{''.config('path.path.WebPath').''.config('path.path.HomeSectionsPath').'/'.$box['image'].''}}"
                                             width="50px" alt=""> </td>
                                     <td> <a href="{{url('AdminHomeSectionEdit/'.$box['id'])}}">  <button class="btn btn-info">Edit</button>  </a> </td>
                                 </tr>
                                 @endforeach
                             <tbody>
                         </table>
-                    </div>
+                    </div> --}}
 
 
-                    <h2>Category Exhibition # 2</h2>
+                    {{-- <h2>Category Exhibition # 2</h2>
                     <div class="table-wrapper">
                         <table class="fl-table">
                             <thead>
@@ -292,16 +292,16 @@
                                     <td>{{$box['text']}}</td>
                                     <td>{{$box['category_name']}}</td>
                                     <td> <img
-                                        src="{{'https://gigiapi.zanforthstaging.com/'.config('path.path.HomeSectionsPath').'/'.$box['image'].''}}"
+                                        src="{{''.config('path.path.WebPath').''.config('path.path.HomeSectionsPath').'/'.$box['image'].''}}"
                                             width="50px" alt=""> </td>
                                     <td> <a href="{{url('AdminHomeSectionEdit/'.$box['id'])}}">  <button class="btn btn-info">Edit</button>  </a> </td>
                                 </tr>
                                 @endforeach
                             <tbody>
                         </table>
-                    </div>
+                    </div> --}}
 
-                    <h2>Category Exhibition # 3</h2>
+                    {{-- <h2>Category Exhibition # 3</h2>
                     <div class="table-wrapper">
                         <table class="fl-table">
                             <thead>
@@ -322,11 +322,9 @@
                                     <td> 
                                         
                                         <img
-                                            src="{{'https://gigiapi.zanforthstaging.com/'.config('path.path.HomeSectionsPath').'/'.$box['image'].''}}"
+                                            src="{{''.config('path.path.WebPath').''.config('path.path.HomeSectionsPath').'/'.$box['image'].''}}"
                                             width="50px" alt=""> 
-                                        {{-- <img
-                                            src="https://i.picsum.photos/id/370/200/300.jpg?hmac=7gPWuhI1_LDcGkEssyW-1sPKu9NVl1KUoOs0nH7KXno"
-                                            width="50px" alt="">  --}}
+                                       
                                         
                                         </td>
                                     <td> <a href="{{url('AdminHomeSectionEdit/'.$box['id'])}}">  <button class="btn btn-info">Edit</button>  </a> </td>
@@ -334,9 +332,9 @@
                                 @endforeach
                             <tbody>
                         </table>
-                    </div>
+                    </div> --}}
 
-                    <h2>Category Block Sections</h2>
+                    {{-- <h2>Category Block Sections</h2>
                     <div class="table-wrapper">
                         <table class="fl-table">
                             <thead>
@@ -344,7 +342,6 @@
                                     <th>Box#</th>
                                     <th>Text</th>
                                     <th>Category</th>
-                                    {{-- <th>Image</th> --}}
                                     <th>Action</th>
                                 </tr>
                             </thead>
@@ -354,14 +351,13 @@
                                     <td>{{$box['sequence']}}</td>
                                     <td>{{$box['text']}}</td>
                                     <td>{{$box['category_name']}}</td>
-                                    {{-- <td> 
-                                    </td> --}}
+                             
                                     <td> <a href="{{url('AdminHomeSectionEdit/'.$box['id'])}}">  <button class="btn btn-info">Edit</button>  </a> </td>
                                 </tr>
                                 @endforeach
                             <tbody>
                         </table>
-                    </div>
+                    </div> --}}
                     {{--
                 </div>
             </div>

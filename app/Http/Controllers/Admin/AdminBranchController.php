@@ -14,7 +14,7 @@ class AdminBranchController extends Controller
     public function getNotifications($token)
     {
         $response = Http::withToken($token);
-        $response = $response->get('gigiapi.zanforthstaging.com/api/getNotifications',[
+        $response = $response->get(''.config('path.path.WebPath').'api/getNotifications',[
             'limit' => 50,
             'page' => 1,
             'timeSort' => 'desc',
@@ -28,7 +28,7 @@ class AdminBranchController extends Controller
             while($right == false)
             {
                 $response = Http::withToken($token);
-                $response = $response->get('gigiapi.zanforthstaging.com/api/getNotifications',[
+                $response = $response->get(''.config('path.path.WebPath').'api/getNotifications',[
                     'limit' => 50,
                     'page' => 1,
                     'timeSort' => 'desc',
@@ -55,7 +55,7 @@ class AdminBranchController extends Controller
 
             $token = session('Authenticated_user_data')['token'];
             $response = Http::withToken($token);
-            $response = $response->get('gigiapi.zanforthstaging.com/api/getConversations');
+            $response = $response->get(''.config('path.path.WebPath').'api/getConversations');
             // NEW CODE -- START
             if($response->json() == null)
             {
@@ -64,7 +64,7 @@ class AdminBranchController extends Controller
                 while($right == false)
                 {
                     $response = Http::withToken($token);
-                    $response = $response->get('gigiapi.zanforthstaging.com/api/getConversations');
+                    $response = $response->get(''.config('path.path.WebPath').'api/getConversations');
                     if($response->json() == null)
                     {
 

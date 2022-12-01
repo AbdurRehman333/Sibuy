@@ -44,7 +44,7 @@
                                     src="{{asset('assets/images/testimonial/1.jpg')}}" alt="">
                                 @else
                                 <img style="border-radius: 50% !important;"
-                                    src="{{'https://gigiapi.zanforthstaging.com/'.config('path.path.UserPath').'/'.$merchant['profile_picture'].''}}" width="120px" alt="">
+                                    src="{{''.config('path.path.WebPath').''.config('path.path.UserPath').'/'.$merchant['profile_picture'].''}}" width="120px" alt="">
                                 @endif
 
 

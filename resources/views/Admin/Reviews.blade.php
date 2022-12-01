@@ -41,9 +41,9 @@
                                 {{-- <img style="border-radius: 50% !important;"
                                     src="{{asset('assets/images/testimonial/1.jpg')}}" alt=""> --}}
                                     @if($M['profile_picture'] == null)
-                                    <img src="{{asset('assets/images/testimonial/1.jpg')}}" alt="">
+                                    <img style="    height: 84px;border-radius: 45px;" src="{{asset('assets/images/testimonial/1.jpg')}}" alt="">
                                     @else
-                                    <img src="{{'https://gigiapi.zanforthstaging.com/'.$M['profilePicturePath'].'/'.$M['profile_picture'].''}}" alt="">
+                                    <img style="   height: 84px; border-radius: 45px;" src="{{''.config('path.path.WebPath').''.$M['profilePicturePath'].'/'.$M['profile_picture'].''}}" alt="">
                                     @endif
 
                                 <h5 class="fs-20 font-w500 mb-1"><a href="{{url('AdminMerchantProfile/'.$M['id'])}}" class="text-black">{{$M['name']}}</a></h5>
@@ -78,7 +78,7 @@
                                     @if($merchants[$i]['profile_picture'] == null)
                                     <img style="border-radius: 50% !important;" width="80px;" src="{{asset('assets/images/testimonial/1.jpg')}}" alt="">
                                     @else
-                                    <img style="border-radius: 50% !important;" width="80px;" src="{{'https://gigiapi.zanforthstaging.com/'.$merchants[$i]['profilePicturePath'].'/'.$merchants[$i]['profile_picture'].''}}" alt="">
+                                    <img style="border-radius: 50% !important;" width="80px;" src="{{''.config('path.path.WebPath').''.$merchants[$i]['profilePicturePath'].'/'.$merchants[$i]['profile_picture'].''}}" alt="">
                                     @endif
 
                                 <h5 class="fs-20 font-w500 mb-1"><a href="{{url('AdminMerchantProfile/'.$merchants[$i]['id'])}}" class="text-black">{{$merchants[$i]['name']}}</a></h5>
@@ -157,7 +157,7 @@
                                                 src="{{asset('assets/images/testimonial/1.jpg')}}" alt="">
                                             @else
                                             <img style="border-radius: 50% !important;" width="60px"
-                                                src="{{'https://gigiapi.zanforthstaging.com/'.config('path.path.UserPath').'/'.$r['profile_picture'].''}}" alt="">
+                                                src="{{''.config('path.path.WebPath').''.config('path.path.UserPath').'/'.$r['profile_picture'].''}}" alt="">
                                             @endif
 
                                             <div class="d-flex flex-column" style="font-size: 13px;

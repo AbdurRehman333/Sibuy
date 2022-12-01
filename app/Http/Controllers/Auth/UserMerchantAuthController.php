@@ -5,14 +5,14 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
-
+use Illuminate\Support\Str;
 class UserMerchantAuthController extends Controller
 {
 
     public function merchant_registration(Request $request)
     {
         try{
-            $response = Http::post('gigiapi.zanforthstaging.com/api/merchantRegister', [
+            $response = Http::post(''.config('path.path.WebPath').'api/merchantRegister', [
                 'name' =>  $request->name,
                 'email' => $request->email,
                 'phone_no' => $request->phone_no,
@@ -32,37 +32,38 @@ class UserMerchantAuthController extends Controller
     public function user_registration(Request $request)
     {
         try{
-            
-            if($request->lat == null || $request->long == null || $request->address == null)
-            {
-                return redirect()->back()->with('alert', 'Message : Fetch Your Location First!');
-            }
-
             // dd($request);
+            $length = Str::length($request->date_of_birth);
 
-            $response = Http::post('gigiapi.zanforthstaging.com/api/userRegister', [
+            // if($length !== 10 || $request->date_of_birth[2] !== '/' || $request->date_of_birth[5] !== '/')
+            // {
+            //     return redirect()->back()->with('alert', 'Message : Wrong Date Of Birth!');
+            // }
+
+            $response = Http::post(''.config('path.path.WebPath').'api/userRegister', [
                 'name' =>  $request->name,
                 'email' => $request->email,
-
-                'lat' => $request->lat,
-                'long' => $request->long,
-                'city' => $request->city,
-                'country' => $request->country,
-                'address' => $request->address,
-
                 'phone_no' => $request->phone_no,
-                'date_of_birth' => $request->date_of_birth,
                 'password' => $request->password,
                 'password_confirmation' => $request->password_confirmation,
-                'gender' => $request->gender
+                'gender' => $request->gender,
+                'date_of_birth' => $request->date_of_birth,
+                'country' => $request->country,
+                'city' => $request->city,
+                'Ccode' => $request->Ccode,
+                'language' => $request->language,
+                'reference_code' => $request->reference_code,
             ]);
+
+            // dd($response);
 
             if (array_key_exists("error", $response->json()))
             {
                 return redirect('register')->with('alert',''.$response['error'].'');
             }
 
-            return view('user.user_login');
+            return redirect('login')->with('success','Successfully Registered!');
+            // return view('user.user_login');
         } catch (\Exception $e) {
             return response()->json([
                 'Success' => 'False',
@@ -75,7 +76,7 @@ class UserMerchantAuthController extends Controller
     {
         try {
             try {
-            $request->session()->forget('Authenticated_user_data');
+                $request->session()->forget('Authenticated_user_data');
             }
             catch (\Exception $e) {
                 return response()->json([
@@ -84,11 +85,14 @@ class UserMerchantAuthController extends Controller
                     'Message' => $response->json()['error'],
                 ]);
             }
-
-            $response = Http::post('gigiapi.zanforthstaging.com/api/login', [
-                'email' => $request->email,
+            // dd($request);
+            $response = Http::post(''.config('path.path.WebPath').'api/login', [
+                'phone_no' => $request->cell_no,
+                'email' => $request->cell_no,
                 'password' => $request->password,
             ]);
+            // dd(''.config('path.path.WebPath').'api/login');
+            // dd($response->json());
             if (array_key_exists("error",$response->json()))
             {
                 if($response->json()['error'] == 'Your account is not verified. Please verify your account')
@@ -110,8 +114,7 @@ class UserMerchantAuthController extends Controller
             
             // dd($response->json());
             session(['Authenticated_user_data' => $response->json()['data']]);
-            // dd($response->json()['data']);
-            // dd(session('Authenticated_user_data'));
+            // dd(session()->get('Authenticated_user_data'));
             if(session('Authenticated_user_data')['type'] == 3)
             {
                 return redirect('/AdminDashboard');
@@ -121,6 +124,19 @@ class UserMerchantAuthController extends Controller
                 return redirect('/MerchantDashboard');
             }
 
+            // $token = session()->get('Authenticated_user_data')['token'];
+            // $Usercities = [];
+            // $locations = Http::withToken($token)->get(''.config('path.path.WebPath').'api/user/getUserLocations')->json()['data'];
+            // //Resetting the session
+            // $userData = session()->get('Authenticated_user_data');
+            // $userData['location'] = [
+            //     'address' => 'N/A',
+            //     'city' => $request->city[0],
+            //     'country' => $request->country,
+            // ];
+            // // dd($userData);
+            // session()->forget('Authenticated_user_data');
+            // Session::put('Authenticated_user_data', $userData);
 
             return redirect('/home');
 
@@ -161,7 +177,7 @@ class UserMerchantAuthController extends Controller
         // dd('u');
         try{
             $token = session()->get('Authenticated_user_data')['token'];
-            $response = Http::withToken($token)->post('gigiapi.zanforthstaging.com/api/logout');
+            $response = Http::withToken($token)->post(''.config('path.path.WebPath').'api/logout');
             session()->flush();
             return redirect('/home');
         } catch (\Exception $e) {

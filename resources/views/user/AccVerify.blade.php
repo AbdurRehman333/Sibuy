@@ -2,13 +2,13 @@
 <html lang="en">
 <head>
 
-    <title>Login | GiGi</title>
+    <title>Login | Sibuy</title>
     <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta content="Premium Multipurpose Admin & Dashboard Template" name="description"/>
 <meta content="Themesbrand" name="author"/>
 <!-- App favicon -->
-<link rel="shortcut icon" href="{{asset('assets/USER/admin/assets/images/gigi-logo.png')}}">
+<link rel="shortcut icon" href="{{asset('assets/images/sibuy.png')}}">
     <!-- preloader css -->
 <link rel="stylesheet" href="{{asset('assets/USER/admin/assets/css/preloader.min.css')}}" type="text/css" />
 
@@ -67,7 +67,7 @@
                         <div class="d-flex flex-column h-100">
                             <div class="mb-4 mb-md-5 text-center">
                                 <a href="{{url('home')}}" class="d-block auth-logo">
-                                    <img src="assets/images/gigi-logo.png" alt="" height="28"> <span class="logo-txt">GiGi</span>
+                                    <img src="assets/images/sibuy.png" alt="" height="28"> <span class="logo-txt">Sibuy</span>
                                 </a>
                             </div>
                             <div class="auth-content my-auto">
@@ -135,7 +135,7 @@
 
                             <div class="mt-4 mt-md-5 text-center">
                                 <p class="mb-0">Copyright © <script>
-                                    document.write(new Date().getFullYear() + " GiGi")
+                                    document.write(new Date().getFullYear() + " Sibuy")
                                 </script>
                             </div>
                         </div>

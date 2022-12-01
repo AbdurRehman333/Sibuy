@@ -1,7 +1,7 @@
 @extends('Admin.layouts.master')
 
-@section('title', 'Admin Coupons')
-@section('header', 'Offer Details')
+@section('title', 'Admin Deals')
+@section('header', 'Deal Details')
 
 @section('content')
 
@@ -29,7 +29,7 @@
 
                     <div class="col-sm-6">
                         {{-- <img src="{{asset('assets/images/dummy_coupon.jpg')}}" style="border-radius: 10px;" width="100%" alt=""> --}}
-                        <img src="{{'https://gigiapi.zanforthstaging.com/'.config('path.path.DealsPath').'/'.$deal['images'][0]['image'].''}}" style="border-radius: 10px;" width="100%" height="500px" alt="">
+                        <img src="{{''.config('path.path.WebPath').''.config('path.path.DealsPath').'/'.$deal['images'][0]['image'].''}}" style="border-radius: 10px;" width="100%" height="500px" alt="">
 
                         <div style="margin-top:2rem;">
                             <span><strong>Tags : </strong></span>
@@ -49,7 +49,7 @@
                         </div>
                         @endif
                         
-                        <p><strong> Title : </strong> {{$deal['name']}}</p>
+                        {{-- <p><strong> Title : </strong> {{$deal['name']}}</p>
                         <p><strong> Category : </strong> {{$deal['category_name']}} </p>
                         <p><strong> Discount : </strong> {{$deal['discount']}}% OFF </p>
                         <p><strong> Price : </strong> {{$deal['price']}} </p>
@@ -57,19 +57,34 @@
                         <p><strong> After Discount : </strong> {{$deal['after_discount']}} </p>
                         <p><strong> Merchant : </strong> {{$deal['merchant_name']}} </p>
                         <p><strong> Valid Till : </strong> {{$deal['expiry']}} </p>
+                        <p><strong> Description :  </strong> {{$deal['description']}} </p> --}}
+
+                        <p><strong> Title : </strong> {{$deal['name']}}</p>
+                        {{-- <p><strong> Category : </strong> {{$deal['category_name']}}</p> --}}
+                        <p><strong> Discount : </strong> {{$deal['discount']}}% OFF </p>
+                        {{-- <p><strong> Type : </strong> {{$deal['type']}} </p> --}}
+                        <p><strong> Deal Price : </strong> {{$deal['price']}} </p>
+                        {{-- <p><strong> Actual Price : </strong> {{$deal['actual_price']}} </p> --}}
+                        {{-- <p><strong> After Discount : </strong> {{$deal['after_discount']}} </p> --}}
+                        {{-- <p><strong> Merchant : </strong> {{$deal['merchant_name']}} </p> --}}
+                        <p><strong> Deal Expiry Date : </strong> {{$deal['expiry']}} </p>
+                        
+                        {{-- //Statics  --}}
+                        <p><strong> Deal Sale Till :  </strong> 22-09-2023 </p>
+                        <p><strong> Deals Available :  </strong> 580 </p>
+
                         <p><strong> Description :  </strong> {{$deal['description']}} </p>
 
 
 
-                        @if($deal['additional_discount'])
+                        {{-- @if($deal['additional_discount'])
                         <button style="margin-left: 10px;" class="btn btn-sm btn-danger">Double Discount : {{$deal['additional_discount']}}% OFF</button>
                         <button style="margin-left: 10px;" class="btn btn-sm btn-danger">Valid Till :
                             {{Carbon\Carbon::parse($deal['additional_discount_date'])->format('d/m/Y')}}
                             
-                             {{-- {{$deal['additional_discount_date']}} --}}
                             
                             </button>
-                        @endif
+                        @endif --}}
 
                         {{-- <p><strong> Merchant : <a href="{{url('AdminMerchantProfile/'.$deal['merchant_id'])}}" style="color: #0B2A97">
                             <strong>
@@ -86,23 +101,20 @@
                 
 
 
-                <div style="margin-top: 5rem;">
+                {{-- <div style="margin-top: 5rem;">
                     <h2>Branches for this Deal</h2>
                 </div>
-                <hr>
+                <hr> --}}
 
-                <div class="row" style="margin-top: 5rem;">
+                {{-- <div class="row" style="margin-top: 5rem;">
 
                     
                     @foreach($deal['branches'] as $branch)
                     <div class="col-sm-6">
                         <div class="media border-bottom mb-3 pb-3 d-lg-flex d-block menu-list">
                             <a href="#">
-                                {{-- <img class="rounded mr-3 mb-md-0 mb-3"
-                                    src="{{asset('assets/images/testimonial/1.jpg')}}" alt="" width="120"> --}}
-                                {{-- <img  src="{{asset('assets/images/testimonial/1.jpg')}}" alt="" width="120"> --}}
-
-                               <img class="rounded mr-3 mb-md-0 mb-3" src="{{'https://gigiapi.zanforthstaging.com/'.config('path.path.BranchesPath').'/'.$branch['logo'].''}}" style="border-radius: 10px;" alt="" width="120">
+                         
+                               <img class="rounded mr-3 mb-md-0 mb-3" src="{{''.config('path.path.WebPath').''.config('path.path.BranchesPath').'/'.$branch['logo'].''}}" style="border-radius: 10px;" alt="" width="120">
 
                                 
                                 </a>
@@ -119,23 +131,8 @@
                     </div>
                     @endforeach
 
-                    {{-- <div class="col-sm-6">
-                        <div class="media border-bottom mb-3 pb-3 d-lg-flex d-block menu-list">
-                            <a href="ecom-product-detail.html"><img class="rounded mr-3 mb-md-0 mb-3"
-                                    src="{{asset('assets/images/testimonial/1.jpg')}}" alt="" width="120"></a>
-                            <div class="media-body col-lg-8 pl-0">
-                                <h6 class="fs-16 font-w600"><a href="{{url('OfferDetails/'.$deal['id'])}}" class="text-black">Branch Name</a></h6>
-                                <p class="fs-14">City, Country</p>
-
-                                <p class="fs-14">Lorem ipsum dolor sit amet consectetur adipisicing elit. Itaque sint ipsum nulla doloribus quis voluptatum asperiores in! Consequatur, quis doloribus?</p>
-                                <div class="">
-
-                                </div>
-                            </div>
-                        </div>
-                    </div> --}}
-
-                </div>
+         
+                </div> --}}
 
                 {{-- @if($deal['status'] == 0) --}}
                 <div style="    text-align: center;">

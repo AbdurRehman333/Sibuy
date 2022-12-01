@@ -5,19 +5,19 @@
             <div class="navbar-brand-box">
                 <a href="index.php" class="logo logo-dark">
                     <span class="logo-sm">
-                        <img src="assets/images/gigi-logo.png" alt="" height="24">
+                        <img src="assets/images/sibuy.png" alt="" height="24">
                     </span>
                     <span class="logo-lg">
-                        <img src="assets/images/gigi-logo.png" alt="" height="24"> <span class="logo-txt">GiGi</span>
+                        <img src="assets/images/sibuy.png" alt="" height="24"> <span class="logo-txt">Sibuy</span>
                     </span>
                 </a>
 
                 <a href="index.php" class="logo logo-light">
                     <span class="logo-sm">
-                        <img src="assets/images/gigi-logo.png" alt="" height="24">
+                        <img src="assets/images/sibuy.png" alt="" height="24">
                     </span>
                     <span class="logo-lg">
-                        <img src="assets/images/gigi-logo.png" alt="" height="24"> <span class="logo-txt">GiGi</span>
+                        <img src="assets/images/sibuy.png" alt="" height="24"> <span class="logo-txt">Sibuy</span>
                     </span>
                 </a>
             </div>

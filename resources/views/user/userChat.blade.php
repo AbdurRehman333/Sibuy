@@ -6,14 +6,14 @@
     <meta charset="utf-8">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>GiGi</title>
+    <title>SiBuy365</title>
     <link rel="canonical" href="index.html" />
     <link rel="alternate" hreflang="en-US" href="index.html" />
     <link rel="alternate" href="index.html" hreflang="x-default" />
-    <meta property="og:image" content="{{asset('assets/USER/img/icons/128.png')}}" />
-    <link rel="icon" href="{{asset('assets/USER/img/icons/128.png')}}" />
+    <meta property="og:image" content="{{asset('assets/images/sibuy.png')}}" />
+    <link rel="icon" href="{{asset('assets/images/sibuy.png')}}" />
     <link href="{{asset('assets/USER/admin/assets/css/icons.min.css')}}" rel="stylesheet" type="text/css" />
-    <link rel="icon" type="{{asset('assets/USER/image/png')}}" href="{{asset('assets/USER/img/icons/128.png')}}" />
+    <link rel="icon" type="{{asset('assets/USER/image/png')}}" href="{{asset('assets/images/sibuy.png')}}" />
     <script src="{{asset('assets/USER/vendor/jquery/jquery-3.6.0.min.js')}}"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" />
@@ -143,17 +143,17 @@ h1 {
         // //Pusher.logToConsole = true;
 
 
-        // var pusher = new Pusher('814fe1b741785e7ace5e', {
+        // var pusher = new Pusher('5c357c77e10eb34aedcb', {
         //     cluster: 'ap2',
         //     channelAuthorization: {
-        //         endpoint: "https://gigiapi.zanforthstaging.com/api/channelAuthorization",
+        //         endpoint: "https://Sibuyapi.zanforthstaging.com/api/channelAuthorization",
         //         headers: {
         //             "Authorization": 'Bearer 361|JjIauoRLRHpWvf9pMAXEBgsJalPuki9YNkDxrurL'
         //         }
         //         //   headers: { "Authorization": `Bearer ${token}`}
         //     },
         //     userAuthentication: {
-        //         endpoint: "https://gigiapi.zanforthstaging.com/api/channelAuthorization",
+        //         endpoint: "https://Sibuyapi.zanforthstaging.com/api/channelAuthorization",
         //         headers: {
         //             "Authorization": 'Bearer 361|JjIauoRLRHpWvf9pMAXEBgsJalPuki9YNkDxrurL'
         //         }
@@ -421,9 +421,9 @@ h1 {
             {{-- <script>
                 Pusher.logToConsole = true;
             
-                var pusher = new Pusher('814fe1b741785e7ace5e', {
+                var pusher = new Pusher('5c357c77e10eb34aedcb', {
                     cluster: 'ap2',
-                    authEndpoint: "https://gigiapi.zanforthstaging.com/api/channelAuthorization",
+                    authEndpoint: "https://Sibuyapi.zanforthstaging.com/api/channelAuthorization",
                     auth: {
                         headers: {
                             "Authorization": `Bearer ${bearer_token}`,
@@ -516,13 +516,13 @@ h1 {
         <script>
             open_convo = null;
         </script>
-
+    <input type="hidden" id="WebPath" value="{{config('path.path.WebPath')}}">
         <script>
             Pusher.logToConsole = true;
-    
-            var pusher = new Pusher('814fe1b741785e7ace5e', {
+    WebPath = document.getElementById('WebPath').value;
+            var pusher = new Pusher('5c357c77e10eb34aedcb', {
                 cluster: 'ap2',
-                authEndpoint: "https://gigiapi.zanforthstaging.com/api/channelAuthorization",
+                authEndpoint: `${WebPath}api/channelAuthorization`,
                 auth: {
                     headers: {
                         "Authorization": `Bearer ${bearer_token}`,
@@ -602,7 +602,7 @@ h1 {
 
             // window.Echo = new Echo({
             //     broadcaster: 'pusher',
-            //     key: '814fe1b741785e7ace5e'
+            //     key: '5c357c77e10eb34aedcb'
             // });
 
         
@@ -1246,19 +1246,19 @@ h1 {
             <div class="edge">
                 <div class="row margin-top-2">
                     <div class="col-md">
-                        <h5 class="ul-fold white">GiGi</h5>
+                        <h5 class="ul-fold white">Sibuy</h5>
                         <ul>
                             <li><a href="#">Home</a></li>
-                            <li><a href="#">About Gigi</a></li>
+                            <li><a href="#">About Sibuy</a></li>
                             <li><a href="#">Jobs</a></li>
                             <li><a href="#">Press</a></li>
                             <li><a href="#">In your community</a></li>
                         </ul>
                     </div>
                     <div class="col-md">
-                        <h5 class="ul-fold white">Work with GiGi</h5>
+                        <h5 class="ul-fold white">Work with Sibuy</h5>
                         <ul>
-                            <li><a href="#">Meet Gigi</a></li>
+                            <li><a href="#">Meet Sibuy</a></li>
                             <li><a href="#">Terms and Conditions</a></li>
                             <li><a href="#">Contact Us</a></li>
                         </ul>
@@ -1279,7 +1279,7 @@ h1 {
                                 <div class="col-*"> <img src="{{asset('assets/USER/img/heading/logo-alternate.png')}}" class="logo" alt="" width="34" height="34" loading="lazy"> </div>
                             </div>
                             <div class="col-md-6 col-lg-12 text-center text-md-left text-lg-right footer__newsletter">
-                                <h5 class="white">Sign up for the GiGi newsletter</h5>
+                                <h5 class="white">Sign up for the Sibuy newsletter</h5>
                                 <form>
                                     <input type="email" class="email" placeholder="Your e-mail address">
                                     <input type="submit" class="submit" value="Subscribe">
@@ -1299,7 +1299,7 @@ h1 {
                                                 height="20px" /></a> </span> </span>
                             </div>
                             <div class="col-md-12 col-lg-12 text-center text-lg-right p-2 footer__copyright">
-                                <p>Copyright © 2022 GiGi – All rights reserved
+                                <p>Copyright © 2022 Sibuy – All rights reserved
                                     <br /> <a href="#" target="_blank">Privacy and Cookie Notice</a> | <a href="#" target="_blank">Terms and Conditions</a>
                                 </p>
                             </div>
@@ -1317,10 +1317,10 @@ h1 {
 
     <script>
         Pusher.logToConsole = true;
-    
-        var pusher = new Pusher('814fe1b741785e7ace5e', {
+        WebPath = document.getElementById('WebPath').value;
+        var pusher = new Pusher('5c357c77e10eb34aedcb', {
             cluster: 'ap2',
-            authEndpoint: "https://gigiapi.zanforthstaging.com/api/channelAuthorization",
+            authEndpoint: `${WebPath}api/channelAuthorization`,
             auth: {
                 headers: {
                     "Authorization": `Bearer ${bearer_token}`,

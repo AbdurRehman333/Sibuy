@@ -15,7 +15,7 @@ class MerchantHomeController extends Controller
     public function getNotifications($token)
     {
         $response = Http::withToken($token);
-        $response = $response->get('gigiapi.zanforthstaging.com/api/getNotifications',[
+        $response = $response->get(''.config('path.path.WebPath').'api/getNotifications',[
             'limit' => 50,
             'page' => 1,
             'timeSort' => 'desc',
@@ -29,7 +29,7 @@ class MerchantHomeController extends Controller
             while($right == false)
             {
                 $response = Http::withToken($token);
-                $response = $response->get('gigiapi.zanforthstaging.com/api/getNotifications',[
+                $response = $response->get(''.config('path.path.WebPath').'api/getNotifications',[
                     'limit' => 50,
                     'page' => 1,
                     'timeSort' => 'desc',
@@ -49,13 +49,91 @@ class MerchantHomeController extends Controller
         return $response->json();
     }
 
+    public function BankDetails()
+    {
+        try{
+
+            $token = session('Authenticated_user_data')['token'];
+            $response = Http::withToken($token);
+            $response = $response->get(''.config('path.path.WebPath').'api/getConversations');
+            $conversations = $response->json()['data'];
+
+            $notifications = $this->getNotifications($token);
+            $notifications =  $notifications['data'];
+            $id = session('Authenticated_user_data')['id'];
+            echo "<script>";
+            echo "var bearer_token = `". $token ."` ;";
+            echo "var id = `". $id ."` ;";
+            echo "</script>";
+
+            return view('Merchant.BankDetails',compact('conversations','notifications'));
+        } catch (\Exception $e) {
+            return response()->json([
+                'Success' => 'False',
+                'Error' => $e->getMessage(),
+            ]);
+        }
+    }
+
+    public function Transactions()
+    {
+        try{
+
+            $token = session('Authenticated_user_data')['token'];
+            $response = Http::withToken($token);
+            $response = $response->get(''.config('path.path.WebPath').'api/getConversations');
+            $conversations = $response->json()['data'];
+
+            $notifications = $this->getNotifications($token);
+            $notifications =  $notifications['data'];
+            $id = session('Authenticated_user_data')['id'];
+            echo "<script>";
+            echo "var bearer_token = `". $token ."` ;";
+            echo "var id = `". $id ."` ;";
+            echo "</script>";
+
+            return view('Merchant.Transactions',compact('conversations','notifications'));
+        } catch (\Exception $e) {
+            return response()->json([
+                'Success' => 'False',
+                'Error' => $e->getMessage(),
+            ]);
+        }
+    }
+    
+    public function RequestPayment()
+    {
+        try{
+
+            $token = session('Authenticated_user_data')['token'];
+            $response = Http::withToken($token);
+            $response = $response->get(''.config('path.path.WebPath').'api/getConversations');
+            $conversations = $response->json()['data'];
+
+            $notifications = $this->getNotifications($token);
+            $notifications =  $notifications['data'];
+            $id = session('Authenticated_user_data')['id'];
+            echo "<script>";
+            echo "var bearer_token = `". $token ."` ;";
+            echo "var id = `". $id ."` ;";
+            echo "</script>";
+
+            return view('Merchant.RequestPayment',compact('conversations','notifications'));
+        } catch (\Exception $e) {
+            return response()->json([
+                'Success' => 'False',
+                'Error' => $e->getMessage(),
+            ]);
+        }
+    }
+
     public function MerchantAllNotifications()
     {
         try{
             // dd(1);
             $token = session('Authenticated_user_data')['token'];
             $response = Http::withToken($token);
-            $response = $response->get('gigiapi.zanforthstaging.com/api/getNotifications',[
+            $response = $response->get(''.config('path.path.WebPath').'api/getNotifications',[
                 'limit' => 2000,
                 'page' => 1,
                 'timeSort' => 'desc',
@@ -64,7 +142,7 @@ class MerchantHomeController extends Controller
             // dd($notifications);
             $token = session('Authenticated_user_data')['token'];
             $response = Http::withToken($token);
-            $response = $response->get('gigiapi.zanforthstaging.com/api/getConversations');
+            $response = $response->get(''.config('path.path.WebPath').'api/getConversations');
             $conversations = $response->json()['data'];
 
             $notifications = $this->getNotifications($token);
@@ -91,7 +169,7 @@ class MerchantHomeController extends Controller
     //     // dd(session('Authenticated_user_data'));
     //     $token = session('Authenticated_user_data')['token'];
     //     $response = Http::withToken($token);
-    //     $response = $response->get('gigiapi.zanforthstaging.com/api/getConversations');
+    //     $response = $response->get(''.config('path.path.WebPath').'api/getConversations');
     //     $convos = $response->json()['data'];
 
     //     $this->conversations = $convos;
@@ -113,7 +191,7 @@ class MerchantHomeController extends Controller
             $token = session('Authenticated_user_data')['token'];
             // dd($token);
             $response = Http::withToken($token);
-            // $response = $response->get('gigiapi.zanforthstaging.com/api/merchant/getDeals' , [
+            // $response = $response->get(''.config('path.path.WebPath').'api/merchant/getDeals' , [
             //     'returnType' => 'customPagination',
             //     'limit' => 1000,
             //     'status' => 1,
@@ -123,7 +201,7 @@ class MerchantHomeController extends Controller
             // ]);
             // dd($response);
 
-            $response = $response->get('gigiapi.zanforthstaging.com/api/merchant/getDeals' , [
+            $response = $response->get(''.config('path.path.WebPath').'api/merchant/getDeals' , [
                 // 'returnType' => 'customPagination',
                 'returnType' => 'dataTable',
                 'status' => 'all',
@@ -137,12 +215,12 @@ class MerchantHomeController extends Controller
             // dd($offers);
             $is_Inactive = 0;
             $response = Http::withToken($token);
-            $response = $response->get('gigiapi.zanforthstaging.com/api/merchant/getTopCategories');
+            $response = $response->get(''.config('path.path.WebPath').'api/merchant/getTopCategories');
             $topCats = $response->json();
 
             $token = session('Authenticated_user_data')['token'];
             $response = Http::withToken($token);
-            $response = $response->get('gigiapi.zanforthstaging.com/api/getConversations');
+            $response = $response->get(''.config('path.path.WebPath').'api/getConversations');
             $conversations = $response->json()['data'];
             $token = session()->get('Authenticated_user_data')['token'];
             $notifications = $this->getNotifications($token);
@@ -164,40 +242,41 @@ class MerchantHomeController extends Controller
 
     public function MerchantDashboard()
     {
-        try{
+        // try{
             $token = session('Authenticated_user_data')['token'];
             // dd($token);
             $response = Http::withToken($token);
-            $response = $response->get('gigiapi.zanforthstaging.com/api/merchant/getDashboardStats');
+            $response = $response->get(''.config('path.path.WebPath').'api/merchant/getDashboardStats');
             $dashboardStats = $response->json();
             // dd($dashboardStats);
-            // $response = Http::withToken($token);
-            // $response = $response->get('gigiapi.zanforthstaging.com/api/merchant/getTopCategories');
-            // $topCats = $response->json();
-
             $response = Http::withToken($token);
-            $response = $response->get('gigiapi.zanforthstaging.com/api/merchant/getCategoryStats');
+            $response = $response->get(''.config('path.path.WebPath').'api/merchant/getTopCategories');
             $topCats = $response->json();
-            // dd($topCats['data']);
+
+            // $response = Http::withToken($token);
+            // $response = $response->get(''.config('path.path.WebPath').'api/merchant/getCategoryStats');
+            // $topCats = $response->json();
+            // dd($topCats[0]);
 
 
             // dd($topCats);
             $response = Http::withToken($token);
-            $response = $response->get('gigiapi.zanforthstaging.com/api/merchant/getRecentDeals');
+            $response = $response->get(''.config('path.path.WebPath').'api/merchant/getRecentDeals');
             $recentDeals = $response->json();
             // dd($recentDeals);
+                // dd($token);
             //Merchant Profile
             $response = Http::withToken($token);
-            $response = $response->get('gigiapi.zanforthstaging.com/api/merchant/getProfile');
+            $response = $response->get(''.config('path.path.WebPath').'api/merchant/getProfile');
             $getProfile = $response->json()['data'];
             // dd($getProfile);
             // $response = Http::withToken($token);
-            // $response = $response->get('gigiapi.zanforthstaging.com/api/merchant/getProfile');
+            // $response = $response->get(''.config('path.path.WebPath').'api/merchant/getProfile');
             // $getProfile = $response->json()['data'];
             //PENDING DEALS
             $client = new \GuzzleHttp\Client();
             $response = Http::withToken($token);
-            $response = $response->get('gigiapi.zanforthstaging.com/api/merchant/getDeals' , [
+            $response = $response->get(''.config('path.path.WebPath').'api/merchant/getDeals' , [
                 'returnType' => 'customPagination',
                 'limit' => 1000,
                 'status' => 0,
@@ -208,7 +287,7 @@ class MerchantHomeController extends Controller
 
             $token = session('Authenticated_user_data')['token'];
             $response = Http::withToken($token);
-            $response = $response->get('gigiapi.zanforthstaging.com/api/getConversations');
+            $response = $response->get(''.config('path.path.WebPath').'api/getConversations');
             $conversations = $response->json()['data'];
             $token = session()->get('Authenticated_user_data')['token'];
             $notifications = $this->getNotifications($token);
@@ -222,12 +301,12 @@ class MerchantHomeController extends Controller
 
             // $conversations = $this->conversations;
             return view('Merchant.index',compact('dashboardStats','topCats','recentDeals','getProfile','offers','conversations','notifications'));
-        } catch (\Exception $e) {
-            return response()->json([
-                'Success' => 'False',
-                'Error' => $e->getMessage(),
-            ]);
-        }
+        // } catch (\Exception $e) {
+        //     return response()->json([
+        //         'Success' => 'False',
+        //         'Error' => $e->getMessage(),
+        //     ]);
+        // }
     }
 
     public function MerchantProfile()
@@ -236,7 +315,7 @@ class MerchantHomeController extends Controller
 
             $token = session('Authenticated_user_data')['token'];
             $response = Http::withToken($token);
-            $response = $response->get('gigiapi.zanforthstaging.com/api/getConversations');
+            $response = $response->get(''.config('path.path.WebPath').'api/getConversations');
             $conversations = $response->json()['data'];
             $token = session()->get('Authenticated_user_data')['token'];
             $notifications = $this->getNotifications($token);

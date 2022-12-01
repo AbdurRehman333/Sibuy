@@ -12,15 +12,15 @@
                 <div class="row">
 
 
-                    <div class="col-xl-6 col-xxl-12">
+                    <div class="col-xl-8 col-xxl-12">
                         <div class="row">
-                            <div class="col-sm-6">
+                            <div class="col-sm-4">
                                 <div class="card avtivity-card">
                                     <div class="card-body">
 
                                         <a href="{{url('MerchantTotalSales')}}">
                                         <div class="media align-items-center">
-                                            <span class="activity-icon bgl-success mr-md-4 mr-3">
+                                            <span class="activity-icon bgl-success mr-md-4 mr-3" style="background: #fef4f4">
 
                                                 <i class="fa fa-university" aria-hidden="true" style="font-size:35px;margin-top:23px;"></i>
 
@@ -38,7 +38,7 @@
 											</span>
                                             <div class="media-body">
                                                 <p class="fs-14 mb-2">Total Sales</p>
-                                                <span class="title text-black font-w600">${{$dashboardStats['data']['totalSale']}}</span>
+                                                <span class="title text-black font-w600">{{$dashboardStats['data']['totalSales']}}</span>
                                             </div>
                                         </div>
                                         </a>
@@ -51,13 +51,13 @@
                                     <div class="effect bg-success"></div>
                                 </div>
                             </div>
-                            <div class="col-sm-6">
+                            <div class="col-sm-4">
                                 <div class="card avtivity-card">
                                     <div class="card-body">
 
                                         <a href="{{url('MerchantOffers')}}">
                                         <div class="media align-items-center">
-                                            <span class="activity-icon bgl-secondary  mr-md-4 mr-3">
+                                            <span class="activity-icon bgl-secondary  mr-md-4 mr-3" style="background: #fefaf7">
                                                 <i class="fa fa-gift" aria-hidden="true" style="font-size:35px;margin-top:23px;" ></i>
 												{{-- <svg width="40" height="37" viewBox="0 0 40 37" fill="none" xmlns="http://www.w3.org/2000/svg">
 													<path d="M1.64826 26.5285C0.547125 26.7394 -0.174308 27.8026 0.0366371 28.9038C0.222269 29.8741 1.07449 30.5491 2.02796 30.5491C2.15453 30.5491 2.28531 30.5364 2.41188 30.5112L10.7653 28.908C11.242 28.8152 11.6682 28.5578 11.9719 28.1781L15.558 23.6554L14.3599 23.0437C13.4739 22.5965 12.8579 21.7865 12.6469 20.8035L9.26338 25.0688L1.64826 26.5285Z" fill="#A02CFA"/>
@@ -67,7 +67,7 @@
 											</span>
                                             <div class="media-body">
                                                 <p class="fs-14 mb-2">Total Active Offers</p>
-                                                <span class="title text-black font-w600">{{$dashboardStats['data']['totalActiveDeals']}}</span>
+                                                <span class="title text-black font-w600">{{$dashboardStats['data']['totalActiveOffers']}}</span>
                                             </div>
                                         </div>
                                         </a>
@@ -80,13 +80,13 @@
                                     <div class="effect bg-secondary"></div>
                                 </div>
                             </div>
-                            <div class="col-sm-6">
+                            <div class="col-sm-4">
                                 <div class="card avtivity-card">
                                     <div class="card-body">
 
                                         <a href="{{url('MerchantTotalSales')}}">
                                             <div class="media align-items-center">
-                                                <span class="activity-icon bgl-danger mr-md-4 mr-3">
+                                                <span class="activity-icon bgl-danger mr-md-4 mr-3" style="background: #f2eeea">
                                                     <i class="fa fa-usd" aria-hidden="true" style="font-size:35px;margin-top:23px;"></i>
                                                     {{-- <svg width="40" height="39" viewBox="0 0 40 39" fill="none" xmlns="http://www.w3.org/2000/svg">
                                                         <path d="M18.0977 7.90402L9.78535 16.7845C9.17929 17.6683 9.40656 18.872 10.2862 19.4738L18.6574 25.2104V30.787C18.6574 31.8476 19.4992 32.7357 20.5598 32.7568C21.6456 32.7735 22.5295 31.9023 22.5295 30.8207V24.1961C22.5295 23.5564 22.2138 22.9588 21.6877 22.601L16.3174 18.9184L20.8376 14.1246L23.1524 19.3982C23.4596 20.101 24.1582 20.5556 24.9243 20.5556H31.974C33.0346 20.5556 33.9226 19.7139 33.9437 18.6532C33.9605 17.5674 33.0893 16.6835 32.0076 16.6835H26.1953C25.4293 14.9411 24.6128 13.2155 23.9015 11.4478C23.5395 10.5556 23.3376 10.1684 22.6726 9.55389C22.5379 9.42763 21.5993 8.56904 20.7618 7.80305C19.9916 7.10435 18.8047 7.15065 18.0977 7.90402Z" fill="#FF3282"/>
@@ -111,13 +111,13 @@
                                     <div class="effect bg-danger"></div>
                                 </div>
                             </div>
-                            <div class="col-sm-6">
+                            <div class="col-sm-4">
                                 <div class="card avtivity-card">
                                     <div class="card-body">
 
                                         <a href="{{url('MerchantTotalSales')}}">
                                         <div class="media align-items-center">
-                                            <span class="activity-icon bgl-warning  mr-md-4 mr-3">
+                                            <span class="activity-icon bgl-warning  mr-md-4 mr-3" style="background: #f7f5ee">
                                                 <i class="fa fa-exchange" aria-hidden="true" style="font-size:35px;margin-top:23px;"></i>
 
 												{{-- <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -131,7 +131,7 @@
 											</span>
                                             <div class="media-body">
                                                 <p class="fs-14 mb-2">Total Coupon Redeemed</p>
-                                                <span class="title text-black font-w600">{{$dashboardStats['data']['totalDealRadeem']}}</span>
+                                                <span class="title text-black font-w600">{{$dashboardStats['data']['totalCouponRadeemed']}}</span>
                                             </div>
                                         </div>
                                         </a>
@@ -144,11 +144,166 @@
                                     <div class="effect bg-warning"></div>
                                 </div>
                             </div>
+                            <div class="col-sm-4">
+                                <div class="card avtivity-card">
+                                    <div class="card-body">
+
+                                        <a href="{{url('MerchantTotalSales')}}">
+                                        <div class="media align-items-center">
+                                            <span class="activity-icon bgl-warning  mr-md-4 mr-3" style="background: #f7f5ee">
+                                                <i class="fa fa-exchange" aria-hidden="true" style="font-size:35px;margin-top:23px;"></i>
+
+												{{-- <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+													<path d="M19.9996 10.0001C22.7611 10.0001 24.9997 7.76148 24.9997 5.00004C24.9997 2.23859 22.7611 0 19.9996 0C17.2382 0 14.9996 2.23859 14.9996 5.00004C14.9996 7.76148 17.2382 10.0001 19.9996 10.0001Z" fill="#FFBC11"/>
+													<path d="M29.7178 36.3838L23.5603 38.6931L26.6224 39.8414C27.9402 40.3307 29.3621 39.6527 29.8413 38.3778C30.0964 37.6976 30.021 36.9851 29.7178 36.3838Z" fill="#FFBC11"/>
+													<path d="M8.37771 27.6588C7.08745 27.1803 5.64452 27.8298 5.15873 29.1224C4.67411 30.4151 5.32967 31.8555 6.62228 32.3413L9.31945 33.3527L16.4402 30.6821L8.37771 27.6588Z" fill="#FFBC11"/>
+													<path d="M34.8413 29.1225C34.3554 27.8297 32.9126 27.1803 31.6223 27.6589L11.6223 35.1589C10.3295 35.6448 9.67401 37.0852 10.1586 38.3779C10.6378 39.6524 12.0594 40.3309 13.3776 39.8415L33.3777 32.3414C34.6705 31.8556 35.326 30.4152 34.8413 29.1225Z" fill="#FFBC11"/>
+													<path d="M37.5001 20.0001H31.5455L27.2364 11.3819C26.7886 10.4871 25.8776 9.97737 24.9388 10.0001L19.9996 10.0001L15.061 10.0001C14.1223 9.97737 13.2125 10.4872 12.7637 11.3819L8.45457 20.0001H2.49998C1.1194 20.0001 0 21.1195 0 22.5001C0 23.8807 1.1194 25.0001 2.49998 25.0001H10C10.9473 25.0001 11.8128 24.4654 12.2363 23.6183L15 18.0909V27.4724L19.9998 29.3472L25 27.4719V18.0909L27.7637 23.6183C28.1873 24.4655 29.0528 25.0001 30 25.0001H37.5C38.8806 25.0001 40 23.8807 40 22.5001C40 21.1195 38.8807 20.0001 37.5001 20.0001Z" fill="#FFBC11"/>
+												</svg> --}}
+
+											</span>
+                                            <div class="media-body">
+                                                <p class="fs-14 mb-2">Total Unredeemed Withholding</p>
+                                                <span class="title text-black font-w600">${{$dashboardStats['data']['totalUnredeemedWithHolding']}}</span>
+                                            </div>
+                                        </div>
+                                        </a>
+                                        {{-- <div class="progress" style="height:5px;">
+                                            <div class="progress-bar bg-warning" style="width: 42%; height:5px;" role="progressbar">
+                                                <span class="sr-only">42% Complete</span>
+                                            </div>
+                                        </div> --}}
+                                    </div>
+                                    <div class="effect bg-warning"></div>
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="card avtivity-card">
+                                    <div class="card-body">
+
+                                        <a href="{{url('MerchantTotalSales')}}">
+                                        <div class="media align-items-center">
+                                            <span class="activity-icon bgl-warning  mr-md-4 mr-3" style="background: #f7f5ee">
+                                                <i class="fa fa-exchange" aria-hidden="true" style="font-size:35px;margin-top:23px;"></i>
+
+												{{-- <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+													<path d="M19.9996 10.0001C22.7611 10.0001 24.9997 7.76148 24.9997 5.00004C24.9997 2.23859 22.7611 0 19.9996 0C17.2382 0 14.9996 2.23859 14.9996 5.00004C14.9996 7.76148 17.2382 10.0001 19.9996 10.0001Z" fill="#FFBC11"/>
+													<path d="M29.7178 36.3838L23.5603 38.6931L26.6224 39.8414C27.9402 40.3307 29.3621 39.6527 29.8413 38.3778C30.0964 37.6976 30.021 36.9851 29.7178 36.3838Z" fill="#FFBC11"/>
+													<path d="M8.37771 27.6588C7.08745 27.1803 5.64452 27.8298 5.15873 29.1224C4.67411 30.4151 5.32967 31.8555 6.62228 32.3413L9.31945 33.3527L16.4402 30.6821L8.37771 27.6588Z" fill="#FFBC11"/>
+													<path d="M34.8413 29.1225C34.3554 27.8297 32.9126 27.1803 31.6223 27.6589L11.6223 35.1589C10.3295 35.6448 9.67401 37.0852 10.1586 38.3779C10.6378 39.6524 12.0594 40.3309 13.3776 39.8415L33.3777 32.3414C34.6705 31.8556 35.326 30.4152 34.8413 29.1225Z" fill="#FFBC11"/>
+													<path d="M37.5001 20.0001H31.5455L27.2364 11.3819C26.7886 10.4871 25.8776 9.97737 24.9388 10.0001L19.9996 10.0001L15.061 10.0001C14.1223 9.97737 13.2125 10.4872 12.7637 11.3819L8.45457 20.0001H2.49998C1.1194 20.0001 0 21.1195 0 22.5001C0 23.8807 1.1194 25.0001 2.49998 25.0001H10C10.9473 25.0001 11.8128 24.4654 12.2363 23.6183L15 18.0909V27.4724L19.9998 29.3472L25 27.4719V18.0909L27.7637 23.6183C28.1873 24.4655 29.0528 25.0001 30 25.0001H37.5C38.8806 25.0001 40 23.8807 40 22.5001C40 21.1195 38.8807 20.0001 37.5001 20.0001Z" fill="#FFBC11"/>
+												</svg> --}}
+
+											</span>
+                                            <div class="media-body">
+                                                <p class="fs-14 mb-2">Total Redeemed Withholding</p>
+                                                <span class="title text-black font-w600">${{$dashboardStats['data']['totalRedeemedWithHolding']}}</span>
+                                            </div>
+                                        </div>
+                                        </a>
+                                        {{-- <div class="progress" style="height:5px;">
+                                            <div class="progress-bar bg-warning" style="width: 42%; height:5px;" role="progressbar">
+                                                <span class="sr-only">42% Complete</span>
+                                            </div>
+                                        </div> --}}
+                                    </div>
+                                    <div class="effect bg-warning"></div>
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="card avtivity-card">
+                                    <div class="card-body">
+
+                                        <a href="{{url('MerchantTotalSales')}}">
+                                        <div class="media align-items-center">
+                                            <span class="activity-icon bgl-warning  mr-md-4 mr-3" style="background: #f7f5ee">
+                                                <i class="fa fa-exchange" aria-hidden="true" style="font-size:35px;margin-top:23px;"></i>
+
+												{{-- <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+													<path d="M19.9996 10.0001C22.7611 10.0001 24.9997 7.76148 24.9997 5.00004C24.9997 2.23859 22.7611 0 19.9996 0C17.2382 0 14.9996 2.23859 14.9996 5.00004C14.9996 7.76148 17.2382 10.0001 19.9996 10.0001Z" fill="#FFBC11"/>
+													<path d="M29.7178 36.3838L23.5603 38.6931L26.6224 39.8414C27.9402 40.3307 29.3621 39.6527 29.8413 38.3778C30.0964 37.6976 30.021 36.9851 29.7178 36.3838Z" fill="#FFBC11"/>
+													<path d="M8.37771 27.6588C7.08745 27.1803 5.64452 27.8298 5.15873 29.1224C4.67411 30.4151 5.32967 31.8555 6.62228 32.3413L9.31945 33.3527L16.4402 30.6821L8.37771 27.6588Z" fill="#FFBC11"/>
+													<path d="M34.8413 29.1225C34.3554 27.8297 32.9126 27.1803 31.6223 27.6589L11.6223 35.1589C10.3295 35.6448 9.67401 37.0852 10.1586 38.3779C10.6378 39.6524 12.0594 40.3309 13.3776 39.8415L33.3777 32.3414C34.6705 31.8556 35.326 30.4152 34.8413 29.1225Z" fill="#FFBC11"/>
+													<path d="M37.5001 20.0001H31.5455L27.2364 11.3819C26.7886 10.4871 25.8776 9.97737 24.9388 10.0001L19.9996 10.0001L15.061 10.0001C14.1223 9.97737 13.2125 10.4872 12.7637 11.3819L8.45457 20.0001H2.49998C1.1194 20.0001 0 21.1195 0 22.5001C0 23.8807 1.1194 25.0001 2.49998 25.0001H10C10.9473 25.0001 11.8128 24.4654 12.2363 23.6183L15 18.0909V27.4724L19.9998 29.3472L25 27.4719V18.0909L27.7637 23.6183C28.1873 24.4655 29.0528 25.0001 30 25.0001H37.5C38.8806 25.0001 40 23.8807 40 22.5001C40 21.1195 38.8807 20.0001 37.5001 20.0001Z" fill="#FFBC11"/>
+												</svg> --}}
+
+											</span>
+                                            <div class="media-body">
+                                                <p class="fs-14 mb-2">Total Transaction Fee</p>
+                                                <span class="title text-black font-w600">${{$dashboardStats['data']['totalTransactionFee']}}</span>
+                                            </div>
+                                        </div>
+                                        </a>
+                                        {{-- <div class="progress" style="height:5px;">
+                                            <div class="progress-bar bg-warning" style="width: 42%; height:5px;" role="progressbar">
+                                                <span class="sr-only">42% Complete</span>
+                                            </div>
+                                        </div> --}}
+                                    </div>
+                                    <div class="effect bg-warning"></div>
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="card avtivity-card">
+                                    <div class="card-body">
+
+                                        <a href="{{url('MerchantTotalSales')}}">
+                                        <div class="media align-items-center">
+                                            <span class="activity-icon bgl-warning  mr-md-4 mr-3" style="background: #f7f5ee">
+                                                <i class="fa fa-exchange" aria-hidden="true" style="font-size:35px;margin-top:23px;"></i>
+
+												{{-- <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+													<path d="M19.9996 10.0001C22.7611 10.0001 24.9997 7.76148 24.9997 5.00004C24.9997 2.23859 22.7611 0 19.9996 0C17.2382 0 14.9996 2.23859 14.9996 5.00004C14.9996 7.76148 17.2382 10.0001 19.9996 10.0001Z" fill="#FFBC11"/>
+													<path d="M29.7178 36.3838L23.5603 38.6931L26.6224 39.8414C27.9402 40.3307 29.3621 39.6527 29.8413 38.3778C30.0964 37.6976 30.021 36.9851 29.7178 36.3838Z" fill="#FFBC11"/>
+													<path d="M8.37771 27.6588C7.08745 27.1803 5.64452 27.8298 5.15873 29.1224C4.67411 30.4151 5.32967 31.8555 6.62228 32.3413L9.31945 33.3527L16.4402 30.6821L8.37771 27.6588Z" fill="#FFBC11"/>
+													<path d="M34.8413 29.1225C34.3554 27.8297 32.9126 27.1803 31.6223 27.6589L11.6223 35.1589C10.3295 35.6448 9.67401 37.0852 10.1586 38.3779C10.6378 39.6524 12.0594 40.3309 13.3776 39.8415L33.3777 32.3414C34.6705 31.8556 35.326 30.4152 34.8413 29.1225Z" fill="#FFBC11"/>
+													<path d="M37.5001 20.0001H31.5455L27.2364 11.3819C26.7886 10.4871 25.8776 9.97737 24.9388 10.0001L19.9996 10.0001L15.061 10.0001C14.1223 9.97737 13.2125 10.4872 12.7637 11.3819L8.45457 20.0001H2.49998C1.1194 20.0001 0 21.1195 0 22.5001C0 23.8807 1.1194 25.0001 2.49998 25.0001H10C10.9473 25.0001 11.8128 24.4654 12.2363 23.6183L15 18.0909V27.4724L19.9998 29.3472L25 27.4719V18.0909L27.7637 23.6183C28.1873 24.4655 29.0528 25.0001 30 25.0001H37.5C38.8806 25.0001 40 23.8807 40 22.5001C40 21.1195 38.8807 20.0001 37.5001 20.0001Z" fill="#FFBC11"/>
+												</svg> --}}
+
+											</span>
+                                            <div class="media-body">
+                                                <p class="fs-14 mb-2">Total To Withdraw</p>
+                                                <span class="title text-black font-w600">${{$dashboardStats['data']['totalToWithDraw']}}</span>
+                                            </div>
+                                        </div>
+                                        </a>
+                                        {{-- <div class="progress" style="height:5px;">
+                                            <div class="progress-bar bg-warning" style="width: 42%; height:5px;" role="progressbar">
+                                                <span class="sr-only">42% Complete</span>
+                                            </div>
+                                        </div> --}}
+                                    </div>
+                                    <div class="effect bg-warning"></div>
+                                </div>
+                            </div>
+                            {{-- <div class="col-sm-4">
+                                <div class="card avtivity-card">
+                                    <div class="card-body">
+
+                                        <a href="{{url('MerchantTotalSales')}}">
+                                        <div class="media align-items-center">
+                                            <span class="activity-icon bgl-warning  mr-md-4 mr-3" style="background: #f7f5ee">
+                                                <i class="fa fa-exchange" aria-hidden="true" style="font-size:35px;margin-top:23px;"></i>
+
+												
+
+											</span>
+                                            <div class="media-body">
+                                                <p class="fs-14 mb-2">Total In Process</p>
+                                                <span class="title text-black font-w600">${{$dashboardStats['data']['totalDealRadeem']}}</span>
+                                            </div>
+                                        </div>
+                                        </a>
+                                      
+                                    </div>
+                                    <div class="effect bg-warning"></div>
+                                </div>
+                            </div> --}}
                         </div>
                     </div>
 
 
-                    <div class="col-xl-6 col-xxl-12">
+                    <div class="col-xl-4 col-xxl-12">
                         <div class="card text-white bg-primary">
                             <div class="card-header">
                                 <h5 class="card-title text-white">Trending Categories</h5>
@@ -156,10 +311,20 @@
                             </div>
 
                             <div style="margin-top:1rem;" class="card-body mb-0">
-                                @foreach($topCats['data'] as $key => $index)
-                                <span id="">{{$index['category_name']}}</span> <span style="float: right;" id="">{{$index['active_deals']}} Coupons</span>
+                                @foreach($topCats as $key => $index)
+                                <span id="">{{$key}}</span> <span style="float: right;" id="">{{$index}} Voucher Deals</span>
                                 <hr>
                                 @endforeach
+
+                                {{-- <span id="">Food</span> <span style="float: right;" id="">520 Voucher Deals</span>
+                                <hr>
+                                <span id="">Health</span> <span style="float: right;" id="">380 Voucher Deals</span>
+                                <hr>
+                                <span id="">SPA</span> <span style="float: right;" id="">280 Voucher Deals</span>
+                                <hr>
+                                <span id="">Automobile</span> <span style="float: right;" id="">150 Voucher Deals</span>
+                                <hr> --}}
+
                                 {{-- <span id="">Cleaning</span> <span style="float: right;" id="">2300 Coupons</span>
                                 <hr>
                                 <span id="">Automobile</span> <span style="float: right;" id="">1300 Coupons</span>
@@ -185,7 +350,7 @@
                                     <img style="border-radius: 50% !important;" src="{{asset('assets/images/testimonial/1.jpg')}}"
                                         alt="">
                                     @else
-                                    <img style="border-radius: 50% !important;" src="{{'https://gigiapi.zanforthstaging.com/'.config('path.path.UserPath').'/'.$getProfile['profile_picture'].''}}"
+                                    <img style="border-radius: 50% !important;" src="{{''.config('path.path.WebPath').''.config('path.path.UserPath').'/'.$getProfile['profile_picture'].''}}"
                                         alt="" width="400px">
                                     @endif
 
@@ -223,7 +388,7 @@
             
                                     <div style="margin:10px;">
                                         <div style="color: #082073; font-size:30px; font-weight:500;">{{$getProfile['dealRadeems']}}</div>
-                                        <div>Coupons Redeemed</div>
+                                        <div>Deals Redeemed</div>
                                     </div>
             
                                     <span style="font-size: 37px;">|</span>
@@ -288,7 +453,7 @@
                                     <div class="media border-bottom mb-3 pb-3 d-lg-flex d-block menu-list">
                                         <a href="{{ URL('MerchantEditOffer/'.$deal['id'])}}">
                                             
-                                            <img class="rounded mr-3 mb-md-0 mb-3" src="{{'https://gigiapi.zanforthstaging.com/'.config('path.path.DealsPath').'/'.$deal['image']['image'].''}}
+                                            <img class="rounded mr-3 mb-md-0 mb-3" src="{{''.config('path.path.WebPath').''.config('path.path.DealsPath').'/'.$deal['image']['image'].''}}
                                             "
                                                 alt="" width="120">
                                             
@@ -298,17 +463,28 @@
                                             <p class="fs-14">{{$deal['description']}}</p>
                                             <div class="">
                                                 <div class="media-body">
-                                                    <span class="fs-14 text-primary font-w500"
+                                                        
+                                                    
+                                                    @if($deal['type'] == 'Entire Menu')
+                                                
+                                                        <span class="fs-14 text-primary font-w500"
+                                                        style="color:rgb(210, 45, 45) !important; font-size:1.2rem !important;">
+                                                        Entire Menu </span>
+
+
+                                                    @else
+
+                                                        <span class="fs-14 text-primary font-w500"
+                                                            style="color:rgb(210, 45, 45) !important; font-size:1.2rem !important;">
+                                                            ${{$deal['price']}} </span>
+
+                                                    @endif
+
+                                                    {{-- <span class="fs-14 text-primary font-w500"
                                                         style="color:rgb(210, 45, 45) !important; font-size:1.2rem !important;">
                                                         <del>{{$deal['price']}}</del> </span>
 
-                                                        {{-- @php
-                                                        $percentage_to_pay = 100 - $deal['discount_on_price'];
-                                                    @endphp
-
-                                                    <span class="fs-14 text-primary font-w500" style="font-size:1rem !important;"> {{$percentage_to_pay}}%
-                                                    </span> --}}
-
+                                                    
                                                     
                                                         @if($deal['additional_discount'] > 0 &&  $result)
 
@@ -332,15 +508,13 @@
                                                     
 
                                                     @if($deal['additional_discount'] > 0 &&  $result)
-                                                    {{-- <span class="badge light badge-danger"
-                                                        style="margin-left: 8px !important;float: right !important;">
-                                                        {{$deal['additional_discount']}}% off</span> --}}
+                                                   
                                                         <span class="badge light badge-danger" style="margin-left: 8px !important;">
                                                             {{$deal['additional_discount']}}% off</span>
                                                     @else
                                                     <span class="badge light badge-primary" style="margin-left: 8px !important;">
                                                         {{$deal['discount_on_price']}}% off</span>
-                                                    @endif
+                                                    @endif --}}
 
 
                                                     {{-- <span class="badge light badge-primary"
@@ -445,7 +619,7 @@
                                             $result = $now->lt($expiry);
                                         @endphp
                                         <div class="media mb-4">
-                                            <img src="{{'https://gigiapi.zanforthstaging.com/'.config('path.path.DealsPath').'/'.$deal['image']['image'].''}}
+                                            <img src="{{''.config('path.path.WebPath').''.config('path.path.DealsPath').'/'.$deal['image']['image'].''}}
                                             " width="85" alt="" class="rounded mr-3">
 
                                             {{-- @php
@@ -458,10 +632,25 @@
                                                 <span class="fs-12 text-primary font-w500" style="font-size:0.7rem !important;"> {{$percent_to_give}}% </span> --}}
 
 
-                                                <span class="fs-14 text-primary font-w500" style="font-size:1rem !important; text-decoration:line-through">
-                                                    {{$deal['price']}}Azn </span>
+                                                @if($deal['type'] == 'Entire Menu')
+                                                
+                                                    <span class="fs-14 text-primary font-w500"
+                                                    style="color:rgb(210, 45, 45) !important; font-size:1.2rem !important;">
+                                                    Entire Menu </span>
 
-                                                @if($deal['additional_discount'] > 0 && $result)
+
+                                                @else
+
+                                                    <span class="fs-14 text-primary font-w500"
+                                                        style="color:rgb(210, 45, 45) !important; font-size:1.2rem !important;">
+                                                        ${{$deal['price']}} </span>
+
+                                                @endif
+
+                                                {{-- <span class="fs-14 text-primary font-w500" style="font-size:1rem !important;">
+                                                    {{$deal['price']}}Azn </span> --}}
+
+                                                {{-- @if($deal['additional_discount'] > 0 && $result)
 
                                                 @php
                                                 $price_to_pay_in_double_discount = $deal['price'] - ($deal['price'] * ($deal['additional_discount'] / 100) )
@@ -479,20 +668,18 @@
                                                 <span class="fs-14 text-primary font-w500" style="font-size:1rem !important;">
                                                     {{$percent_to_give}}Azn </span>
 
-                                                @endif
+                                                @endif --}}
 
 
 
-                                                @if($deal['additional_discount'] > 0 && $result)
-                                                {{-- <span class="badge light badge-danger"
-                                                    style="margin-left: 8px !important;float: right !important;">
-                                                    {{$deal['additional_discount']}}% off</span> --}}
+                                                {{-- @if($deal['additional_discount'] > 0 && $result)
+                                            
                                                     <span class="badge light badge-danger" style="margin-left: 8px !important;">
                                                         {{$deal['additional_discount']}}% off</span>
                                                 @else
                                                 <span class="badge light badge-primary" style="margin-left: 8px !important;">
                                                     {{$deal['discount_on_price']}}% off</span>
-                                                @endif
+                                                @endif --}}
 
 
 
@@ -502,7 +689,7 @@
                                             
                                         </div>
                                         <ul class="d-flex flex-wrap pb-2 border-bottom mb-3 justify-content-between">
-                                            <li class="mr-3 mb-2"><span class="fs-12 text-black"  style="    font-size: 11px !important;"> {{$deal['totalRadeem']}} Coupons Redeemed </span></li>
+                                            <li class="mr-3 mb-2"><span class="fs-12 text-black"  style="    font-size: 11px !important;"> {{$deal['totalRadeem']}} Deals Redeemed </span></li>
                                             <li class="mb-2"><i class="fa fa-star-o mr-3 scale5 text-warning" aria-hidden="true"></i><span class="fs-14 text-black font-w500">{{$deal['totalReviews']}} Reviews</span></li>
                                         </ul>
                                         @endforeach

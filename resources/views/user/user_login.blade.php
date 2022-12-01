@@ -2,13 +2,13 @@
 <html lang="en">
 <head>
 
-    <title>Login | GiGi</title>
+    <title>Login | SiBuy365</title>
     <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta content="Premium Multipurpose Admin & Dashboard Template" name="description"/>
 <meta content="Themesbrand" name="author"/>
 <!-- App favicon -->
-<link rel="shortcut icon" href="{{asset('assets/USER/admin/assets/images/gigi-logo.png')}}">
+<link rel="shortcut icon" href="{{asset('assets/images/sibuy.png')}}">
     <!-- preloader css -->
 <link rel="stylesheet" href="{{asset('assets/USER/admin/assets/css/preloader.min.css')}}" type="text/css" />
 
@@ -67,13 +67,13 @@
                         <div class="d-flex flex-column h-100">
                             <div class="mb-4 mb-md-5 text-center">
                                 <a href="{{url('home')}}" class="d-block auth-logo">
-                                    <img src="assets/images/gigi-logo.png" alt="" height="28"> <span class="logo-txt">GiGi</span>
+                                    <img src="assets/images/sibuy.png" alt="" height="28"> <span class="logo-txt">SiBuy365</span>
                                 </a>
                             </div>
                             <div class="auth-content my-auto">
                                 <div class="text-center">
                                     <h5 class="mb-0">Welcome Back !</h5>
-                                    <p class="text-muted mt-2">Sign in to continue to GiGi.</p>
+                                    <p class="text-muted mt-2">Sign in to continue to SiBuy365.</p>
                                     <p class="text-muted mt-2">Don't have Account? <a href="{{route('register')}}">Register Now</a> </p>
                                 </div>
 
@@ -92,8 +92,8 @@
                                 <form class="custom-form mt-4 pt-2" action="{{route('user_login')}}" method="post">
                                     @csrf
                                     <div class="mb-3 ">
-                                        <label class="form-label" for="Email">Email</label>
-                                        <input type="text" class="form-control" id="Email" placeholder="Enter Email" name="email">
+                                        <label class="form-label" for="Email">Login Credentials:</label>
+                                        <input type="text" class="form-control" id="cell_no" placeholder="Phone Number..." name="cell_no">
                                         <span class="text-danger"></span>
                                     </div>
                                     <div class="mb-3 ">
@@ -118,12 +118,16 @@
                                         <p style="text-align: center;">Forgot Your Password? 
                                             <a href="{{url('forgotPasswordRequest')}}">Click Here</a> </p>
                                     </div>
+                                    <div>
+                                        <p style="text-align: center;"> Merchant :
+                                            <a href="{{url('/register/merchant')}}"> Login / Signup </a> </p>
+                                    </div>
                                 </form>
 
                             </div>
                             <div class="mt-4 mt-md-5 text-center">
                                 <p class="mb-0">Copyright © <script>
-                                    document.write(new Date().getFullYear() + " GiGi")
+                                    document.write(new Date().getFullYear() + " Sibuy")
                                 </script>
                             </div>
                         </div>

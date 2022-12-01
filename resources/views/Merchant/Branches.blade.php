@@ -61,13 +61,9 @@
 
                 <div class="media border-bottom mb-3 pb-3 d-lg-flex d-block menu-list" style="margin-top: 2rem;">
                     <a href="#">
-                        {{-- <img class="rounded mr-3 mb-md-0 mb-3" src="{{asset('storage/'.$branch['logoPath'].'/'.$branch['logo'].'')}}"
-                            alt="" width="120"> --}}
-                        {{-- <img class="rounded mr-3 mb-md-0 mb-3"
-                            src="{{'gigiapi.zanforthstaging.com/'.$branch['logoPath'].'/'.$branch['logo'].''}}" alt="" width="120"> --}}
-
+                   
                         <img class="rounded mr-3 mb-md-0 mb-3"
-                            src="{{'https://gigiapi.zanforthstaging.com/'.$branch['logoPath'].'/'.$branch['logo'].''}}" alt="" width="120">
+                            src="{{''.config('path.path.WebPath').''.$branch['logoPath'].'/'.$branch['logo'].''}}" alt="" width="120">
 
                         {{-- <img class="rounded mr-3 mb-md-0 mb-3" src="images/menus/5.png"
                             alt="" width="120"> --}}

@@ -2,7 +2,7 @@
 <?php include 'layouts/head-main.php'; ?>
 
 <head>
-    <title>GiGi</title>
+    <title>Sibuy</title>
 
     <?php include 'layouts/head.php'; ?>
 

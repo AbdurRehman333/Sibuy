@@ -11,7 +11,7 @@ class ReviewController extends Controller
     public function getNotifications($token)
     {
         $response = Http::withToken($token);
-        $response = $response->get('gigiapi.zanforthstaging.com/api/getNotifications',[
+        $response = $response->get(''.config('path.path.WebPath').'api/getNotifications',[
             'limit' => 50,
             'page' => 1,
             'timeSort' => 'desc',
@@ -25,7 +25,7 @@ class ReviewController extends Controller
             while($right == false)
             {
                 $response = Http::withToken($token);
-                $response = $response->get('gigiapi.zanforthstaging.com/api/getNotifications',[
+                $response = $response->get(''.config('path.path.WebPath').'api/getNotifications',[
                     'limit' => 50,
                     'page' => 1,
                     'timeSort' => 'desc',
@@ -44,6 +44,44 @@ class ReviewController extends Controller
         // NEW CODE --END
         
         return $response->json();
+    }
+
+    public function AdminAcceptReview($id)
+    {
+        try{
+            // dd($id);
+            $token = session()->get('Authenticated_user_data')['token'];
+            $response = Http::withToken($token);
+            $review = $response->get(''.config('path.path.WebPath').'api/admin/getReview/'.$id.'')->json()['data'];
+            // dd($response);
+            $response = Http::withToken($token)->post(''.config('path.path.WebPath').'api/admin/editReview/'.$id.'',
+            [
+                'deal_id' => $review['deal_id'],
+                'notes' => $review['notes'],
+                'rating' => $review['rating'],
+                'status' => 'approved',
+            ]);
+            // dd($response);
+            return redirect()->back()->with('success','Review Approved Successfully!');
+
+        } catch (\Exception $e) {
+            return response()->json([
+                'Success' => 'False',
+                'Error' => $e->getMessage(),
+            ]);
+        }
+    }
+
+    public function AdminRejectReview($id)
+    {
+        try{
+
+        } catch (\Exception $e) {
+            return response()->json([
+                'Success' => 'False',
+                'Error' => $e->getMessage(),
+            ]);
+        }
     }
 
     public function AdminReviewUpdate(Request $request)
@@ -65,11 +103,9 @@ class ReviewController extends Controller
             // {
             //     $rating = 5;
             // }
-
-            
             $token = session()->get('Authenticated_user_data')['token'];
             // dd($token);
-            $response = Http::withToken($token)->post('gigiapi.zanforthstaging.com/api/admin/editReview/'.$request->review_id.'',
+            $response = Http::withToken($token)->post(''.config('path.path.WebPath').'api/admin/editReview/'.$request->review_id.'',
             [
                 'deal_id' => $request->deal_id,
                 'notes' => $request->notes,
@@ -93,12 +129,12 @@ class ReviewController extends Controller
         try{
             $token = session('Authenticated_user_data')['token'];
             $response = Http::withToken($token);
-            $response = $response->get('gigiapi.zanforthstaging.com/api/admin/getReview/'.$id.'');
+            $response = $response->get(''.config('path.path.WebPath').'api/admin/getReview/'.$id.'');
             $review = $response->json()['data'];
             // dd($review);
             $token = session('Authenticated_user_data')['token'];
             $response = Http::withToken($token);
-            $response = $response->get('gigiapi.zanforthstaging.com/api/getConversations');
+            $response = $response->get(''.config('path.path.WebPath').'api/getConversations');
             // NEW CODE -- START
             if($response->json() == null)
             {
@@ -107,7 +143,7 @@ class ReviewController extends Controller
                 while($right == false)
                 {
                     $response = Http::withToken($token);
-                    $response = $response->get('gigiapi.zanforthstaging.com/api/getConversations');
+                    $response = $response->get(''.config('path.path.WebPath').'api/getConversations');
                     if($response->json() == null)
                     {
 

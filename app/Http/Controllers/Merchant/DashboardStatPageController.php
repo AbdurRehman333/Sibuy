@@ -14,7 +14,7 @@ class DashboardStatPageController extends Controller
     //     try{
     //         $token = session('Authenticated_user_data')['token'];
     //         $response = Http::withToken($token);
-    //         $response = $response->get('gigiapi.zanforthstaging.com/api/merchant/getPurchaseDealsData' , [
+    //         $response = $response->get(''.config('path.path.WebPath').'api/merchant/getPurchaseDealsData' , [
     //             'limit' => 100000,
     //             'page' => 1,
     //             // 'returnType' => 'dataTable',
@@ -35,7 +35,7 @@ class DashboardStatPageController extends Controller
     public function getNotifications($token)
     {
         $response = Http::withToken($token);
-        $response = $response->get('gigiapi.zanforthstaging.com/api/getNotifications',[
+        $response = $response->get(''.config('path.path.WebPath').'api/getNotifications',[
             'limit' => 50,
             'page' => 1,
             'timeSort' => 'desc',
@@ -49,7 +49,7 @@ class DashboardStatPageController extends Controller
             while($right == false)
             {
                 $response = Http::withToken($token);
-                $response = $response->get('gigiapi.zanforthstaging.com/api/getNotifications',[
+                $response = $response->get(''.config('path.path.WebPath').'api/getNotifications',[
                     'limit' => 50,
                     'page' => 1,
                     'timeSort' => 'desc',
@@ -77,14 +77,14 @@ class DashboardStatPageController extends Controller
             // dd($token);
             $client = new \GuzzleHttp\Client();
             $response = Http::withToken($token);
-            // $response = $response->get('gigiapi.zanforthstaging.com/api/merchant/getDeals' , [
-            $response = $response->get('gigiapi.zanforthstaging.com/api/merchant/getCategoryStats');
+            // $response = $response->get(''.config('path.path.WebPath').'api/merchant/getDeals' , [
+            $response = $response->get(''.config('path.path.WebPath').'api/merchant/getCategoryStats');
             $deals = $response->json()['data'];
             // dd($deals);
 
             $token = session('Authenticated_user_data')['token'];
             $response = Http::withToken($token);
-            $response = $response->get('gigiapi.zanforthstaging.com/api/getConversations');
+            $response = $response->get(''.config('path.path.WebPath').'api/getConversations');
             $conversations = $response->json()['data'];
                 $token = session()->get('Authenticated_user_data')['token'];
             $notifications = $this->getNotifications($token);
@@ -94,6 +94,7 @@ class DashboardStatPageController extends Controller
             echo "var bearer_token = `". $token ."` ;";
             echo "var id = `". $id ."` ;";
             echo "</script>";
+            // dd(1);
             return view('Merchant.CategoriesStat',compact('deals','conversations','notifications'));
         } catch (\Exception $e) {
             return response()->json([
@@ -110,8 +111,8 @@ class DashboardStatPageController extends Controller
             // dd($token);
             $client = new \GuzzleHttp\Client();
             $response = Http::withToken($token);
-            // $response = $response->get('gigiapi.zanforthstaging.com/api/merchant/getDeals' , [
-            $response = $response->get('gigiapi.zanforthstaging.com/api/merchant/getPurchaseDealsData' , [
+            // $response = $response->get(''.config('path.path.WebPath').'api/merchant/getDeals' , [
+            $response = $response->get(''.config('path.path.WebPath').'api/merchant/getPurchaseDealsData' , [
                 // 'returnType' => 'customPagination',
                 // 'returnType' => 'dataTable',
                 'limit' => 100000,
@@ -123,7 +124,7 @@ class DashboardStatPageController extends Controller
             // dd($deals);
             $token = session('Authenticated_user_data')['token'];
             $response = Http::withToken($token);
-            $response = $response->get('gigiapi.zanforthstaging.com/api/getConversations');
+            $response = $response->get(''.config('path.path.WebPath').'api/getConversations');
             $conversations = $response->json()['data'];
             $token = session()->get('Authenticated_user_data')['token'];
             $notifications = $this->getNotifications($token);
@@ -150,8 +151,8 @@ class DashboardStatPageController extends Controller
             // dd($token);
             $client = new \GuzzleHttp\Client();
             $response = Http::withToken($token);
-            // $response = $response->get('gigiapi.zanforthstaging.com/api/merchant/getDeals' , [
-            $response = $response->get('gigiapi.zanforthstaging.com/api/merchant/getPurchaseDealsData' , [
+            // $response = $response->get(''.config('path.path.WebPath').'api/merchant/getDeals' , [
+            $response = $response->get(''.config('path.path.WebPath').'api/merchant/getPurchaseDealsData' , [
                 // 'returnType' => 'customPagination',
                 // 'returnType' => 'dataTable',
                 'limit' => 100000,
@@ -165,7 +166,7 @@ class DashboardStatPageController extends Controller
             // dd($deals);
             $token = session('Authenticated_user_data')['token'];
             $response = Http::withToken($token);
-            $response = $response->get('gigiapi.zanforthstaging.com/api/getConversations');
+            $response = $response->get(''.config('path.path.WebPath').'api/getConversations');
             $conversations = $response->json()['data'];
             $token = session()->get('Authenticated_user_data')['token'];
             $notifications = $this->getNotifications($token);

@@ -55,7 +55,7 @@
                 <div class="nav-grow"></div>
                 <a class="nav-logo" href="{{route('home')}}" title="Home">
                     <picture>
-                        <img class="picture logo" src="{{asset('assets/USER/img/heading/logo2.svg')}}" alt=""
+                        <img class="picture logo" src="{{asset('assets/images/sibuy.png')}}" alt=""
                             loading="eager" width="36" height="36">
                     </picture>
                 </a>
@@ -65,51 +65,60 @@
                     @if( session()->has('Authenticated_user_data') )
                     @php
                         // $country = session()->get('unAuthUserLocations')['country'];
-                        $country = session()->get('Authenticated_user_data')['location']['city'];
+                        $country = session()->get('Authenticated_user_data')['userLocations'][0]['cityName'];
                         $length = strlen($country);
                     @endphp
 
                     @if($length > 0 && $length <= 8 )
-                        <div class="nav-search navSearch {{$length}}" style="width: 49%;border:1.5px solid grey;padding:8px;border-radius: 16px;margin-bottom:4.5px;"> 
+                        <div class="nav-search navSearch {{$length}}" style="width: 46%;border:1.5px solid grey;padding:8px;border-radius: 16px;margin-bottom:4.5px;"> 
                     @elseif($length > 8 && $length <= 10)
-                        <div class="nav-search navSearch" style="width: 47%;border:1.5px solid grey;padding:8px;border-radius: 16px;margin-bottom:4.5px;"> 
+                        <div class="nav-search navSearch" style="width: 44%;border:1.5px solid grey;padding:8px;border-radius: 16px;margin-bottom:4.5px;"> 
                     @elseif($length > 10 && $length <= 12)
-                        <div class="nav-search navSearch" style="width: 45%;border:1.5px solid grey;padding:8px;border-radius: 16px;margin-bottom:4.5px;"> 
+                        <div class="nav-search navSearch" style="width: 41%;border:1.5px solid grey;padding:8px;border-radius: 16px;margin-bottom:4.5px;"> 
                     @elseif($length > 12 && $length <= 16)
-                        <div class="nav-search navSearch" style="width: 42%;border:1.5px solsid grey;padding:8px;border-radius: 16px;margin-bottom:4.5px;"> 
-                    @elseif($length > 16 && $length <= 20)
                         <div class="nav-search navSearch" style="width: 40%;border:1.5px solsid grey;padding:8px;border-radius: 16px;margin-bottom:4.5px;"> 
+                    @elseif($length > 16 && $length <= 20)
+                        <div class="nav-search navSearch" style="width: 39%;border:1.5px solsid grey;padding:8px;border-radius: 16px;margin-bottom:4.5px;"> 
+                    @else
+                        <div class="nav-search navSearch" style="width: 43%;border:1.5px solid grey;padding:8px;border-radius: 16px;margin-bottom:4.5px;"> 
+                    @endif
+
                     @else
                         <div class="nav-search navSearch" style="width: 40%;border:1.5px solid grey;padding:8px;border-radius: 16px;margin-bottom:4.5px;"> 
                     @endif
 
-                    @else
-                        <div class="nav-search navSearch" style="width: 58%;border:1.5px solid grey;padding:8px;border-radius: 16px;margin-bottom:4.5px;"> 
-                    @endif
-
                 @else
-                    @if( session()->has('unAuthUserLocations') )
-                        @php
-                            // $country = session()->get('unAuthUserLocations')['country'];
+                    {{-- @if( session()->has('unAuthUserLocations') ) --}}
+                        {{-- @php
+                    
                             $country = session()->get('unAuthUserLocations')['city'];
                             $length = strlen($country);
                         @endphp
 
                         @if($length > 0 && $length <= 8 )
-                            <div class="nav-search navSearch {{$length}}" style="width: 56%;border:1.5px solid grey;padding:8px;border-radius: 16px;margin-bottom:4.5px;"> 
+                            <div class="nav-search navSearch {{$length}}" style="width: 36%;border:1.5px solid grey;padding:8px;border-radius: 16px;margin-bottom:4.5px;"> 
                         @elseif($length > 8 && $length <= 10)
-                            <div class="nav-search navSearch" style="width: 55%;border:1.5px solid grey;padding:8px;border-radius: 16px;margin-bottom:4.5px;"> 
+                            <div class="nav-search navSearch" style="width: 35%;border:1.5px solid grey;padding:8px;border-radius: 16px;margin-bottom:4.5px;"> 
                         @elseif($length > 10 && $length <= 12)
-                            <div class="nav-search navSearch" style="width: 53%;border:1.5px solid grey;padding:8px;border-radius: 16px;margin-bottom:4.5px;"> 
+                            <div class="nav-search navSearch" style="width: 33%;border:1.5px solid grey;padding:8px;border-radius: 16px;margin-bottom:4.5px;"> 
                         @elseif($length > 12 && $length <= 16)
-                            <div class="nav-search navSearch" style="width: 50%;border:1.5px solsid grey;padding:8px;border-radius: 16px;margin-bottom:4.5px;"> 
+                            <div class="nav-search navSearch" style="width: 30%;border:1.5px solsid grey;padding:8px;border-radius: 16px;margin-bottom:4.5px;"> 
                         @else
-                            <div class="nav-search navSearch" style="width: 55%;border:1.5px solid grey;padding:8px;border-radius: 16px;margin-bottom:4.5px;"> 
-                        @endif
+                            <div class="nav-search navSearch" style="width: 36%;border:1.5px solid grey;padding:8px;border-radius: 16px;margin-bottom:4.5px;"> 
+                        @endif --}}
 
+                    {{-- @else --}}
+                        {{-- <div class="nav-search navSearch" style="width: 61%;border:1.5px solid grey;padding:8px;border-radius: 16px;margin-bottom:4.5px;">  --}}
+                    {{-- @endif --}}
+
+                    @if( session()->has('Authenticated_user_data') ) 
+                            {{-- Admin/Merchant  --}}
+                        <div class="nav-search navSearch" style="width: 61%;border:1.5px solid grey;padding:8px;border-radius: 16px;margin-bottom:4.5px;"> 
                     @else
-                        <div class="nav-search navSearch" style="width: 58%;border:1.5px solid grey;padding:8px;border-radius: 16px;margin-bottom:4.5px;"> 
+                            {{-- Guest --}}
+                        <div class="nav-search navSearch" style="width: 48%;border:1.5px solid grey;padding:8px;border-radius: 16px;margin-bottom:4.5px;"> 
                     @endif
+
                 @endif
                     {{-- <span class="icon toggle"><img src="{{asset('assets/USER/img/icons/search.svg')}}" width="21"
                             height="21" alt="search" /></span>
@@ -129,7 +138,7 @@
 
                     <span class="icon toggle" style="    margin-left: 12px;">
                         <img id="search_tag" src="{{asset('assets/USER/img/icons/search.svg')}}" width="21" height="21" alt="search" />
-                        <span style="margin-left: 20px;">Search Something On GiGi...</span>
+                        <span style="margin-left: 20px;">Search Something On Sibuy...</span>
                     </span>
                     <div class="overlay">
                         <div class="input-wrap">
@@ -195,44 +204,45 @@
                         <input type="hidden" id="location_city" value="{{session()->get('AuthenticatedUserSelectedCities')}}">
 
                         @else
-                        <input type="hidden" id="location_city" value="{{session()->get('Authenticated_user_data')['location']['city']}}">
+                        {{-- <input type="hidden" id="location_city" value="{{session()->get('Authenticated_user_data')['userLocations'][0][0]['city']}}"> --}}
+                        <input type="hidden" id="location_city" value="{{session()->get('Authenticated_user_data')['userLocations'][0]['cityName']}}">
 
                         @endif
 
-                        {{-- <input type="hidden" id="location_city" value="{{session()->get('Authenticated_user_data')['location']['city']}}"> --}}
+                        {{-- <input type="hidden" id="location_city" value="{{session()->get('Authenticated_user_data')['userLocations'][0]['city']}}"> --}}
 
                         <script>
-                            $(".locationmenu::after").css("background-color", "yellow");
-                            element = document.getElementById('target_anchor_city');
-                            // console.log(element);
+                            // $(".locationmenu::after").css("background-color", "yellow");
+                            // element = document.getElementById('target_anchor_city');
+                            // // console.log(element);
         
-                            const myElement = document.getElementById("target_anchor_city");
-                            // myElement.style.color = "red";
-                            // myElement.style.content = "red";
+                            // const myElement = document.getElementById("target_anchor_city");
+                            // // myElement.style.color = "red";
+                            // // myElement.style.content = "red";
 
-                            const city = document.getElementById("location_city").value;
-                            // console.log(city);
+                            // const city = document.getElementById("location_city").value;
+                            // // console.log(city);
 
-                            myElement.classList.add("locationmenudmmmy");
-                            str = city;
-                            var style = document.createElement('style');
-                            style.innerHTML = `
-                            a.locationmenudmmmy:after {
-                            content: "${str}" !important;
-                            font-size: 16px;
-                            padding: 7px 20px;
-                            border: 1px solid #333;
-                            border-radius: 10px;
-                            }
-                            `;
-                            document.head.appendChild(style);
+                            // myElement.classList.add("locationmenudmmmy");
+                            // str = city;
+                            // var style = document.createElement('style');
+                            // style.innerHTML = `
+                            // a.locationmenudmmmy:after {
+                            // content: "${str}" !important;
+                            // font-size: 16px;
+                            // padding: 7px 20px;
+                            // border: 1px solid #333;
+                            // border-radius: 10px;
+                            // }
+                            // `;
+                            // document.head.appendChild(style);
                             
-                            myElement.classList.add("target");
+                            // myElement.classList.add("target");
 
-                            // $('.locationmenu').attr('after','bar');
+                            // // $('.locationmenu').attr('after','bar');
 
 
-                            console.log(myElement);
+                            // console.log(myElement);
         
                             // console.log($('#target_anchor_city').value);
                             // $('.locationmenu').hover(function(){
@@ -246,19 +256,19 @@
                     {{-- IF USER IS LOGGED IN, GET IS LOCATION AND SHOW HIM RESULTS ACCORDINGLY. --}}
                     @if( !session()->has('Authenticated_user_data') )
 
-                        <script src="https://cdnjs.cloudflare.com/ajax/libs/geocomplete/1.7.0/jquery.geocomplete.min.js"
+                        {{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/geocomplete/1.7.0/jquery.geocomplete.min.js"
                             integrity="sha512-4bp4fE4hv0i/1jLM7d+gXDaCAhnXXfGBKdHrBcpGBgnz7OlFMjUgVH4kwB85YdumZrZyryaTLnqGKlbmBatCpQ=="
                             crossorigin="anonymous" referrerpolicy="no-referrer">
-                        </script>
+                        </script> --}}
                         <script>
-                            let map, infoWindow;
+                            // let map, infoWindow;
 
-                            function initMap() {
-                            map = new google.maps.Map(document.getElementById("map"), {
-                                center: { lat: -34.397, lng: 150.644 },
-                                zoom: 6,
-                            });}
-                            infoWindow = new google.maps.InfoWindow();
+                            // function initMap() {
+                            // map = new google.maps.Map(document.getElementById("map"), {
+                            //     center: { lat: -34.397, lng: 150.644 },
+                            //     zoom: 6,
+                            // });}
+                            // infoWindow = new google.maps.InfoWindow();
 
                         </script>
                         
@@ -279,106 +289,107 @@
                         @if( !session()->has('unAuthUserLocations') )
                             <script>
                                     // Try HTML5 geolocation.
-                                    if (navigator.geolocation) {
-                                        navigator.geolocation.getCurrentPosition(
-                                            (position) => {
-                                            const pos = {
-                                                lat: position.coords.latitude,
-                                                lng: position.coords.longitude,
-                                            };
-                                            document.getElementById('form_lat').value = position.coords.latitude
-                                            document.getElementById('form_long').value = position.coords.longitude
-                                            var locAPI = "https://maps.googleapis.com/maps/api/geocode/json?latlng="+position.coords.latitude+","+
-                                            position.coords.longitude+"&key=AIzaSyCbFOBJYJrSGajJcEs9qkLS_woaNxpY8R0";
-                                            $.get({
-                                                url: locAPI,
-                                                success: function(data)
-                                                {
-                                                    data.results[0].address_components.forEach(function(element){
-                                                        if(element.types[0] == 'locality' && element.types[1] == 'political')
-                                                        {
-                                                            city = element.long_name;
-                                                            document.getElementById('form_city').value = city
-                                                            console.log(document.getElementById('form_city'));
+                                    // if (navigator.geolocation) {
+                                    //     navigator.geolocation.getCurrentPosition(
+                                    //         (position) => {
+                                    //         const pos = {
+                                    //             lat: position.coords.latitude,
+                                    //             lng: position.coords.longitude,
+                                    //         };
+                                    //         document.getElementById('form_lat').value = position.coords.latitude
+                                    //         document.getElementById('form_long').value = position.coords.longitude
+                                    //         var locAPI = "https://maps.googleapis.com/maps/api/geocode/json?latlng="+position.coords.latitude+","+
+                                    //         position.coords.longitude+"&key=AIzaSyC-n4y_PakeAxZrbCGvHOqwmG63JGtsiYM";
+                                    //         $.get({
+                                    //             url: locAPI,
+                                    //             success: function(data)
+                                    //             {
+                                    //                 console.log(data);
+                                    //                 data.results[0].address_components.forEach(function(element){
+                                    //                     if(element.types[0] == 'locality' && element.types[1] == 'political')
+                                    //                     {
+                                    //                         city = element.long_name;
+                                    //                         document.getElementById('form_city').value = city
+                                    //                         console.log(document.getElementById('form_city'));
 
-                                                        }
-                                                        if(element.types[0] == 'country' && element.types[1] == 'political')
-                                                        {
-                                                            country = element.long_name;
-                                                            document.getElementById('form_country').value = country
-                                                        }
-                                                    });
-                                                    document.getElementById("UnAuthAutoFetch").submit();
-                                                }
-                                            })
-                                            infoWindow.setPosition(pos);
-                                            infoWindow.setContent("Location found.");
-                                            infoWindow.open(map);
-                                            map.setCenter(pos);
-                                            },
-                                            () => {
-                                            handleLocationError(true, infoWindow, map.getCenter());
-                                            }
-                                        );
-                                    } else {
-                                    // Browser doesn't support Geolocation
-                                    alert('Allow Your Location For Your Location-Specific Result.');
-                                    handleLocationError(false, infoWindow, map.getCenter());
-                                    }
-                                function handleLocationError(browserHasGeolocation, infoWindow, pos) {
-                                infoWindow.setPosition(pos);
-                                infoWindow.setContent(
-                                    browserHasGeolocation
-                                    ? "Error: The Geolocation service failed."
-                                    : "Error: Your browser doesn't support geolocation."
-                                );
-                                infoWindow.open(map);
-                                }
-                                window.initMap = initMap;
-                                console.log('upper');
+                                    //                     }
+                                    //                     if(element.types[0] == 'country' && element.types[1] == 'political')
+                                    //                     {
+                                    //                         country = element.long_name;
+                                    //                         document.getElementById('form_country').value = country
+                                    //                     }
+                                    //                 });
+                                    //                 document.getElementById("UnAuthAutoFetch").submit();
+                                    //             }
+                                    //         })
+                                    //         infoWindow.setPosition(pos);
+                                    //         infoWindow.setContent("Location found.");
+                                    //         infoWindow.open(map);
+                                    //         map.setCenter(pos);
+                                    //         },
+                                    //         () => {
+                                    //         handleLocationError(true, infoWindow, map.getCenter());
+                                    //         }
+                                    //     );
+                                    // } else {
+                                    // // Browser doesn't support Geolocation
+                                    // alert('Allow Your Location For Your Location-Specific Result.');
+                                    // handleLocationError(false, infoWindow, map.getCenter());
+                                    // }
+                                // function handleLocationError(browserHasGeolocation, infoWindow, pos) {
+                                // infoWindow.setPosition(pos);
+                                // infoWindow.setContent(
+                                //     browserHasGeolocation
+                                //     ? "Error: The Geolocation service failed."
+                                //     : "Error: Your browser doesn't support geolocation."
+                                // );
+                                // infoWindow.open(map);
+                                // }
+                                // window.initMap = initMap;
+                                // console.log('upper');
                             </script>
 
                         @else
 
-                            <input type="hidden" id="location_city" value="{{session()->get('unAuthUserLocations')['city']}}">
-                            <input type="hidden" id="location_country" value="{{session()->get('unAuthUserLocations')['country']}}">
+                            {{-- <input type="hidden" id="location_city" value="{{session()->get('unAuthUserLocations')[0]['cityName']}}">
+                            <input type="hidden" id="location_country" value="{{session()->get('unAuthUserLocations')[0]['countryName']}}"> --}}
 
                             <script>
-                                console.log('lower');
-                                $(".locationmenu::after").css("background-color", "yellow");
-                                element = document.getElementById('target_anchor_city');
-                                // console.log(element);
+                                // console.log('lower');
+                                // $(".locationmenu::after").css("background-color", "yellow");
+                                // element = document.getElementById('target_anchor_city');
+                                // // console.log(element);
             
-                                const myElement = document.getElementById("target_anchor_city");
-                                // myElement.style.color = "red";
-                                // myElement.style.content = "red";
+                                // const myElement = document.getElementById("target_anchor_city");
+                                // // myElement.style.color = "red";
+                                // // myElement.style.content = "red";
 
-                                const city = document.getElementById("location_city").value;
-                                const country = document.getElementById("location_country").value;
-                                // console.log(city);
+                                // const city = document.getElementById("location_city").value;
+                                // const country = document.getElementById("location_country").value;
+                                // // console.log(city);
 
                                
 
 
-                                myElement.classList.add("locationmenudmmmy");
+                                // myElement.classList.add("locationmenudmmmy");
+                                // // str = city;
+                                // // str = country;
                                 // str = city;
-                                // str = country;
-                                str = city;
 
-                                // str = `${city}, ${country}`;
-                                var style = document.createElement('style');
-                                style.innerHTML = `
-                                a.locationmenudmmmy:after {
-                                content: "${str}" !important;
-                                font-size: 16px;
-                                padding: 7px 20px;
-                                border: 1px solid #333;
-                                border-radius: 10px;
-                                }
-                                `;
-                                document.head.appendChild(style);
+                                // // str = `${city}, ${country}`;
+                                // var style = document.createElement('style');
+                                // style.innerHTML = `
+                                // a.locationmenudmmmy:after {
+                                // content: "${str}" !important;
+                                // font-size: 16px;
+                                // padding: 7px 20px;
+                                // border: 1px solid #333;
+                                // border-radius: 10px;
+                                // }
+                                // `;
+                                // document.head.appendChild(style);
                                 
-                                myElement.classList.add("target");
+                                // myElement.classList.add("target");
                                 // console.log(myElement);
         
                             </script>
@@ -391,14 +402,14 @@
                         </script>
                     @elseif(session()->has('Authenticated_user_data') && session()->get('Authenticated_user_data')['type'] == 1)
 
-                    <input type="hidden" id="location_city" value="{{session()->get('Authenticated_user_data')['location']['city']}}">
-                    <input type="hidden" id="location_country" value="{{session()->get('Authenticated_user_data')['location']['country']}}">
+                    <input type="hidden" id="location_city" value="{{session()->get('Authenticated_user_data')['userLocations'][0]['city']}}">
+                    <input type="hidden" id="location_country" value="{{session()->get('Authenticated_user_data')['userLocations'][0]['country']}}">
 
                     <script>
-                        console.log('lower');
+                        // console.log('lower');
                         $(".locationmenu::after").css("background-color", "yellow");
                         element = document.getElementById('target_anchor_city');
-                        // console.log(element);
+                        console.log(element);
     
                         const myElementinAuth = document.getElementById("target_anchor_city");
                         // myElementinAuth.style.color = "red";
@@ -414,8 +425,9 @@
                         myElementinAuth.classList.add("locationmenudmmmy");
                         // str = city;
                         // str = country;
-                        str = cityAuth;
+                        // str = cityAuth;
 
+                        str = `${cityAuth}`;
                         // str = `${city}, ${country}`;
                         var style = document.createElement('style');
                         style.innerHTML = `
@@ -986,7 +998,7 @@
                                                                 class="sub-menu-button__icon icon-eye "></span>
                                                         </span>
                                                         <div class="sub-menu-button__text">
-                                                            <span class="sub-menu-button__title "> Discover GiGi
+                                                            <span class="sub-menu-button__title "> Discover Sibuy
                                                             </span>
                                                             <div class="sub-menu-button__subtitle"> Browse All Discounts
                                                             </div>
@@ -1043,8 +1055,8 @@
                                         <div class="sub-menu not_to_change">
                                             
                                             @if( !session()->has('Authenticated_user_data') && session()->has('unAuthUserLocations'))
-                                                <div class="sub-menu__header not_to_change">
-                                                    {{-- <h4 class="sub-menu__title">Select City</h4> --}}
+                                                {{-- <div class="sub-menu__header not_to_change">
+                                                    
                                                     <p class="sub-menu__subtitle">Select Another City.</p>
                                                 </div>
                                                 <div class="sub-menu__list">
@@ -1063,9 +1075,9 @@
                                                         
 
                                                     </div>
-                                                </div>
+                                                </div> --}}
                                             @elseif(session()->has('Authenticated_user_data') && session()->get('Authenticated_user_data')['type'] == 1)
-                                                <div class="sub-menu__header not_to_change">
+                                                {{-- <div class="sub-menu__header not_to_change">
                                                     <p class="sub-menu__subtitle">Select Another City.</p>
                                                 </div>
                                                 <div class="sub-menu__list">
@@ -1101,7 +1113,7 @@
                                                         
 
                                                     </div>
-                                                </div>
+                                                </div> --}}
                                             @endif
 
                                             
@@ -2452,8 +2464,133 @@
                     </div>
                 </div> --}}
 
+                <style>
+                    #lang_drop_down_id{
+                        /* display: block; */
+                        visibility: hidden;
+                        position: fixed;
+
+                        background: white;
+                        border: 1px solid black;
+                        border-radius: 12px;
+                        padding: 9px;
+                        width: 110px;
+                        margin-top: 10px;
+                        /* margin-right: 5px; */
+                        margin-left: -43px;
+                    }
+                    .marginTop{
+                        /* margin-top: 88px; */
+                    }
+                </style>
+
+
+                @if(!session()->has('Authenticated_user_data') || session()->get('Authenticated_user_data')['type'] == 1)
+                <a class="nav-buy" href="#" data-shop-count="0">
+                    <div style="padding: 0;
+                    background: white;" class="gradient-button-blue-small flatcolor OnHoverForLangDrop" id="LangDropDownButton"> <img loading="lazy" class="flag"
+                        src="{{asset('assets/USER/img/icons/flags/gb.svg')}}" alt="United Kingdom"
+                        width="23" height="17" /> </div>
+                    <div class="lang_drop_down OnHoverForLangDrop" id="lang_drop_down_id">
+                        <ul style="list-style: none; width:120px;" >
+                            <li><img loading="lazy" class="flag"
+                                src="{{asset('assets/USER/img/icons/flags/gb.svg')}}" alt="United Kingdom"
+                                width="23" height="17" /> 
+                                
+                                <span onclick="location.href='ChangeLang/En'" class="name"> English </span>
+                            
+                            </li>
+                            <li> <img loading="lazy" class="flag"
+                                src="{{asset('assets/USER/img/icons/flags/china.png')}}" alt="Cambodia" style="    height: 123%;"
+                                width="23" height="17" />  Chinese </li>
+                            <li> <img loading="lazy" class="flag"
+                                src="{{asset('assets/USER/img/icons/flags/cambodia.png')}}" alt="Cambodia" style="    height: 123%;"
+                                width="23" height="17" /> <span class="name"> Khmer </li>
+                        </ul>
+                    </div>
+                </a>
+                @endif
 
                 
+
+                <script>
+                    $(".OnHoverForLangDrop").hover(function(){
+                        document.getElementById('LangDropDownButton').classList.add("marginTop");
+                        // document.getElementById('lang_drop_down_id').style.display = "block";
+                        document.getElementById('lang_drop_down_id').style.visibility = "visible";
+                    }, function(){
+                        console.log('left');
+
+                        setTimeout(function(){
+
+                            console.log('timeout');
+
+                            // $(document).mousemove(function(){
+                                if($(".OnHoverForLangDrop:hover").length != 0){
+                                    // alert(1);
+                                    console.log('Hold');
+                                    // $(".hint").text("Mouse is Over the DIV Element.");
+                                } else{
+
+                                    console.log('Hide');
+
+                                    document.getElementById('LangDropDownButton').classList.remove("marginTop");
+                                    document.getElementById('lang_drop_down_id').style.visibility = "hidden";
+                                    // alert(2);
+                                    // $(".hint").text("Mouse is Outside the DIV Element.");
+                                }
+                            // });
+
+                        }, 600);
+
+
+                        // if()
+
+                        // setTimeout(function(){
+                            // document.getElementById('LangDropDownButton').classList.remove("marginTop");
+                            // document.getElementById('lang_drop_down_id').style.visibility = "hidden";
+                        //  }, 1200);
+
+                        // document.getElementById('LangDropDownButton').classList.remove("marginTop");
+                        // // document.getElementById('lang_drop_down_id').style.display = "none";
+                        // document.getElementById('lang_drop_down_id').style.visibility = "hidden";
+                    });
+
+                    // $("#LangDropDownButton").hover(function(){
+                    //     document.getElementById('LangDropDownButton').classList.add("marginTop");
+                    //     // document.getElementById('lang_drop_down_id').style.display = "block";
+                    //     document.getElementById('lang_drop_down_id').style.visibility = "visible";
+                    // }, function(){
+
+                    //     setTimeout(function(){
+                    //         document.getElementById('LangDropDownButton').classList.remove("marginTop");
+                    //         document.getElementById('lang_drop_down_id').style.visibility = "hidden";
+
+                    //      }, 1200);
+
+                    //     // document.getElementById('LangDropDownButton').classList.remove("marginTop");
+                    //     // // document.getElementById('lang_drop_down_id').style.display = "none";
+                    //     // document.getElementById('lang_drop_down_id').style.visibility = "hidden";
+                    // });
+
+                    // $("#lang_drop_down_id").hover(function(){
+                    //     document.getElementById('LangDropDownButton').classList.add("marginTop");
+                    //     document.getElementById('lang_drop_down_id').style.visibility = "visible";
+                    //     // document.getElementById('lang_drop_down_id').style.display = "block";
+                    // }, function(){
+
+                    //     setTimeout(function(){
+                    //         document.getElementById('LangDropDownButton').classList.remove("marginTop");
+                    //         document.getElementById('lang_drop_down_id').style.visibility = "hidden";
+
+                    //      }, 1200);
+
+                    //     // document.getElementById('LangDropDownButton').classList.remove("marginTop");
+                    //     // document.getElementById('lang_drop_down_id').style.visibility = "hidden";
+
+                    //     // document.getElementById('lang_drop_down_id').style.display = "none";
+                    // });
+                </script>
 
 
                 @if(session()->has('Authenticated_user_data') && session()->get('Authenticated_user_data')['type'] == 1)
@@ -2562,105 +2699,15 @@
                 </div>
                 
                 @endif
-                {{-- <script>
-                    Pusher.logToConsole = true;
-                
-                    var pusher = new Pusher('814fe1b741785e7ace5e', {
-                        cluster: 'ap2',
-                        authEndpoint: "https://gigiapi.zanforthstaging.com/api/channelAuthorization",
-                        auth: {
-                            headers: {
-                                "Authorization": `Bearer ${bearer_token}`,
-                                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                            }
-                        }
-                    });
-                
-                    // var channel = pusher.subscribe(`private-messages-channel.${id}`);
-                    var channel = pusher.subscribe(`private-notification-channel.${id}`);
-                    channel.bind('notification.received', function(data) {
-
-                        // alert(data);
-                        console.log('---------------------------');
-                        console.log(data.notification.message);
-
-                        // $(`<div class="notification">
-                        //         ${data.notification.message}
-                        //          </div> `).insertBefore(".note_starter");
-
-
-                        if( data.notification.subject == 'Wishlist updated')
-                        {
-                            $(` <a class="note_anchors" href="{{url('wishlist')}}">
-                                            <div class="notification" style="background: #fac8c8">
-                                                ${data.notification.message}
-                                            </div>
-                                        </a>
-                                `).insertAfter(".note_starter");
-                        }
-                        else if( data.notification.subject == 'New Deal')
-                        {
-                            $(` <a class="note_anchors" href="{{url('wishlist')}}">
-                                    <div class="notification" style="background: #bbb8ec">
-                                                ${data.notification.message}
-                                            </div>
-                                        </a>
-                                `).insertAfter(".note_starter");
-                        }
-                        else if( data.notification.subject == 'New Deal Purchased')
-                        {
-                            $(` <a class="note_anchors" href="{{url('wishlist')}}">
-                                    <div class="notification" style="background: #69a6c5">
-                                                ${data.notification.message}
-                                            </div>
-                                        </a>
-                                `).insertAfter(".note_starter");
-                        }
-                        else
-                        {
-                            $(`<div class="notification" style="background-color: #a8d2ee;">
-                                ${data.notification.message}
-                                 </div> `).insertAfter(".note_starter");
-                        }
-
-                     
-                        // $(".fa fa-bell").css("color", "yellow");
-                        document.getElementById('bellIcon').style.color = "#2f8fb3";
-                        // document.getElementById('bellIcon').style.font-size = "26px";.
-                        $("#bellIcon").css("font-size", "26px");
-                        
-                
-                    });
-                
-
-                    // $( document ).ready(function() {
-
-                            $("#bellIcon").click(function(){
-
-                            console.log(document.getElementById('bellIcon'));
-
-                            document.getElementById('bellIcon').style.color = "black";
-                            $("#bellIcon").css("font-size", "20px");
-                            });
-                    // });
-
-                    
-
-                </script> --}}
-                
-                {{-- <script>
-                    $("#buttontoprepend").click(function(){
-                       console.log('hi');
-                           $("<span>Hello world!</span>").insertBefore(".notification");
-                       });
-               </script> --}}
-
-               
-               
-
-                <a class="nav-buy" href="{{url('boost')}}" data-shop-count="0">
-                    <div class="gradient-button-blue-small flatcolor">Boost</div>
+            
+                @if(!session()->has('Authenticated_user_data'))
+                <a class="nav-buy" href="{{url('aboutus')}}" data-shop-count="0">
+                    <div class="gradient-button-blue-small flatcolor">About Us</div>
                 </a>
+                @endif
+                
+
+
                 <style>
                     #modal_button_just_space{
                         display:none;
@@ -2985,9 +3032,6 @@
 
 
 
-
-
-
                 @if(session()->has('Authenticated_user_data'))
                 {{-- <a class="nav-buy" href="{{url('cart')}}">
                     <img src="{{asset('assets/USER/shopping-cart.svg')}}" width="40px" alt="">
@@ -2996,7 +3040,7 @@
                 @if(session()->get('Authenticated_user_data')['type'] == 1)
 
 
-                <a class="nav-buy" href="{{url('userChat')}}" data-shop-count="0">
+                {{-- <a class="nav-buy" href="{{url('userChat')}}" data-shop-count="0">
                     <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path
                             d="M22.4605 3.84888H5.31688C4.64748 3.84961 4.00571 4.11586 3.53237 4.58919C3.05903 5.06253 2.79279 5.7043 2.79205 6.3737V18.1562C2.79279 18.8256 3.05903 19.4674 3.53237 19.9407C4.00571 20.4141 4.64748 20.6803 5.31688 20.6811C5.54005 20.6812 5.75404 20.7699 5.91184 20.9277C6.06964 21.0855 6.15836 21.2995 6.15849 21.5227V23.3168C6.15849 23.6215 6.24118 23.9204 6.39774 24.1818C6.5543 24.4431 6.77886 24.6571 7.04747 24.8009C7.31608 24.9446 7.61867 25.0128 7.92298 24.9981C8.22729 24.9834 8.52189 24.8863 8.77539 24.7173L14.6173 20.8224C14.7554 20.7299 14.918 20.6807 15.0842 20.6811H19.187C19.7383 20.68 20.2743 20.4994 20.7137 20.1664C21.1531 19.8335 21.4721 19.3664 21.6222 18.8359L24.8966 7.05011C24.9999 6.67481 25.0152 6.28074 24.9414 5.89856C24.8675 5.51637 24.7064 5.15639 24.4707 4.84663C24.235 4.53687 23.931 4.28568 23.5823 4.11263C23.2336 3.93957 22.8497 3.84931 22.4605 3.84888ZM23.2733 6.60304L20.0006 18.3847C19.95 18.5614 19.8432 18.7168 19.6964 18.8275C19.5496 18.9381 19.3708 18.9979 19.187 18.9978H15.0842C14.5856 18.9972 14.0981 19.1448 13.6837 19.4219L7.84171 23.3168V21.5227C7.84097 20.8533 7.57473 20.2115 7.10139 19.7382C6.62805 19.2648 5.98628 18.9986 5.31688 18.9978C5.09371 18.9977 4.87972 18.909 4.72192 18.7512C4.56412 18.5934 4.4754 18.3794 4.47527 18.1562V6.3737C4.4754 6.15054 4.56412 5.93655 4.72192 5.77874C4.87972 5.62094 5.09371 5.53223 5.31688 5.5321H22.4605C22.5905 5.53243 22.7188 5.56277 22.8353 5.62076C22.9517 5.67875 23.0532 5.76283 23.1318 5.86646C23.2105 5.97008 23.2642 6.09045 23.2887 6.21821C23.3132 6.34597 23.308 6.47766 23.2733 6.60304Z"
@@ -3009,7 +3053,7 @@
                             fill="#0B2A97" />
                     </svg>
 
-                </a>
+                </a> --}}
                 @endif
 
                 @endif
@@ -3021,7 +3065,6 @@
 
 
                 {{-- <a class="nav-user-login fas fa-user" href="{{route('myprofile')}}" title="Login">
-
                 </a> --}}
 
                 {{-- <a class="nav-buy" href="#" title="Logout">
@@ -3031,12 +3074,50 @@
                                 alt=""> </button>
                     </form>
                 </a> --}}
+                <style>
+                    .nav-user-login:hover{
+                        text-decoration: none;
+                        color: black;
+                    }
+                    .nav-user-login:focus{
+                        text-decoration: none;
+                        color: black;
+                    }
+                </style>
 
+                @if(session()->get('Authenticated_user_data')['type'] == 1)
+                <a class="nav-user-login fa fa-shopping-cart" href="{{route('cart')}}" title="Cart"> 
+
+                    
+                    @if(session()->has('cart_info'))
+                        @php
+                            $session_data = session()->get('cart_info');
+                        @endphp
+                        {{-- @if(session()->get('cart_info')) --}}
+
+                        @if(count($session_data) !== 0)
+                            <span style="    position: absolute;
+                            color: black;
+                            background: yellow;
+                            font-size: 17px;
+                            margin-top: 0px;
+                            margin-bottom: 23px;
+                            border-radius: 28px;
+                            margin-left: 19px;
+                            width: 18px;
+                            text-align: -webkit-center;">{{count($session_data)}}</span> 
+                        @endif
+                    @endif
+                    
+                </a>
+                <a class="nav-user-login fa fa-heart" href="{{route('wishlist')}}" title="Wishlist"></a>
+                @endif
+                
                 @else
 
-                @guest
-                <a class="nav-user-login fas fa-user" href="{{route('login')}}" title="Login"></a>
-                @endguest
+                    @guest
+                    <a class="nav-user-login fas fa-user" href="{{route('login')}}" title="Login"></a>
+                    @endguest
 
                 @endif
 
@@ -3044,7 +3125,7 @@
 
                 <style>
                     .nav-cart__popup .cart{
-                        min-width: 250px;
+                        min-width: 292px;
                     }
                     .anchors_in_nav_purple{
                         text-decoration: none;
@@ -3054,12 +3135,23 @@
                     }
                 </style>
 
+                {{-- @if(session()->has('Authenticated_user_data') && session()->get('Authenticated_user_data')['type'] == 1)   --}}
                 @if(session()->has('Authenticated_user_data'))  
                 <div class="nav-cart" data-count="0">
                     <div class="position-relative">
                         <div class="toggle">
 
+                            @if(session()->get('Authenticated_user_data')['type'] == 1)
                             <img src="https://i.picsum.photos/id/962/200/200.jpg?hmac=XehF7z9JYkgC-2ZfSP05h7eyumIq9wNKUDoCLklIhr4" style="border-radius: 12px;" width="25px;" alt="">
+                            @else
+                            <img 
+                                style="height: 28px;
+                                width: 32px ; border-radius: 12px;"
+                            src="https://images.unsplash.com/14/unsplash_523e559b422b3_1.JPG?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=130&q=100" alt="">
+
+                            @endif
+
+
                         </div>
                         <div class="nav-cart__nipple">
                             <div class="nipple" style="background: #010080;"></div>
@@ -3077,7 +3169,7 @@
                                 <a href="{{url('myprofile')}}" class="anchors_in_nav_purple"> 
                                 <div style="color: white;x"> 
                                     <h4> <i class="fa fa-bars" aria-hidden="true"></i>
-                                         <span style="margin-left: 10px;">My GiGi</span> </h4>
+                                         <span style="margin-left: 10px;">My Sibuy</span> </h4>
                                 </div>
 
                                 <a href="{{url('wishlist')}}" class="anchors_in_nav_purple"> 
@@ -3095,20 +3187,30 @@
                                 </div>
                                 </a>
 
+                                <a href="{{url('ReferralCode')}}" class="anchors_in_nav_purple"> 
+                                    <div style="color: white;x"> 
+                                        <h4> <i class="fa fa-share" aria-hidden="true" style="font-size: 17px;"></i>
+                                            {{-- <i class="fa fa-user-plus" aria-hidden="true"></i> --}}
+
+
+                                             <span style="margin-left: 10px;">Refer a Friend!</span> </h4>
+                                    </div>
+                                </a>
+
                                 <a href="{{url('userChat')}}" class="anchors_in_nav_purple chat_icon_inPurple"> 
                                     <div style="color: white;x"> 
                                         <h4 style="    margin-left: 2px;"> <i class="fa fa-envelope" aria-hidden="true"></i>
                                              <span style="margin-left: 10px;">Chat</span> </h4>
                                 </div>
-                            </a>
+                                </a>
 
-                            <style>
-                                @media only screen and (min-width: 676px) {
-                                    .chat_icon_inPurple {
-                                        display:none;
-                                }
-                                }
-                            </style>
+                                <style>
+                                    @media only screen and (min-width: 676px) {
+                                        .chat_icon_inPurple {
+                                            display:none;
+                                    }
+                                    }
+                                </style>
 
 
 
@@ -3118,14 +3220,14 @@
                                 <a href="{{url('MerchantDashboard')}}" class="anchors_in_nav_purple"> 
                                     <div style="color: white;x"> 
                                         <h4> <i class="fa fa-bars" aria-hidden="true"></i>
-                                             <span style="margin-left: 10px;">My GiGi</span> </h4>
+                                             <span style="margin-left: 10px;">My Sibuy</span> </h4>
                                     </div>
                                     </a>
                                 @elseif(session('Authenticated_user_data')['type'] == 3)
                                 <a href="{{url('AdminDashboard')}}" class="anchors_in_nav_purple"> 
                                     <div style="color: white;x"> 
                                         <h4> <i class="fa fa-bars" aria-hidden="true"></i>
-                                             <span style="margin-left: 10px;">My GiGi</span> </h4>
+                                             <span style="margin-left: 10px;">My Sibuy</span> </h4>
                                     </div>
                                     </a>
                                 @endif

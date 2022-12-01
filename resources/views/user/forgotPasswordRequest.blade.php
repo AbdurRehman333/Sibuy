@@ -2,13 +2,13 @@
 <html lang="en">
 <head>
 
-    <title>Login | GiGi</title>
+    <title>Forgot Password | SiBuy365</title>
     <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta content="Premium Multipurpose Admin & Dashboard Template" name="description"/>
 <meta content="Themesbrand" name="author"/>
 <!-- App favicon -->
-<link rel="shortcut icon" href="{{asset('assets/USER/admin/assets/images/gigi-logo.png')}}">
+<link rel="shortcut icon" href="{{asset('assets/images/sibuy.png')}}">
     <!-- preloader css -->
 <link rel="stylesheet" href="{{asset('assets/USER/admin/assets/css/preloader.min.css')}}" type="text/css" />
 
@@ -67,14 +67,14 @@
                         <div class="d-flex flex-column h-100">
                             <div class="mb-4 mb-md-5 text-center">
                                 <a href="{{url('home')}}" class="d-block auth-logo">
-                                    <img src="assets/images/gigi-logo.png" alt="" height="28"> <span class="logo-txt">GiGi</span>
+                                    <img src="assets/images/sibuy.png" alt="" height="28"> <span class="logo-txt">Sibuy</span>
                                 </a>
                             </div>
                             <div class="auth-content my-auto">
                                 <div class="text-center">
                                     <h5 class="mb-0">Password Recovery !</h5>
                                     <p class="text-muted mt-2">Forgot Your Password? No Worries.</p>
-                                    <p class="text-muted mt-2">We Will Send Your New Password To Your Email.</p>
+                                    {{-- <p class="text-muted mt-2">We Will Send Your New Password To Your Email.</p> --}}
                                     {{-- <p class="text-muted mt-2">Didn't Receive a Code? <a  href="{{route('resendCodeRequest')}}">Resend Code</a> </p> --}}
                                     {{-- <p class="text-muted mt-2">Didn't Receive a Code? <a  href="#" type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" >Resend Code</a> </p> --}}
                                 </div>
@@ -94,8 +94,8 @@
                                 <form class="custom-form mt-4 pt-2" action="{{route('forgotPasswordRequestConfirm')}}" method="post">
                                     @csrf
                                     <div class="mb-3 ">
-                                        <label class="form-label" for="Email">Enter Your Email Here:</label>
-                                        <input type="text" class="form-control" id="Email" placeholder="Email" name="email">
+                                        <label class="form-label" for="Email">Enter Your Phone Number Here:</label>
+                                        <input type="text" class="form-control" id="Email" placeholder="Phone Number" name="email">
                                         <span class="text-danger"></span>
                                     </div>
                                     <div class="row mb-4">
@@ -116,7 +116,7 @@
 
                             <div class="mt-4 mt-md-5 text-center">
                                 <p class="mb-0">Copyright © <script>
-                                    document.write(new Date().getFullYear() + " GiGi")
+                                    document.write(new Date().getFullYear() + " Sibuy")
                                 </script>
                             </div>
                         </div>

@@ -41,7 +41,7 @@ if (isset($_POST['title'])) {
 }
 ?>
 <head>
-    <title>GiGi</title>
+    <title>Sibuy</title>
 
     <?php include 'layouts/head.php'; ?>
 

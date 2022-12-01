@@ -12,7 +12,7 @@ class MerchantSettingController extends Controller
     public function getNotifications($token)
     {
         $response = Http::withToken($token);
-        $response = $response->get('gigiapi.zanforthstaging.com/api/getNotifications',[
+        $response = $response->get(''.config('path.path.WebPath').'api/getNotifications',[
             'limit' => 50,
             'page' => 1,
             'timeSort' => 'desc',
@@ -26,7 +26,7 @@ class MerchantSettingController extends Controller
             while($right == false)
             {
                 $response = Http::withToken($token);
-                $response = $response->get('gigiapi.zanforthstaging.com/api/getNotifications',[
+                $response = $response->get(''.config('path.path.WebPath').'api/getNotifications',[
                     'limit' => 50,
                     'page' => 1,
                     'timeSort' => 'desc',
@@ -56,7 +56,7 @@ class MerchantSettingController extends Controller
     // {
     //     try{
     //         // dd($request);
-    //         $url = 'gigiapi.zanforthstaging.com/api/login';
+    //         $url = ''.config('path.path.WebPath').'api/login';
     //         $data = [
     //             'email' => $request->email,
     //             'password' => $request->password,
@@ -93,7 +93,7 @@ class MerchantSettingController extends Controller
     //     $id = session('Authenticated_user_data')['id'];
     //     $token = session('Authenticated_user_data')['token'];
     //     $response = Http::withToken($token);
-    //     $response = $response->get('gigiapi.zanforthstaging.com/api/getConversations');
+    //     $response = $response->get(''.config('path.path.WebPath').'api/getConversations');
     //     $conversations = $response->json()['data'];
 
     //     echo "<script>";
@@ -111,7 +111,7 @@ class MerchantSettingController extends Controller
         {
             $token = session('Authenticated_user_data')['token'];
             $response = Http::withToken($token);
-            $response = $response->post('gigiapi.zanforthstaging.com/api/merchant/updatePassword', $request->all());
+            $response = $response->post(''.config('path.path.WebPath').'api/merchant/updatePassword', $request->all());
             $response = $response->json();
             // dd($response);
 
@@ -141,8 +141,8 @@ class MerchantSettingController extends Controller
 
     public function MerchantProfileUpdate(Request $request)
     {
-        try 
-        {
+        // try 
+        // {
             // dd();
             if(session('Authenticated_user_data')['date_of_birth'] == null)
             {
@@ -153,18 +153,35 @@ class MerchantSettingController extends Controller
                 $dob = session('Authenticated_user_data')['date_of_birth'];
             }
             $token = session('Authenticated_user_data')['token'];
+            // dd($token);
             $response = Http::withToken($token);
             if($request->hasFile('profile_picture'))
             {
                 $response = $response->attach('profile_picture', file_get_contents($request->profile_picture), 'dP.png');
             }
+
+            if($request->hasFile('documents')){
+                foreach ($request->files->get('documents') as $key => $img) {
+                    $file = $request->file('documents')[$key];
+                    $response = $response->attach('documents['.$key.']', $file->get(), $file->getClientOriginalName());
+                }
+            }
+            
             // dd($request);
-            // $response = $response->post('gigiapi.zanforthstaging.com/api/merchant/updateProfile', $request->all());
-            $response = $response->post('gigiapi.zanforthstaging.com/api/merchant/updateProfile', [
+
+            // $response = $response->post(''.config('path.path.WebPath').'api/merchant/updateProfile', $request->all());
+            $response = $response->post(''.config('path.path.WebPath').'api/merchant/updateProfile', [
                 'name' => $request->name,
                 'phone_no' => $request->phone_no,
+                'address' => $request->address,
+                'registration_number' => $request->registration_number,
+                'patent_number' => $request->patent_number,
+                'opening_time' => $request->opening_time,
+                'closing_time' => $request->closing_time,
+                'operation_days' => json_encode($request->operation_days),
                 'date_of_birth' => $dob,
             ]);
+            // dd($response);
             $response = $response->json();
 
 
@@ -172,8 +189,6 @@ class MerchantSettingController extends Controller
             {
                 return redirect()->back()->with('alert',$response['error']);
             }
-
-            // dd($response);
 
             // To Update Session, I made a $data array.
             $data['userData'] = $response['data'];
@@ -184,13 +199,13 @@ class MerchantSettingController extends Controller
             }
             // dd($data);
             return redirect()->back()->with('success', 'Profile Updated!');
-        } catch (\Exception $e) {
-            return response()->json([
-                'Success' => 'False',
-                'Error' => $e->getMessage(),
-                // 'Message' => $response->json()['error'],
-            ]);
-        }
+        // } catch (\Exception $e) {
+        //     return response()->json([
+        //         'Success' => 'False',
+        //         'Error' => $e->getMessage(),
+        //         // 'Message' => $response->json()['error'],
+        //     ]);
+        // }
     }
     public function MerchantSettings()
     {
@@ -198,9 +213,14 @@ class MerchantSettingController extends Controller
             $id = session('Authenticated_user_data')['id'];
             $token = session('Authenticated_user_data')['token'];
             $response = Http::withToken($token);
-            $response = $response->get('gigiapi.zanforthstaging.com/api/getConversations');
+            $response = $response->get(''.config('path.path.WebPath').'api/getConversations');
             $conversations = $response->json()['data'];
 
+            $response = Http::withToken($token);
+            $response = $response->get(''.config('path.path.WebPath').'api/merchant/getProfile');
+            $profile = $response->json()['data'];
+            // dd($profile);
+            // dd($profile['businessDetails'][0]['operating_days']);
             $token = session()->get('Authenticated_user_data')['token'];
             $notifications = $this->getNotifications($token);
             $notifications =  $notifications['data'];
@@ -210,7 +230,7 @@ class MerchantSettingController extends Controller
             echo "var id = `". $id ."` ;";
             echo "</script>";
 
-            return view('Merchant.settings', compact('id','conversations','notifications'));
+            return view('Merchant.settings', compact('id','conversations','notifications','profile'));
         } catch (\Exception $e) {
             return response()->json([
                 'Success' => 'False',

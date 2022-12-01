@@ -17,7 +17,7 @@ class AdminHomeController extends Controller
     public function getNotifications($token)
     {
         $response = Http::withToken($token);
-        $response = $response->get('gigiapi.zanforthstaging.com/api/getNotifications',[
+        $response = $response->get(''.config('path.path.WebPath').'api/getNotifications',[
             'limit' => 50,
             'page' => 1,
             'timeSort' => 'desc',
@@ -31,7 +31,7 @@ class AdminHomeController extends Controller
             while($right == false)
             {
                 $response = Http::withToken($token);
-                $response = $response->get('gigiapi.zanforthstaging.com/api/getNotifications',[
+                $response = $response->get(''.config('path.path.WebPath').'api/getNotifications',[
                     'limit' => 50,
                     'page' => 1,
                     'timeSort' => 'desc',
@@ -52,13 +52,169 @@ class AdminHomeController extends Controller
         return $response->json();
     }
 
+    public function getSideBarCount()
+    {
+        $token = session('Authenticated_user_data')['token'];
+        $response = Http::withToken($token);
+        $response = $response->get(''.config('path.path.WebPath').'api/admin/getSideBarCount')->json();
+        return $response;
+    }
+
+    public function AdminTransactions()
+    {
+        $token = session('Authenticated_user_data')['token'];
+        $response = Http::withToken($token);
+        $response = $response->get(''.config('path.path.WebPath').'api/getConversations');
+        // NEW CODE -- START
+        if($response->json() == null)
+        {
+            // dd('yess');
+            $right = false;
+            while($right == false)
+            {
+                $response = Http::withToken($token);
+                $response = $response->get(''.config('path.path.WebPath').'api/getConversations');
+                if($response->json() == null)
+                {
+
+                }
+                else
+                {
+                    // dd('yes');
+                    break;
+                }
+            }
+        }
+        // NEW CODE --END
+        $conversations = $response->json()['data'];
+        $notifications = $this->getNotifications($token);
+        $notifications =  $notifications['data'];
+        $id = session('Authenticated_user_data')['id'];
+        echo "<script>";
+        echo "var bearer_token = `". $token ."` ;";
+        echo "var id = `". $id ."` ;";
+        echo "</script>";
+        return view('Admin.Transactions',compact('conversations','notifications'));
+    }
+
+    public function AdminServiceChargesRecord()
+    {
+        $token = session('Authenticated_user_data')['token'];
+        $response = Http::withToken($token);
+        $response = $response->get(''.config('path.path.WebPath').'api/getConversations');
+        // NEW CODE -- START
+        if($response->json() == null)
+        {
+            // dd('yess');
+            $right = false;
+            while($right == false)
+            {
+                $response = Http::withToken($token);
+                $response = $response->get(''.config('path.path.WebPath').'api/getConversations');
+                if($response->json() == null)
+                {
+
+                }
+                else
+                {
+                    // dd('yes');
+                    break;
+                }
+            }
+        }
+        // NEW CODE --END
+        $conversations = $response->json()['data'];
+        $notifications = $this->getNotifications($token);
+        $notifications =  $notifications['data'];
+        $id = session('Authenticated_user_data')['id'];
+        echo "<script>";
+        echo "var bearer_token = `". $token ."` ;";
+        echo "var id = `". $id ."` ;";
+        echo "</script>";
+        return view('Admin.ServiceCharges',compact('conversations','notifications'));
+    }
+
+    public function AdminPaymentRequests()
+    {
+        $token = session('Authenticated_user_data')['token'];
+        $response = Http::withToken($token);
+        $response = $response->get(''.config('path.path.WebPath').'api/getConversations');
+        // NEW CODE -- START
+        if($response->json() == null)
+        {
+            // dd('yess');
+            $right = false;
+            while($right == false)
+            {
+                $response = Http::withToken($token);
+                $response = $response->get(''.config('path.path.WebPath').'api/getConversations');
+                if($response->json() == null)
+                {
+
+                }
+                else
+                {
+                    // dd('yes');
+                    break;
+                }
+            }
+        }
+        // NEW CODE --END
+        $conversations = $response->json()['data'];
+        $notifications = $this->getNotifications($token);
+        $notifications =  $notifications['data'];
+        $id = session('Authenticated_user_data')['id'];
+        echo "<script>";
+        echo "var bearer_token = `". $token ."` ;";
+        echo "var id = `". $id ."` ;";
+        echo "</script>";
+        return view('Admin.PaymentRequests',compact('conversations','notifications'));
+    }
+
+    public function AdminMerchantAmounts()
+    {
+        $token = session('Authenticated_user_data')['token'];
+        $response = Http::withToken($token);
+        $response = $response->get(''.config('path.path.WebPath').'api/getConversations');
+        // NEW CODE -- START
+        if($response->json() == null)
+        {
+            // dd('yess');
+            $right = false;
+            while($right == false)
+            {
+                $response = Http::withToken($token);
+                $response = $response->get(''.config('path.path.WebPath').'api/getConversations');
+                if($response->json() == null)
+                {
+
+                }
+                else
+                {
+                    // dd('yes');
+                    break;
+                }
+            }
+        }
+        // NEW CODE --END
+        $conversations = $response->json()['data'];
+        $notifications = $this->getNotifications($token);
+        $notifications =  $notifications['data'];
+        $id = session('Authenticated_user_data')['id'];
+        echo "<script>";
+        echo "var bearer_token = `". $token ."` ;";
+        echo "var id = `". $id ."` ;";
+        echo "</script>";
+        return view('Admin.AdminMerchantAmounts',compact('conversations','notifications'));
+    }
+
     public function AdminAllNotifications()
     {
         try{
             $token = session('Authenticated_user_data')['token'];
             // dd($token);
             $response = Http::withToken($token);
-            $response = $response->get('gigiapi.zanforthstaging.com/api/getNotifications',[
+            $response = $response->get(''.config('path.path.WebPath').'api/getNotifications',[
                 'limit' => 2000,
                 'page' => 1,
                 'timeSort' => 'desc',
@@ -67,7 +223,7 @@ class AdminHomeController extends Controller
             // dd($notifications);
             $token = session('Authenticated_user_data')['token'];
             $response = Http::withToken($token);
-            $response = $response->get('gigiapi.zanforthstaging.com/api/getConversations');
+            $response = $response->get(''.config('path.path.WebPath').'api/getConversations');
             // NEW CODE -- START
             if($response->json() == null)
             {
@@ -76,7 +232,7 @@ class AdminHomeController extends Controller
                 while($right == false)
                 {
                     $response = Http::withToken($token);
-                    $response = $response->get('gigiapi.zanforthstaging.com/api/getConversations');
+                    $response = $response->get(''.config('path.path.WebPath').'api/getConversations');
                     if($response->json() == null)
                     {
 
@@ -120,7 +276,7 @@ class AdminHomeController extends Controller
 
             $token = session('Authenticated_user_data')['token'];
             $response = Http::withToken($token);
-            $response = $response->get('gigiapi.zanforthstaging.com/api/admin/getUsers' , [
+            $response = $response->get(''.config('path.path.WebPath').'api/admin/getUsers' , [
                 'limit' => 10,
                 'page' => 1,
                 'returnType' => 'dataTable',
@@ -131,7 +287,7 @@ class AdminHomeController extends Controller
             // dd($users);
             $token = session('Authenticated_user_data')['token'];
             $response = Http::withToken($token);
-            $response = $response->get('gigiapi.zanforthstaging.com/api/getConversations');
+            $response = $response->get(''.config('path.path.WebPath').'api/getConversations');
             // NEW CODE -- START
             if($response->json() == null)
             {
@@ -140,7 +296,7 @@ class AdminHomeController extends Controller
                 while($right == false)
                 {
                     $response = Http::withToken($token);
-                    $response = $response->get('gigiapi.zanforthstaging.com/api/getConversations');
+                    $response = $response->get(''.config('path.path.WebPath').'api/getConversations');
                     if($response->json() == null)
                     {
 
@@ -186,7 +342,7 @@ class AdminHomeController extends Controller
 
             $token = session('Authenticated_user_data')['token'];
             $response = Http::withToken($token);
-            $response = $response->get('gigiapi.zanforthstaging.com/api/admin/getUsers' , [
+            $response = $response->get(''.config('path.path.WebPath').'api/admin/getUsers' , [
                 'limit' => 10,
                 'page' => 1,
                 'returnType' => 'dataTable',
@@ -197,7 +353,7 @@ class AdminHomeController extends Controller
             // dd($users);
             $token = session('Authenticated_user_data')['token'];
             $response = Http::withToken($token);
-            $response = $response->get('gigiapi.zanforthstaging.com/api/getConversations');
+            $response = $response->get(''.config('path.path.WebPath').'api/getConversations');
             // NEW CODE -- START
             if($response->json() == null)
             {
@@ -206,7 +362,7 @@ class AdminHomeController extends Controller
                 while($right == false)
                 {
                     $response = Http::withToken($token);
-                    $response = $response->get('gigiapi.zanforthstaging.com/api/getConversations');
+                    $response = $response->get(''.config('path.path.WebPath').'api/getConversations');
                     if($response->json() == null)
                     {
 
@@ -242,18 +398,34 @@ class AdminHomeController extends Controller
     {
         try{
             $token = session('Authenticated_user_data')['token'];
-            $response = Http::withToken($token);
-            $file = $request->file('image');
-            if($request->hasFile('image'))
+            // dd($request);
+            if($request->section == 'Crousel')
             {
-                $response->attach('image', $file->get(), $file->getClientOriginalName());
+                // $response = Http::withToken($token);
+                // $response = $response->post(''.config('path.path.WebPath').'api/admin/addHomePageSections' , [
+                //     'section' => $request->section,
+                //     'sequence' => $request->sequence,
+                //     'text' => $request->text,
+                //     'data_id' => $request->category, //C
+                // ]);
             }
-            $response = $response->post('gigiapi.zanforthstaging.com/api/admin/addHomePageSections' , [
-                'section' => $request->section,
-                'sequence' => $request->sequence,
-                'text' => $request->text,
-                'data_id' => $request->category,
-            ]);
+            else
+            {
+                $response = Http::withToken($token);
+                $file = $request->file('image');
+                if($request->hasFile('image'))
+                {
+                    $response->attach('image', $file->get(), $file->getClientOriginalName());
+                }
+                $response = $response->post(''.config('path.path.WebPath').'api/admin/addHomePageSections' , [
+                    'section' => $request->section,
+                    'sequence' => $request->sequence,
+                    'text' => $request->text,
+                    'data_id' => $request->category,
+                ]);
+            }
+
+            
             // dd($response->json());
             if (array_key_exists("error",$response->json()))
             {
@@ -275,22 +447,20 @@ class AdminHomeController extends Controller
         try{
             $token = session('Authenticated_user_data')['token'];
             $response = Http::withToken($token);
-            $response = $response->get('gigiapi.zanforthstaging.com/api/admin/getHomePageSection/'.$id.'');
+            $response = $response->get(''.config('path.path.WebPath').'api/admin/getHomePageSection/'.$id.'');
             $section = $response->json();
 
             // dd($section['data']);
             
-
-
             $response = Http::withToken($token);
-            $response = $response->get('gigiapi.zanforthstaging.com/api/admin/getCategories' , [
+            $response = $response->get(''.config('path.path.WebPath').'api/admin/getCategories' , [
                 'limit' => 100000,
                 'page' => 1,
                 'returnType' => 'customPagination'
             ]);
             $categories = $response->json();
             $response = Http::withToken($token);
-            $response = $response->get('gigiapi.zanforthstaging.com/api/getConversations');
+            $response = $response->get(''.config('path.path.WebPath').'api/getConversations');
             // NEW CODE -- START
             if($response->json() == null)
             {
@@ -299,7 +469,7 @@ class AdminHomeController extends Controller
                 while($right == false)
                 {
                     $response = Http::withToken($token);
-                    $response = $response->get('gigiapi.zanforthstaging.com/api/getConversations');
+                    $response = $response->get(''.config('path.path.WebPath').'api/getConversations');
                     if($response->json() == null)
                     {
 
@@ -338,81 +508,94 @@ class AdminHomeController extends Controller
             // dd($token);
             //CategorySection
             $response = Http::withToken($token);
-            $response = $response->get('gigiapi.zanforthstaging.com/api/admin/getHomePageSections',[
+            $response = $response->get(''.config('path.path.WebPath').'api/admin/getHomePageSections',[
                 'limit' => 10000,
                 'page' => 1,
                 'returnType' => 'customPagination',
                 'section' => 'category'
             ]);
             $category_section = $response->json();
+            // dd($category_section);
             foreach($category_section['data'] as &$c)
             {
                 $response = Http::withToken($token);
-                $response = $response->get('gigiapi.zanforthstaging.com/api/getCategory/'.$c['data_id'].'');
+                $response = $response->get(''.config('path.path.WebPath').'api/getCategory/'.$c['data_id'].'');
+                // dd($response);
                 $c['category_name'] = $response->json()['data']['name'];
             }
+
+
+            // $response = Http::withToken($token);
+            // $response = $response->get(''.config('path.path.WebPath').'api/admin/getHomePageSections',[
+            //     'limit' => 10000,
+            //     'page' => 1,
+            //     'returnType' => 'customPagination',
+            //     'section' => 'crousel'
+            // ]);
+            
             // dd($category_section);
             //upperImageSection
-            $response = Http::withToken($token);
-            $response = $response->get('gigiapi.zanforthstaging.com/api/admin/getHomePageSections',[
-                'limit' => 10000,
-                'page' => 1,
-                'returnType' => 'customPagination',
-                'section' => 'upperImageSection'
-            ]);
-            $upperImageSection = $response->json();
-            foreach($upperImageSection['data'] as &$c)
-            {
-                $response = Http::withToken($token);
-                $response = $response->get('gigiapi.zanforthstaging.com/api/getCategory/'.$c['data_id'].'');
-                $c['category_name'] = $response->json()['data']['name'];
-            }
-            //lowerImageSection
-            $response = Http::withToken($token);
-            $response = $response->get('gigiapi.zanforthstaging.com/api/admin/getHomePageSections',[
-                'limit' => 10000,
-                'page' => 1,
-                'returnType' => 'customPagination',
-                'section' => 'lowerImageSection'
-            ]);
-            $lowerImageSection = $response->json();
-            foreach($lowerImageSection['data'] as &$c)
-            {
-                $response = Http::withToken($token);
-                $response = $response->get('gigiapi.zanforthstaging.com/api/getCategory/'.$c['data_id'].'');
-                $c['category_name'] = $response->json()['data']['name'];
-            }
-            //footerImageSection
-            $response = Http::withToken($token);
-            $response = $response->get('gigiapi.zanforthstaging.com/api/admin/getHomePageSections',[
-                'limit' => 10000,
-                'page' => 1,
-                'returnType' => 'customPagination',
-                'section' => 'footerImageSection'
-            ]);
-            $footerImageSection = $response->json();
-            // dd($footerImageSection);
-            foreach($footerImageSection['data'] as &$c)
-            {
-                $response = Http::withToken($token);
-                $response = $response->get('gigiapi.zanforthstaging.com/api/getCategory/'.$c['data_id'].'');
-                $c['category_name'] = $response->json()['data']['name'];
-            }
-            //CatBlocKSection
-            $response = Http::withToken($token);
-            $response = $response->get('gigiapi.zanforthstaging.com/api/admin/getHomePageSections',[
-                'limit' => 10000,
-                'page' => 1,
-                'returnType' => 'customPagination',
-                'section' => 'CatBlockSection'
-            ]);
-            $CatBlockSection = $response->json();
-            foreach($CatBlockSection['data'] as &$c)
-            {
-                $response = Http::withToken($token);
-                $response = $response->get('gigiapi.zanforthstaging.com/api/getCategory/'.$c['data_id'].'');
-                $c['category_name'] = $response->json()['data']['name'];
-            }
+            // $response = Http::withToken($token);
+            // $response = $response->get(''.config('path.path.WebPath').'api/admin/getHomePageSections',[
+            //     'limit' => 10000,
+            //     'page' => 1,
+            //     'returnType' => 'customPagination',
+            //     'section' => 'upperImageSection'
+            // ]);
+            // $upperImageSection = $response->json();
+            // foreach($upperImageSection['data'] as &$c)
+            // {
+            //     $response = Http::withToken($token);
+            //     $response = $response->get(''.config('path.path.WebPath').'api/getCategory/'.$c['data_id'].'');
+            //     $c['category_name'] = $response->json()['data']['name'];
+            // }
+            // //lowerImageSection
+            // $response = Http::withToken($token);
+            // $response = $response->get(''.config('path.path.WebPath').'api/admin/getHomePageSections',[
+            //     'limit' => 10000,
+            //     'page' => 1,
+            //     'returnType' => 'customPagination',
+            //     'section' => 'lowerImageSection'
+            // ]);
+            // $lowerImageSection = $response->json();
+            // foreach($lowerImageSection['data'] as &$c)
+            // {
+            //     $response = Http::withToken($token);
+            //     $response = $response->get(''.config('path.path.WebPath').'api/getCategory/'.$c['data_id'].'');
+            //     $c['category_name'] = $response->json()['data']['name'];
+            // }
+            // //footerImageSection
+            // $response = Http::withToken($token);
+            // $response = $response->get(''.config('path.path.WebPath').'api/admin/getHomePageSections',[
+            //     'limit' => 10000,
+            //     'page' => 1,
+            //     'returnType' => 'customPagination',
+            //     'section' => 'footerImageSection'
+            // ]);
+            // $footerImageSection = $response->json();
+            // // dd($footerImageSection);
+            // foreach($footerImageSection['data'] as &$c)
+            // {
+            //     $response = Http::withToken($token);
+            //     $response = $response->get(''.config('path.path.WebPath').'api/getCategory/'.$c['data_id'].'');
+            //     $c['category_name'] = $response->json()['data']['name'];
+            // }
+            // //CatBlocKSection
+            // $response = Http::withToken($token);
+            // $response = $response->get(''.config('path.path.WebPath').'api/admin/getHomePageSections',[
+            //     'limit' => 10000,
+            //     'page' => 1,
+            //     'returnType' => 'customPagination',
+            //     'section' => 'CatBlockSection'
+            // ]);
+            // $CatBlockSection = $response->json();
+            
+            // foreach($CatBlockSection['data'] as &$c)
+            // {
+            //     $response = Http::withToken($token);
+            //     $response = $response->get(''.config('path.path.WebPath').'api/getCategory/'.$c['data_id'].'');
+            //     $c['category_name'] = $response->json()['data']['name'];
+            // }
             // dd($CatBlockSection);
 
             // $token = session()->get('Authenticated_user_data')['token'];
@@ -420,7 +603,7 @@ class AdminHomeController extends Controller
             // $notifications =  $notifications['data'];
 
             $response = Http::withToken($token);
-            $response = $response->get('gigiapi.zanforthstaging.com/api/getNotifications',[
+            $response = $response->get(''.config('path.path.WebPath').'api/getNotifications',[
                 'limit' => 50,
                 'page' => 1,
                 'timeSort' => 'desc',
@@ -433,7 +616,7 @@ class AdminHomeController extends Controller
                 while($right == false)
                 {
                     $response = Http::withToken($token);
-                    $response = $response->get('gigiapi.zanforthstaging.com/api/getNotifications',[
+                    $response = $response->get(''.config('path.path.WebPath').'api/getNotifications',[
                         'limit' => 50,
                         'page' => 1,
                         'timeSort' => 'desc',
@@ -453,7 +636,7 @@ class AdminHomeController extends Controller
             $notifications = $response->json()['data'];
 
             $response = Http::withToken($token);
-            $response = $response->get('gigiapi.zanforthstaging.com/api/getConversations');
+            $response = $response->get(''.config('path.path.WebPath').'api/getConversations');
             // NEW CODE -- START
             if($response->json() == null)
             {
@@ -462,7 +645,7 @@ class AdminHomeController extends Controller
                 while($right == false)
                 {
                     $response = Http::withToken($token);
-                    $response = $response->get('gigiapi.zanforthstaging.com/api/getConversations');
+                    $response = $response->get(''.config('path.path.WebPath').'api/getConversations');
                     if($response->json() == null)
                     {
 
@@ -481,7 +664,351 @@ class AdminHomeController extends Controller
             echo "var bearer_token = `". $token ."` ;";
             echo "var id = `". $id ."` ;";
             echo "</script>";
-            return view('Admin.HomePageManagement',compact('conversations','category_section','upperImageSection','lowerImageSection','footerImageSection','CatBlockSection','notifications'));
+            // return view('Admin.HomePageManagement',compact('conversations','category_section','upperImageSection','lowerImageSection','footerImageSection','CatBlockSection','notifications'));
+            return view('Admin.HomePageManagement',compact('conversations','category_section','notifications'));
+        } catch (\Exception $e) {
+            return response()->json([
+                'Success' => 'False',
+                'Error' => $e->getMessage(),
+            ]);
+        }
+    }
+
+    public function AdminHomeCrouselManagement()
+    {
+        // try{
+            $token = session('Authenticated_user_data')['token'];
+            // dd(config('path.path.HomeSectionsPath'));
+            // dd($token);
+            //CategorySection
+            $response = Http::withToken($token);
+            $response = $response->get(''.config('path.path.WebPath').'api/admin/getAdvertisements',[
+                'limit' => 10000,
+                'page' => 1,
+                'returnType' => 'customPagination',
+                // 'section' => 'crousel'
+            ]);
+            $crousel = $response->json();
+            // dd($category_section);
+            // foreach($category_section['data'] as &$c)
+            // {
+            //     $response = Http::withToken($token);
+            //     $response = $response->get(''.config('path.path.WebPath').'api/getCategory/'.$c['data_id'].'');
+            //     // dd($response);
+            //     $c['category_name'] = $response->json()['data']['name'];
+            // }
+
+            $response = Http::withToken($token);
+            $response = $response->get(''.config('path.path.WebPath').'api/getNotifications',[
+                'limit' => 50,
+                'page' => 1,
+                'timeSort' => 'desc',
+            ]);
+            // NEW CODE -- START
+            if($response->json() == null)
+            {
+                // dd('yess');
+                $right = false;
+                while($right == false)
+                {
+                    $response = Http::withToken($token);
+                    $response = $response->get(''.config('path.path.WebPath').'api/getNotifications',[
+                        'limit' => 50,
+                        'page' => 1,
+                        'timeSort' => 'desc',
+                    ]);
+                    if($response->json() == null)
+                    {
+
+                    }
+                    else
+                    {
+                        // dd('yes');
+                        break;
+                    }
+                }
+            }
+            // NEW CODE --END
+            $notifications = $response->json()['data'];
+
+            $response = Http::withToken($token);
+            $response = $response->get(''.config('path.path.WebPath').'api/getConversations');
+            // NEW CODE -- START
+            if($response->json() == null)
+            {
+                // dd('yess');
+                $right = false;
+                while($right == false)
+                {
+                    $response = Http::withToken($token);
+                    $response = $response->get(''.config('path.path.WebPath').'api/getConversations');
+                    if($response->json() == null)
+                    {
+
+                    }
+                    else
+                    {
+                        // dd('yes');
+                        break;
+                    }
+                }
+            }
+            // NEW CODE --END
+            $conversations = $response->json()['data'];
+            $id = session('Authenticated_user_data')['id'];
+            echo "<script>";
+            echo "var bearer_token = `". $token ."` ;";
+            echo "var id = `". $id ."` ;";
+            echo "</script>";
+            // return view('Admin.HomePageManagement',compact('conversations','category_section','upperImageSection','lowerImageSection','footerImageSection','CatBlockSection','notifications'));
+            return view('Admin.HomeCrouselManagement',compact('conversations','crousel','notifications'));
+        // } catch (\Exception $e) {
+        //     return response()->json([
+        //         'Success' => 'False',
+        //         'Error' => $e->getMessage(),
+        //     ]);
+        // }
+    }
+
+    public function AddBanner()
+    {
+        try{
+            $token = session()->get('Authenticated_user_data')['token'];
+
+            $response = Http::withToken($token);
+            $response = $response->get(''.config('path.path.WebPath').'api/admin/getCategories' , [
+                'limit' => 10000,
+                'page' => 1,
+                'returnType' => 'customPagination'
+            ]);
+            $categories = $response->json();
+            // dd($categories);
+            $token = session('Authenticated_user_data')['token'];
+            $response = Http::withToken($token);
+            $response = $response->get(''.config('path.path.WebPath').'api/getConversations');
+            // NEW CODE -- START
+            if($response->json() == null)
+            {
+                // dd('yess');
+                $right = false;
+                while($right == false)
+                {
+                    $response = Http::withToken($token);
+                    $response = $response->get(''.config('path.path.WebPath').'api/getConversations');
+                    if($response->json() == null)
+                    {
+
+                    }
+                    else
+                    {
+                        // dd('yes');
+                        break;
+                    }
+                }
+            }
+            // NEW CODE --END
+            $conversations = $response->json()['data'];
+            $id = session('Authenticated_user_data')['id'];
+            $token = session()->get('Authenticated_user_data')['token'];
+            $notifications = $this->getNotifications($token);
+            $notifications =  $notifications['data'];
+            echo "<script>";
+            echo "var bearer_token = `". $token ."` ;";
+            echo "var id = `". $id ."` ;";
+            echo "</script>";
+            return view('Admin.AddBanner',compact('categories','conversations','notifications'));
+        } catch (\Exception $e) {
+            return response()->json([
+                'Success' => 'False',
+                'Error' => $e->getMessage(),
+            ]);
+        }
+    }
+
+    public function EditBanner($id)
+    {
+        try{
+            $token = session()->get('Authenticated_user_data')['token'];
+
+            $response = Http::withToken($token);
+            $response = $response->get(''.config('path.path.WebPath').'api/admin/getAdvertisement/'.$id.'');
+            $banner = $response->json();
+
+
+            $response = Http::withToken($token);
+            $response = $response->get(''.config('path.path.WebPath').'api/admin/getCategories' , [
+                'limit' => 10000,
+                'page' => 1,
+                'returnType' => 'customPagination'
+            ]);
+            $categories = $response->json();
+            // dd($categories);
+            $token = session('Authenticated_user_data')['token'];
+            $response = Http::withToken($token);
+            $response = $response->get(''.config('path.path.WebPath').'api/getConversations');
+            // NEW CODE -- START
+            if($response->json() == null)
+            {
+                // dd('yess');
+                $right = false;
+                while($right == false)
+                {
+                    $response = Http::withToken($token);
+                    $response = $response->get(''.config('path.path.WebPath').'api/getConversations');
+                    if($response->json() == null)
+                    {
+
+                    }
+                    else
+                    {
+                        // dd('yes');
+                        break;
+                    }
+                }
+            }
+            // NEW CODE --END
+            $conversations = $response->json()['data'];
+            $id = session('Authenticated_user_data')['id'];
+            $token = session()->get('Authenticated_user_data')['token'];
+            $notifications = $this->getNotifications($token);
+            $notifications =  $notifications['data'];
+            echo "<script>";
+            echo "var bearer_token = `". $token ."` ;";
+            echo "var id = `". $id ."` ;";
+            echo "</script>";
+            return view('Admin.EditBanner',compact('categories','banner','conversations','notifications'));
+        } catch (\Exception $e) {
+            return response()->json([
+                'Success' => 'False',
+                'Error' => $e->getMessage(),
+            ]);
+        }
+    }
+    public function DeleteBanner($id)
+    {
+        try{
+            $token = session()->get('Authenticated_user_data')['token'];
+            // dd(''.config('path.path.WebPath').'api/admin/deleteAdvertisement/'.$id.'');
+            $response = Http::withToken($token);
+            $response = $response->post(''.config('path.path.WebPath').'api/admin/deleteAdvertisement/'.$id.'');
+            // dd($response);
+            if (array_key_exists("error",$response->json()))
+            {
+                return redirect()->back()->with('alert',$response->json()['error']);
+            }
+            
+
+            return redirect()->back()->with('success','Banner Deleted Successfully!');
+
+
+            // $response = Http::withToken($token);
+            // $response = $response->get(''.config('path.path.WebPath').'api/admin/getCategories' , [
+            //     'limit' => 10000,
+            //     'page' => 1,
+            //     'returnType' => 'customPagination'
+            // ]);
+            // $categories = $response->json();
+            // // dd($categories);
+            // $token = session('Authenticated_user_data')['token'];
+            // $response = Http::withToken($token);
+            // $response = $response->get(''.config('path.path.WebPath').'api/getConversations');
+            // // NEW CODE -- START
+            // if($response->json() == null)
+            // {
+            //     // dd('yess');
+            //     $right = false;
+            //     while($right == false)
+            //     {
+            //         $response = Http::withToken($token);
+            //         $response = $response->get(''.config('path.path.WebPath').'api/getConversations');
+            //         if($response->json() == null)
+            //         {
+
+            //         }
+            //         else
+            //         {
+            //             // dd('yes');
+            //             break;
+            //         }
+            //     }
+            // }
+            // // NEW CODE --END
+            // $conversations = $response->json()['data'];
+            // $id = session('Authenticated_user_data')['id'];
+            // $token = session()->get('Authenticated_user_data')['token'];
+            // $notifications = $this->getNotifications($token);
+            // $notifications =  $notifications['data'];
+            // echo "<script>";
+            // echo "var bearer_token = `". $token ."` ;";
+            // echo "var id = `". $id ."` ;";
+            // echo "</script>";
+            // return view('Admin.EditBanner',compact('categories','banner','conversations','notifications'));
+        } catch (\Exception $e) {
+            return response()->json([
+                'Success' => 'False',
+                'Error' => $e->getMessage(),
+            ]);
+        }
+    }
+
+    public function AddBannerConfirm(Request $request)
+    {
+        try{
+            $token = session()->get('Authenticated_user_data')['token'];
+            $url = ''.config('path.path.WebPath').'api/admin/addAdvertisement';
+            $response = Http::withToken($token);
+            if($request->hasFile('image'))
+            {
+                $file = $request->file('image');
+                $response = Http::withToken($token)->attach('image', $file->get(), $file->getClientOriginalName());
+            }
+            $data = [
+                'head_text' => $request->head_text,
+                'lower_text' => $request->lower_text,
+                'link' => $request->link,
+            ];
+            $response = $response->post($url, $data)->json();
+            
+            if (array_key_exists("error",$response))
+            {
+                return redirect()->back()->with('alert',$response['error']);
+            }
+            return redirect()->back()->with('success','Successfully Uploaded!');
+        } catch (\Exception $e) {
+            return response()->json([
+                'Success' => 'False',
+                'Error' => $e->getMessage(),
+            ]);
+        }
+    }
+
+    public function EditBannerConfirm(Request $request)
+    {
+        try{
+            // dd($request);
+
+            $token = session()->get('Authenticated_user_data')['token'];
+            $url = ''.config('path.path.WebPath').'api/admin/addAdvertisement';
+            $response = Http::withToken($token);
+
+            if($request->hasFile('image'))
+            {
+                $file = $request->file('image');
+                $response = $response->attach('image', $file->get(), $file->getClientOriginalName());
+            }
+            $data = [
+                'head_text' => $request->head_text,
+                'lower_text' => $request->lower_text,
+                'link' => $request->link,
+                'id' => $request->id,
+            ];
+            $response = $response->post($url, $data)->json();
+            
+            if (array_key_exists("error",$response))
+            {
+                return redirect()->back()->with('alert',$response['error']);
+            }
+            return redirect()->back()->with('success','Successfully Uploaded!');
         } catch (\Exception $e) {
             return response()->json([
                 'Success' => 'False',
@@ -497,14 +1024,14 @@ class AdminHomeController extends Controller
             // dd($token);
             // $client = new \GuzzleHttp\Client();
             // $response = Http::withToken($token);
-            // // $response = $response->get('gigiapi.zanforthstaging.com/api/merchant/getDeals' , [
-            // $response = $response->get('gigiapi.zanforthstaging.com/api/admin/getCategoryStats');
+            // // $response = $response->get(''.config('path.path.WebPath').'api/merchant/getDeals' , [
+            // $response = $response->get(''.config('path.path.WebPath').'api/admin/getCategoryStats');
             // $deals = $response->json()['data'];
             // dd($deals);
 
             $token = session('Authenticated_user_data')['token'];
             $response = Http::withToken($token);
-            $response = $response->get('gigiapi.zanforthstaging.com/api/getConversations');
+            $response = $response->get(''.config('path.path.WebPath').'api/getConversations');
             // NEW CODE -- START
             if($response->json() == null)
             {
@@ -513,7 +1040,7 @@ class AdminHomeController extends Controller
                 while($right == false)
                 {
                     $response = Http::withToken($token);
-                    $response = $response->get('gigiapi.zanforthstaging.com/api/getConversations');
+                    $response = $response->get(''.config('path.path.WebPath').'api/getConversations');
                     if($response->json() == null)
                     {
 
@@ -551,13 +1078,13 @@ class AdminHomeController extends Controller
             // dd($token);
             $client = new \GuzzleHttp\Client();
             $response = Http::withToken($token);
-            // $response = $response->get('gigiapi.zanforthstaging.com/api/merchant/getDeals' , [
-            $response = $response->get('gigiapi.zanforthstaging.com/api/admin/getCategoryStats');
+            // $response = $response->get(''.config('path.path.WebPath').'api/merchant/getDeals' , [
+            $response = $response->get(''.config('path.path.WebPath').'api/admin/getCategoryStats');
             $deals = $response->json()['data'];
             // dd($deals);
             $token = session('Authenticated_user_data')['token'];
             $response = Http::withToken($token);
-            $response = $response->get('gigiapi.zanforthstaging.com/api/getConversations');
+            $response = $response->get(''.config('path.path.WebPath').'api/getConversations');
             // NEW CODE -- START
             if($response->json() == null)
             {
@@ -566,7 +1093,7 @@ class AdminHomeController extends Controller
                 while($right == false)
                 {
                     $response = Http::withToken($token);
-                    $response = $response->get('gigiapi.zanforthstaging.com/api/getConversations');
+                    $response = $response->get(''.config('path.path.WebPath').'api/getConversations');
                     if($response->json() == null)
                     {
 
@@ -603,7 +1130,7 @@ class AdminHomeController extends Controller
         try{
             $token = session('Authenticated_user_data')['token'];
             $response = Http::withToken($token);
-            $response = $response->get('gigiapi.zanforthstaging.com/api/admin/getPurchaseDealsData' , [
+            $response = $response->get(''.config('path.path.WebPath').'api/admin/getPurchaseDealsData' , [
                 'limit' => 100000,
                 'page' => 1,
                 // 'returnType' => 'dataTable',
@@ -614,7 +1141,7 @@ class AdminHomeController extends Controller
             // dd($deals);
             $token = session('Authenticated_user_data')['token'];
             $response = Http::withToken($token);
-            $response = $response->get('gigiapi.zanforthstaging.com/api/getConversations');
+            $response = $response->get(''.config('path.path.WebPath').'api/getConversations');
             // NEW CODE -- START
             if($response->json() == null)
             {
@@ -623,7 +1150,7 @@ class AdminHomeController extends Controller
                 while($right == false)
                 {
                     $response = Http::withToken($token);
-                    $response = $response->get('gigiapi.zanforthstaging.com/api/getConversations');
+                    $response = $response->get(''.config('path.path.WebPath').'api/getConversations');
                     if($response->json() == null)
                     {
 
@@ -661,7 +1188,7 @@ class AdminHomeController extends Controller
             // dd($request);
             $token = session('Authenticated_user_data')['token'];
             $response = Http::withToken($token);
-            $response = $response->get('gigiapi.zanforthstaging.com/api/admin/getPurchaseDealsData' , [
+            $response = $response->get(''.config('path.path.WebPath').'api/admin/getPurchaseDealsData' , [
                 'limit' => 100000,
                 'page' => 1,
                 // 'returnType' => 'dataTable',
@@ -674,7 +1201,7 @@ class AdminHomeController extends Controller
             // dd($deals);
             $token = session('Authenticated_user_data')['token'];
             $response = Http::withToken($token);
-            $response = $response->get('gigiapi.zanforthstaging.com/api/getConversations');
+            $response = $response->get(''.config('path.path.WebPath').'api/getConversations');
             // NEW CODE -- START
             if($response->json() == null)
             {
@@ -683,7 +1210,7 @@ class AdminHomeController extends Controller
                 while($right == false)
                 {
                     $response = Http::withToken($token);
-                    $response = $response->get('gigiapi.zanforthstaging.com/api/getConversations');
+                    $response = $response->get(''.config('path.path.WebPath').'api/getConversations');
                     if($response->json() == null)
                     {
 
@@ -720,7 +1247,7 @@ class AdminHomeController extends Controller
         try{
             $token = session('Authenticated_user_data')['token'];
             $response = Http::withToken($token);
-            $response = $response->get('gigiapi.zanforthstaging.com/api/admin/getDeals' , [
+            $response = $response->get(''.config('path.path.WebPath').'api/admin/getDeals' , [
                 'limit' => 100000,
                 'page' => 1,
                 // 'returnType' => 'dataTable',
@@ -733,7 +1260,7 @@ class AdminHomeController extends Controller
             // dd($deals);
             $token = session('Authenticated_user_data')['token'];
             $response = Http::withToken($token);
-            $response = $response->get('gigiapi.zanforthstaging.com/api/getConversations');
+            $response = $response->get(''.config('path.path.WebPath').'api/getConversations');
             // NEW CODE -- START
             if($response->json() == null)
             {
@@ -742,7 +1269,7 @@ class AdminHomeController extends Controller
                 while($right == false)
                 {
                     $response = Http::withToken($token);
-                    $response = $response->get('gigiapi.zanforthstaging.com/api/getConversations');
+                    $response = $response->get(''.config('path.path.WebPath').'api/getConversations');
                     if($response->json() == null)
                     {
 
@@ -779,7 +1306,7 @@ class AdminHomeController extends Controller
         try{
             $token = session('Authenticated_user_data')['token'];
             $response = Http::withToken($token);
-            $response = $response->post('gigiapi.zanforthstaging.com/api/admin/changeStatusOfMerchant/'.$id.'' , ['status' => 1]);
+            $response = $response->post(''.config('path.path.WebPath').'api/admin/changeStatusOfMerchant/'.$id.'' , ['status' => 1]);
             // $response = $response->json()['data'];
             return redirect()->back()->with('success', 'Preferences Updated!');
             // dd($response);
@@ -795,7 +1322,7 @@ class AdminHomeController extends Controller
         try{
             $token = session('Authenticated_user_data')['token'];
             $response = Http::withToken($token);
-            $response = $response->post('gigiapi.zanforthstaging.com/api/admin/changeStatusOfMerchant/'.$id.'' , ['status' => 0]);
+            $response = $response->post(''.config('path.path.WebPath').'api/admin/changeStatusOfMerchant/'.$id.'' , ['status' => 0]);
             // $response = $response->json()['data'];
             return redirect()->back()->with('success', 'Preferences Updated!');
             // dd($response);
@@ -817,13 +1344,13 @@ class AdminHomeController extends Controller
             $token = session('Authenticated_user_data')['token'];
             // dd($token);
             $response = Http::withToken($token);
-            $response = $response->get('gigiapi.zanforthstaging.com/api/admin/getLatestReviews');
+            $response = $response->get(''.config('path.path.WebPath').'api/admin/getLatestReviews');
             $reviews = $response->json()['data'];
 
             // dd($reviews);
 
             $response = Http::withToken($token);
-            $response = $response->get('gigiapi.zanforthstaging.com/api/admin/getMerchants' , [
+            $response = $response->get(''.config('path.path.WebPath').'api/admin/getMerchants' , [
                 'limit' => 100,
                 'page' => 1,
                 'returnType' => 'customPagination',
@@ -834,28 +1361,28 @@ class AdminHomeController extends Controller
 
             $token = session('Authenticated_user_data')['token'];
             $response = Http::withToken($token);
-            $response = $response->get('gigiapi.zanforthstaging.com/api/getConversations');
-            // NEW CODE -- START
-            if($response->json() == null)
-            {
-                // dd('yess');
-                $right = false;
-                while($right == false)
-                {
-                    $response = Http::withToken($token);
-                    $response = $response->get('gigiapi.zanforthstaging.com/api/getConversations');
-                    if($response->json() == null)
-                    {
+            $response = $response->get(''.config('path.path.WebPath').'api/getConversations');
+            // // NEW CODE -- START
+            // if($response->json() == null)
+            // {
+            //     // dd('yess');
+            //     $right = false;
+            //     while($right == false)
+            //     {
+            //         $response = Http::withToken($token);
+            //         $response = $response->get(''.config('path.path.WebPath').'api/getConversations');
+            //         if($response->json() == null)
+            //         {
 
-                    }
-                    else
-                    {
-                        // dd('yes');
-                        break;
-                    }
-                }
-            }
-            // NEW CODE --END
+            //         }
+            //         else
+            //         {
+            //             // dd('yes');
+            //             break;
+            //         }
+            //     }
+            // }
+            // // NEW CODE --END
             $conversations = $response->json()['data'];
 
             $id = session('Authenticated_user_data')['id'];
@@ -864,36 +1391,36 @@ class AdminHomeController extends Controller
             // $notifications =  $notifications['data'];
 
             $response = Http::withToken($token);
-            $response = $response->get('gigiapi.zanforthstaging.com/api/getNotifications',[
+            $response = $response->get(''.config('path.path.WebPath').'api/getNotifications',[
                 'limit' => 50,
                 'page' => 1,
                 'timeSort' => 'desc',
             ]);
-            // NEW CODE -- START
-            if($response->json() == null)
-            {
-                // dd('yess');
-                $right = false;
-                while($right == false)
-                {
-                    $response = Http::withToken($token);
-                    $response = $response->get('gigiapi.zanforthstaging.com/api/getNotifications',[
-                        'limit' => 50,
-                        'page' => 1,
-                        'timeSort' => 'desc',
-                    ]);
-                    if($response->json() == null)
-                    {
+            // // NEW CODE -- START
+            // if($response->json() == null)
+            // {
+            //     // dd('yess');
+            //     $right = false;
+            //     while($right == false)
+            //     {
+            //         $response = Http::withToken($token);
+            //         $response = $response->get(''.config('path.path.WebPath').'api/getNotifications',[
+            //             'limit' => 50,
+            //             'page' => 1,
+            //             'timeSort' => 'desc',
+            //         ]);
+            //         if($response->json() == null)
+            //         {
 
-                    }
-                    else
-                    {
-                        // dd('yes');
-                        break;
-                    }
-                }
-            }
-            // NEW CODE --END
+            //         }
+            //         else
+            //         {
+            //             // dd('yes');
+            //             break;
+            //         }
+            //     }
+            // }
+            // // NEW CODE --END
             $notifications = $response->json()['data'];
 
             echo "<script>";
@@ -909,49 +1436,124 @@ class AdminHomeController extends Controller
         }
     }
 
+    public function AdminManageReviewRequests()
+    {
+        try{
+
+            $token = session('Authenticated_user_data')['token'];
+            // dd($token);
+            $response = Http::withToken($token);
+            $response = $response->get(''.config('path.path.WebPath').'api/admin/getReviews',['status'=>'pending']);
+            // $response = $response->get(''.config('path.path.WebPath').'api/admin/getReviews');
+            $reviews = $response->json()['data'];
+            // dd($reviews);
+
+
+            $token = session('Authenticated_user_data')['token'];
+            $response = Http::withToken($token);
+            $response = $response->get(''.config('path.path.WebPath').'api/getConversations');
+            $conversations = $response->json()['data'];
+
+            $notifications = $this->getNotifications($token);
+            $notifications =  $notifications['data'];
+            // dd($notifications);
+            $id = session('Authenticated_user_data')['id'];
+            echo "<script>";
+            echo "var bearer_token = `". $token ."` ;";
+            echo "var id = `". $id ."` ;";
+            echo "</script>";
+            
+
+            // $conversations = $response->json()['data'];
+            // $id = session('Authenticated_user_data')['id'];
+            // $response = Http::withToken($token);
+            // $response = $response->get(''.config('path.path.WebPath').'api/getNotifications',[
+            //     'limit' => 50,
+            //     'page' => 1,
+            //     'timeSort' => 'desc',
+            // ]);
+            // // NEW CODE -- START
+            // if($response->json() == null)
+            // {
+            //     // dd('yess');
+            //     $right = false;
+            //     while($right == false)
+            //     {
+            //         $response = Http::withToken($token);
+            //         $response = $response->get(''.config('path.path.WebPath').'api/getNotifications',[
+            //             'limit' => 50,
+            //             'page' => 1,
+            //             'timeSort' => 'desc',
+            //         ]);
+            //         if($response->json() == null)
+            //         {
+
+            //         }
+            //         else
+            //         {
+            //             // dd('yes');
+            //             break;
+            //         }
+            //     }
+            // }
+            // // NEW CODE --END
+            // $notifications = $response->json()['data'];
+            echo "<script>";
+            echo "var bearer_token = `". $token ."` ;";
+            echo "var id = `". $id ."` ;";
+            echo "</script>";
+            return view('Admin.ReviewRequests', compact('conversations','notifications','reviews'));
+        } catch (\Exception $e) {
+            return response()->json([
+                'Success' => 'False',
+                'Error' => $e->getMessage(),
+            ]);
+        }
+    }
+
     public function AdminAllReviewsFilterUsers(Request $request)
     {
         // dd($request);
-        try{
+        // try{
             // $dueDateTime = Carbon::createFromFormat('Y-m-d', $request->min_date);
             // dd($dueDateTime);
             $token = session('Authenticated_user_data')['token'];
             $response = Http::withToken($token);
-            $response = $response->get('gigiapi.zanforthstaging.com/api/admin/getReviews',[
+            $response = $response->get(''.config('path.path.WebPath').'api/admin/getReviews',[
                 'limit'=>1000000,
                 'page'=>1,
                 'returnType'=>'customPagination',
-                // 'fromDate' => $request->min_date,
-                // 'toDate' => $request->max_date,
+                'fromDate' => $request->min_date,
+                'toDate' => $request->max_date,
             ]);
 
 
-            // NEW CODE -- START
-            if($response->json() == null)
-            {
-                // dd('yess');
-                $right = false;
-                while($right == false)
-                {
-                    $response = Http::withToken($token);
-                    $response = $response->get('gigiapi.zanforthstaging.com/api/admin/getReviews',[
-                        'limit'=>1000000,
-                        'page'=>1,
-                        'returnType'=>'customPagination',
-                        // 'fromDate' => $request->min_date,
-                        // 'toDate' => $request->max_date,
-                    ]);
-                    if($response->json() == null)
-                    {
+            // // NEW CODE -- START
+            // if($response->json() == null)
+            // {
+            //     // dd('yess');
+            //     $right = false;
+            //     while($right == false)
+            //     {
+            //         $response = Http::withToken($token);
+            //         $response = $response->get(''.config('path.path.WebPath').'api/admin/getReviews',[
+            //             'limit'=>1000000,
+            //             'page'=>1,
+            //             'returnType'=>'customPagination',
+            //             // 'fromDate' => $request->min_date,
+            //             // 'toDate' => $request->max_date,
+            //         ]);
+            //         if($response->json() == null)
+            //         {
 
-                    }
-                    else
-                    {
-                        // dd('yes');
-                        break;
-                    }
-                }
-            }
+            //         }
+            //         else
+            //         {
+            //             // dd('yes');
+            //             break;
+            //         }
+            //     }
+            // }
             // NEW CODE --END
 
 
@@ -964,7 +1566,9 @@ class AdminHomeController extends Controller
             // dd(Carbon::parse($fromDate)->format('Y-m-d'));
             // // DATE HANDLING
             // dd($reviews[0]['created_at']);
-            $review_date = Carbon::parse($reviews[0]['created_at'])->format('Y-m-d');
+
+            // $review_date = Carbon::parse($reviews[0]['created_at'])->format('Y-m-d');
+
             // dd($review_date);
             // $now = Carbon::now();
             // $result = $max_date->lt($review_date);
@@ -981,91 +1585,92 @@ class AdminHomeController extends Controller
             // dd($result);
             // dd($date);
 
-            foreach($reviews as &$r)
-            {
-                $r['reply_id'] = 0;
-                $r['replied'] = false;
+            //COMMENTING THIS
+            // foreach($reviews as &$r)
+            // {
+            //     $r['reply_id'] = 0;
+            //     $r['replied'] = false;
 
-                // if($r['deal_id'] == 0)
-                // {
+            //     // if($r['deal_id'] == 0)
+            //     // {
 
-                // }
-                // else
-                // {
-                    $getDeal = Http::withToken($token)->get('gigiapi.zanforthstaging.com/api/admin/getDeal/'.$r['deal_id'].'')->json();
+            //     // }
+            //     // else
+            //     // {
+            //         $getDeal = Http::withToken($token)->get(''.config('path.path.WebPath').'api/admin/getDeal/'.$r['deal_id'].'')->json();
 
-                    // NEW CODE -- START
-                    if($getDeal == null)
-                    {
-                        // dd('yess');
-                        $right = false;
-                        while($right == false)
-                        {
-                            $getDeal = Http::withToken($token)->get('gigiapi.zanforthstaging.com/api/admin/getDeal/'.$r['deal_id'].'')->json();
-                            if($getDeal == null)
-                            {
+            //         // NEW CODE -- START
+            //         if($getDeal == null)
+            //         {
+            //             // dd('yess');
+            //             $right = false;
+            //             while($right == false)
+            //             {
+            //                 $getDeal = Http::withToken($token)->get(''.config('path.path.WebPath').'api/admin/getDeal/'.$r['deal_id'].'')->json();
+            //                 if($getDeal == null)
+            //                 {
 
-                            }
-                            else
-                            {
-                                // dd('yes');
-                                break;
-                            }
-                        }
-                    }
-                    // NEW CODE --END
+            //                 }
+            //                 else
+            //                 {
+            //                     // dd('yes');
+            //                     break;
+            //                 }
+            //             }
+            //         }
+            //         // NEW CODE --END
 
-                    $r['deal_name'] = $getDeal['data']['name'];
-                    $r['merchant_name'] = $getDeal['data']['merchant']['name'];
-                // }
+            //         $r['deal_name'] = $getDeal['data']['name'];
+            //         $r['merchant_name'] = $getDeal['data']['merchant']['name'];
+            //     // }
                 
-                // if($getDeal == null)
-                // {
-                //     dd($r['deal_id']);
-                // }
-                foreach($reviews as &$reply)
-                {
-                    $reply['replied_to_someone'] = false;
+            //     // if($getDeal == null)
+            //     // {
+            //     //     dd($r['deal_id']);
+            //     // }
+            //     foreach($reviews as &$reply)
+            //     {
+            //         $reply['replied_to_someone'] = false;
 
-                    if($r['id'] ==  $reply['parent_id'])
-                    {
-                        $r['reply_id'] = $reply['id'];
-                        $r['replied'] = true;
-                        $r['reply_notes'] = $reply['notes'];
-                        $r['merchant_name'] = $reply['name'];
+            //         if($r['id'] ==  $reply['parent_id'])
+            //         {
+            //             $r['reply_id'] = $reply['id'];
+            //             $r['replied'] = true;
+            //             $r['reply_notes'] = $reply['notes'];
+            //             $r['merchant_name'] = $reply['name'];
 
-                        $reply['deal_id'] = $r['deal_id'];
-                        $reply['replied_to_someone'] = true;
-                        $reply['replied_to'] = $r['name'];
-                    }
-                }
-                $getDeal == null;
-            }
+            //             $reply['deal_id'] = $r['deal_id'];
+            //             $reply['replied_to_someone'] = true;
+            //             $reply['replied_to'] = $r['name'];
+            //         }
+            //     }
+            //     $getDeal == null;
+            // }
 
             // dd($reviews);
             $from_filter = 1;
             $response = Http::withToken($token);
-            $response = $response->get('gigiapi.zanforthstaging.com/api/getConversations');
+            $response = $response->get(''.config('path.path.WebPath').'api/getConversations');
             // NEW CODE -- START
-            if($response->json() == null)
-            {
-                // dd('yess');
-                $right = false;
-                while($right == false)
-                {
-                    $response = Http::withToken($token);
-                    $response = $response->get('gigiapi.zanforthstaging.com/api/getConversations');
-                    if($response->json() == null)
-                    {
+            // if($response->json() == null)
+            // {
+            //     // dd('yess');
+            //     $right = false;
+            //     while($right == false)
+            //     {
+            //         $response = Http::withToken($token);
+            //         $response = $response->get(''.config('path.path.WebPath').'api/getConversations');
+            //         if($response->json() == null)
+            //         {
 
-                    }
-                    else
-                    {
-                        // dd('yes');
-                        break;
-                    }
-                }
-            }
+            //         }
+            //         else
+            //         {
+            //             // dd('yes');
+            //             break;
+            //         }
+            //     }
+            // }
             // NEW CODE --END
 
            
@@ -1078,36 +1683,36 @@ class AdminHomeController extends Controller
             // $notifications =  $notifications['data'];
 
             $response = Http::withToken($token);
-            $response = $response->get('gigiapi.zanforthstaging.com/api/getNotifications',[
+            $response = $response->get(''.config('path.path.WebPath').'api/getNotifications',[
                 'limit' => 50,
                 'page' => 1,
                 'timeSort' => 'desc',
             ]);
-            // NEW CODE -- START
-            if($response->json() == null)
-            {
-                // dd('yess');
-                $right = false;
-                while($right == false)
-                {
-                    $response = Http::withToken($token);
-                    $response = $response->get('gigiapi.zanforthstaging.com/api/getNotifications',[
-                        'limit' => 50,
-                        'page' => 1,
-                        'timeSort' => 'desc',
-                    ]);
-                    if($response->json() == null)
-                    {
+            // // NEW CODE -- START
+            // if($response->json() == null)
+            // {
+            //     // dd('yess');
+            //     $right = false;
+            //     while($right == false)
+            //     {
+            //         $response = Http::withToken($token);
+            //         $response = $response->get(''.config('path.path.WebPath').'api/getNotifications',[
+            //             'limit' => 50,
+            //             'page' => 1,
+            //             'timeSort' => 'desc',
+            //         ]);
+            //         if($response->json() == null)
+            //         {
 
-                    }
-                    else
-                    {
-                        // dd('yes');
-                        break;
-                    }
-                }
-            }
-            // NEW CODE --END
+            //         }
+            //         else
+            //         {
+            //             // dd('yes');
+            //             break;
+            //         }
+            //     }
+            // }
+            // // NEW CODE --END
             $notifications = $response->json()['data'];
 
             echo "<script>";
@@ -1115,12 +1720,12 @@ class AdminHomeController extends Controller
             echo "var id = `". $id ."` ;";
             echo "</script>";
             return view('Admin.AllReviews',compact('conversations','reviews','min_date','max_date','from_filter','notifications'));
-        } catch (\Exception $e) {
-            return response()->json([
-                'Success' => 'False',
-                'Error' => $e->getMessage(),
-            ]);
-        }
+        // } catch (\Exception $e) {
+        //     return response()->json([
+        //         'Success' => 'False',
+        //         'Error' => $e->getMessage(),
+        //     ]);
+        // }
     }
 
     public function AdminAllReviews()
@@ -1129,7 +1734,7 @@ class AdminHomeController extends Controller
 
             $token = session('Authenticated_user_data')['token'];
             $response = Http::withToken($token);
-            $response = $response->get('gigiapi.zanforthstaging.com/api/admin/getReviews',[
+            $response = $response->get(''.config('path.path.WebPath').'api/admin/getReviews',[
                 'limit'=>1000000,
                 'page'=>1,
                 'returnType'=>'customPagination',
@@ -1144,7 +1749,7 @@ class AdminHomeController extends Controller
                 while($right == false)
                 {
                     $response = Http::withToken($token);
-                    $response = $response->get('gigiapi.zanforthstaging.com/api/admin/getReviews',[
+                    $response = $response->get(''.config('path.path.WebPath').'api/admin/getReviews',[
                         'limit'=>1000000,
                         'page'=>1,
                         'returnType'=>'customPagination',
@@ -1169,96 +1774,98 @@ class AdminHomeController extends Controller
             $min_date = null;
             $max_date  =null;
 
-            foreach($reviews as &$r)
-            {
-                $r['reply_id'] = 0;
-                $r['replied'] = false;
+            //Commenting tihs
+            // foreach($reviews as &$r)
+            // {
+            //     $r['reply_id'] = 0;
+            //     $r['replied'] = false;
 
-                $getDeal = Http::withToken($token)->get('gigiapi.zanforthstaging.com/api/admin/getDeal/'.$r['deal_id'].'')->json();
-
-
-                // NEW CODE -- START
-                if($getDeal == null)
-                {
-                    // dd('yess');
-                    $right = false;
-                    while($right == false)
-                    {
-                        $getDeal = Http::withToken($token)->get('gigiapi.zanforthstaging.com/api/admin/getDeal/'.$r['deal_id'].'')->json();
-                        if($getDeal == null)
-                        {
-
-                        }
-                        else
-                        {
-                            // dd('yes');
-                            break;
-                        }
-                    }
-                }
-                // NEW CODE --END
+            //     $getDeal = Http::withToken($token)->get(''.config('path.path.WebPath').'api/admin/getDeal/'.$r['deal_id'].'')->json();
 
 
+            //     // NEW CODE -- START
+            //     if($getDeal == null)
+            //     {
+            //         // dd('yess');
+            //         $right = false;
+            //         while($right == false)
+            //         {
+            //             $getDeal = Http::withToken($token)->get(''.config('path.path.WebPath').'api/admin/getDeal/'.$r['deal_id'].'')->json();
+            //             if($getDeal == null)
+            //             {
 
-                $r['deal_name'] = $getDeal['data']['name'];
-                $r['merchant_name'] = $getDeal['data']['merchant']['name'];
+            //             }
+            //             else
+            //             {
+            //                 // dd('yes');
+            //                 break;
+            //             }
+            //         }
+            //     }
+            //     // NEW CODE --END
 
-                foreach($reviews as &$reply)
-                {
-                    $reply['replied_to_someone'] = false;
-                    // $getDeal = Http::withToken($token)->get('gigiapi.zanforthstaging.com/api/admin/getDeal/'.$r['deal_id'].'')->json();
 
-                    // dd($reply['deal_name']);
-                    // dd(isset( $reply['deal_name'] ));
-                    // dd(isset( $getDeal['data']['name'] ));
+
+            //     // $r['deal_name'] = $getDeal['data']['name'];
+            //     // $r['merchant_name'] = $getDeal['data']['merchant']['name'];
+
+            //     // foreach($reviews as &$reply)
+            //     // {
+            //     //     $reply['replied_to_someone'] = false;
+            //     //     // $getDeal = Http::withToken($token)->get(''.config('path.path.WebPath').'api/admin/getDeal/'.$r['deal_id'].'')->json();
+
+            //     //     // dd($reply['deal_name']);
+            //     //     // dd(isset( $reply['deal_name'] ));
+            //     //     // dd(isset( $getDeal['data']['name'] ));
 
 
                     
-                    // $final_array=array_merge($existing_array, $new_array);
+            //     //     // $final_array=array_merge($existing_array, $new_array);
 
 
-                    // $reply['deal_name'] = $getDeal['data']['name'];
-                    // $reply['merchant_name'] = $getDeal['data']['merchant']['name'];
+            //     //     // $reply['deal_name'] = $getDeal['data']['name'];
+            //     //     // $reply['merchant_name'] = $getDeal['data']['merchant']['name'];
 
-                    if($r['id'] ==  $reply['parent_id'])
-                    {
-                        $r['reply_id'] = $reply['id'];
-                        $r['replied'] = true;
-                        $r['reply_notes'] = $reply['notes'];
-                        $r['merchant_name'] = $reply['name'];
+            //     //     if($r['id'] ==  $reply['parent_id'])
+            //     //     {
+            //     //         $r['reply_id'] = $reply['id'];
+            //     //         $r['replied'] = true;
+            //     //         $r['reply_notes'] = $reply['notes'];
+            //     //         $r['merchant_name'] = $reply['name'];
 
-                        $reply['deal_id'] = $r['deal_id'];
-                        $reply['replied_to_someone'] = true;
-                        $reply['replied_to'] = $r['name'];
-                    }
-                }
-                $getDeal == null;
-            }
+            //     //         $reply['deal_id'] = $r['deal_id'];
+            //     //         $reply['replied_to_someone'] = true;
+            //     //         $reply['replied_to'] = $r['name'];
+            //     //     }
+            //     // }
+            //     // $getDeal == null;
+            // }
 
             // dd($reviews);
+
             $from_filter = 0;
             $response = Http::withToken($token);
-            $response = $response->get('gigiapi.zanforthstaging.com/api/getConversations');
+            $response = $response->get(''.config('path.path.WebPath').'api/getConversations');
             // NEW CODE -- START
-            if($response->json() == null)
-            {
-                // dd('yess');
-                $right = false;
-                while($right == false)
-                {
-                    $response = Http::withToken($token);
-                    $response = $response->get('gigiapi.zanforthstaging.com/api/getConversations');
-                    if($response->json() == null)
-                    {
+            // if($response->json() == null)
+            // {
+            //     // dd('yess');
+            //     $right = false;
+            //     while($right == false)
+            //     {
+            //         $response = Http::withToken($token);
+            //         $response = $response->get(''.config('path.path.WebPath').'api/getConversations');
+            //         if($response->json() == null)
+            //         {
 
-                    }
-                    else
-                    {
-                        // dd('yes');
-                        break;
-                    }
-                }
-            }
+            //         }
+            //         else
+            //         {
+            //             // dd('yes');
+            //             break;
+            //         }
+            //     }
+            // }
             // NEW CODE --END
 
            
@@ -1269,35 +1876,35 @@ class AdminHomeController extends Controller
             // $notifications =  $notifications['data'];
 
             $response = Http::withToken($token);
-            $response = $response->get('gigiapi.zanforthstaging.com/api/getNotifications',[
+            $response = $response->get(''.config('path.path.WebPath').'api/getNotifications',[
                 'limit' => 50,
                 'page' => 1,
                 'timeSort' => 'desc',
             ]);
             // NEW CODE -- START
-            if($response->json() == null)
-            {
-                // dd('yess');
-                $right = false;
-                while($right == false)
-                {
-                    $response = Http::withToken($token);
-                    $response = $response->get('gigiapi.zanforthstaging.com/api/getNotifications',[
-                        'limit' => 50,
-                        'page' => 1,
-                        'timeSort' => 'desc',
-                    ]);
-                    if($response->json() == null)
-                    {
+            // if($response->json() == null)
+            // {
+            //     // dd('yess');
+            //     $right = false;
+            //     while($right == false)
+            //     {
+            //         $response = Http::withToken($token);
+            //         $response = $response->get(''.config('path.path.WebPath').'api/getNotifications',[
+            //             'limit' => 50,
+            //             'page' => 1,
+            //             'timeSort' => 'desc',
+            //         ]);
+            //         if($response->json() == null)
+            //         {
 
-                    }
-                    else
-                    {
-                        // dd('yes');
-                        break;
-                    }
-                }
-            }
+            //         }
+            //         else
+            //         {
+            //             // dd('yes');
+            //             break;
+            //         }
+            //     }
+            // }
             // NEW CODE --END
             $notifications = $response->json()['data'];
 
@@ -1318,27 +1925,25 @@ class AdminHomeController extends Controller
     public function loadBranchesBeforeQR(Request $request)
     {
         $token = session('Authenticated_user_data')['token'];
-        $response = Http::withToken($token)->get('gigiapi.zanforthstaging.com/api/user/getPurchaseDeal/'.$request->ID.'');
+        $response = Http::withToken($token)->get(''.config('path.path.WebPath').'api/user/getPurchaseDeal/'.$request->ID.'');
         $purchasedDeal = $response->json()['data'];
         
-        $response = Http::withToken($token)->get('gigiapi.zanforthstaging.com/api/user/getDeal/'.$purchasedDeal['id'].'');
+        $response = Http::withToken($token)->get(''.config('path.path.WebPath').'api/user/getDeal/'.$purchasedDeal['id'].'');
         $deal = $response->json()['data'];
         return $deal;
     }
 
     public function load_qr(Request $request)
     {
+        
         // return $request->branchID;
-
-
-
-        // $response = Http::get('gigiapi.zanforthstaging.com/api/user/getDeal/'.$request->ID.'');
+        // $response = Http::get(''.config('path.path.WebPath').'api/user/getDeal/'.$request->ID.'');
         $token = session('Authenticated_user_data')['token'];
         // return $token;
-        $response = Http::withToken($token)->get('gigiapi.zanforthstaging.com/api/user/getPurchaseDeal/'.$request->ID.'');
+        $response = Http::withToken($token)->get(''.config('path.path.WebPath').'api/user/getPurchaseDeal/'.$request->ID.'');
         $deal = $response->json()['data'];
 
-        $response = Http::get('gigiapi.zanforthstaging.com/api/user/getMerchant/'.$deal['merchant_id'].'');
+        $response = Http::get(''.config('path.path.WebPath').'api/user/getMerchant/'.$deal['merchant_id'].'');
         $merchant = $response->json()['data'];
 
         $time_of_purchase = Carbon::parse($deal['created_at'])->format('d F Y');
@@ -1349,31 +1954,23 @@ class AdminHomeController extends Controller
 
         $str = ''.$deal["purchase_id"].':'.$request->branchID.':'.$deal['purchase_quantity'].':'.$deal["discount_on_price"].':'.$deal["price"].':'.$deal["type"].':'.$deal["availability_status"].':'.$deal["name"].'';
 
-        if($deal['additional_discount'] <= 0 || !$result)
-        {
-            $AdDiscount = "N/A";
-            $AdDiscountDate = "N/A";
-        }
-        else
-        {
-            $AdDiscount = $deal['additional_discount'];
-            $AdDiscountDate = Carbon::parse($deal['additional_discount_date'])->format('d F Y');
-            $str = ''.$deal["purchase_id"].':'.$request->branchID.':'.$deal['purchase_quantity'].':'.$AdDiscount.':'.$deal["price"].':'.$deal["type"].':'.$deal["availability_status"].':'.$deal["name"].'';
-        }
-
-        $deal['merchant_name'] = $merchant['name'];
-        // $str = "DEALID: ".$deal['id']."\nDeal : ".$deal['name']."\nMerchant : ".$deal['merchant_name']."\nDiscount : ".$deal['discount_on_price']."%\nType : ".$deal['type']."\nActual Price : ".$deal['actual_price']."$\nPrice : ".$deal['price']."$\nAfter Discount : ".$deal['after_discount']."$\nType : ".$deal['type']."";
-
-        // Purchase ID, branch ID, qty, discount on price, price, type, availability status, product name
-        // 225:84:1:60:2500:Specific Product:Expired:With Name
-        // 228:86:1:40:0:Entire Menu:Available:Offer1
-        
-
-
         //uncomment this
         // $str = "DEALID: ".$deal['id']."\nDeal : ".$deal['name']."\nMerchant : ".$deal['merchant_name']."\nDiscount : ".$deal['discount_on_price']."%\nType : ".$deal['type']."\nPrice : ".$deal['price']."AZN\nAdditional Discount : ".$AdDiscount."\nAdditional Discount Expiry: ".$AdDiscountDate." \nType : ".$deal['type']." \nTime Of Purchase : ".$time_of_purchase."";
         $variable = $str;
         $variable = ''.QrCode::size(200)->generate($variable).'';
+
+        // $array['qrCode'] = $str;
+        // $array['variable'] = $variable;
+        // return $array;
+        if($request->has('JustCode'))
+        {
+            if($request->JustCode == 1)
+            {
+                return $str;
+            }
+        }
+
+
         return $variable;
     }
 
@@ -1384,7 +1981,7 @@ class AdminHomeController extends Controller
         $token = session('Authenticated_user_data')['token'];
         // return $token;
         $response = Http::withToken($token);
-        $response = $response->get('gigiapi.zanforthstaging.com/api/admin/getUser/'.$request->user_id.'');
+        $response = $response->get(''.config('path.path.WebPath').'api/admin/getUser/'.$request->user_id.'');
         $user = $response->json()['data'];
         // return $user;
         // return $user['locations'][0]['city'];
@@ -1442,7 +2039,7 @@ class AdminHomeController extends Controller
             $token = session('Authenticated_user_data')['token'];
             // dd($token);
             $response = Http::withToken($token);
-            $response = $response->get('gigiapi.zanforthstaging.com/api/admin/getUsers' , [
+            $response = $response->get(''.config('path.path.WebPath').'api/admin/getUsers' , [
                 'limit' => 10000,
                 'page' => 1,
                 'returnType' => 'dataTable',
@@ -1649,34 +2246,34 @@ class AdminHomeController extends Controller
 
             // //Top Category Stats Cats
             $response = Http::withToken($token);
-            $response = $response->get('gigiapi.zanforthstaging.com/api/admin/getCategoryStats');
+            $response = $response->get(''.config('path.path.WebPath').'api/admin/getCategoryStats');
             $cats = $response->json();
             // dd($cats);
             // // Basic Stats
             $response = Http::withToken($token);
-            $response = $response->get('gigiapi.zanforthstaging.com/api/admin/getDashboardStats');
+            $response = $response->get(''.config('path.path.WebPath').'api/admin/getDashboardStats');
             $basic_stats = $response->json()['data'];
 
             // //Top Merchants 
             $response = Http::withToken($token);
-            $response = $response->get('gigiapi.zanforthstaging.com/api/admin/getTopMerchants');
+            $response = $response->get(''.config('path.path.WebPath').'api/admin/getTopMerchants');
             $TopMerchants = $response->json()['data'];
             // dd($TopMerchants);
 
             //SEARCHTERMS
             $response = Http::withToken($token);
-            $response = $response->get('gigiapi.zanforthstaging.com/api/admin/getMostSearchedTerm');
+            $response = $response->get(''.config('path.path.WebPath').'api/admin/getMostSearchedTerm');
             $searchTerms = $response->json()['data'];
             // dd($searchTerms);
             // //Top Deals
             $response = Http::withToken($token);
-            $response = $response->get('gigiapi.zanforthstaging.com/api/admin/getTopDeals');
+            $response = $response->get(''.config('path.path.WebPath').'api/admin/getTopDeals');
             $TopDeals = $response->json()['data'];
             // dd($TopDeals);
 
             // // //Top Cats
             // $response = Http::withToken($token);
-            // $response = $response->get('gigiapi.zanforthstaging.com/api/admin/getTopCategories');
+            // $response = $response->get(''.config('path.path.WebPath').'api/admin/getTopCategories');
             // $cats = $response->json();
             // dd($cats);
             // foreach($cats as $index => $cat){
@@ -1685,21 +2282,21 @@ class AdminHomeController extends Controller
 
             //Purchased Deals
             $response = Http::withToken($token);
-            $response = $response->get('gigiapi.zanforthstaging.com/api/admin/getDealPurchasedGraphDataMonthWise');
+            $response = $response->get(''.config('path.path.WebPath').'api/admin/getDealPurchasedGraphDataMonthWise');
             $PurchasedGraph = $response->json()['data'];
 
             $response = Http::withToken($token);
-            $response = $response->get('gigiapi.zanforthstaging.com/api/admin/getGenderStats',['gender' => 'male' ]);
+            $response = $response->get(''.config('path.path.WebPath').'api/admin/getGenderStats',['gender' => 'male' ]);
             $getMaleData = $response->json()['data'];
             // dd($getMaleData);
             // 
             $response = Http::withToken($token);
-            $response = $response->get('gigiapi.zanforthstaging.com/api/admin/getGenderStats',['gender' => 'female' ]);
+            $response = $response->get(''.config('path.path.WebPath').'api/admin/getGenderStats',['gender' => 'female' ]);
             $getFemaleData = $response->json()['data'];
 
 
             $response = Http::withToken($token);
-            $response = $response->get('gigiapi.zanforthstaging.com/api/admin/getMostSearchedLink');
+            $response = $response->get(''.config('path.path.WebPath').'api/admin/getMostSearchedLink');
             $mostSearch = $response->json();
             // dd($mostSearch);
 
@@ -1754,7 +2351,7 @@ class AdminHomeController extends Controller
 
 
             $response = Http::withToken($token);
-            $response = $response->get('gigiapi.zanforthstaging.com/api/admin/getUsersGraphDataMonthWise');
+            $response = $response->get(''.config('path.path.WebPath').'api/admin/getUsersGraphDataMonthWise');
             $user_graph = $response->json()['data'];
 
             $i = 0;
@@ -1807,7 +2404,7 @@ class AdminHomeController extends Controller
 
             $token = session('Authenticated_user_data')['token'];
             $response = Http::withToken($token);
-            $response = $response->get('gigiapi.zanforthstaging.com/api/getConversations');
+            $response = $response->get(''.config('path.path.WebPath').'api/getConversations');
             // NEW CODE -- START
             if($response->json() == null)
             {
@@ -1816,7 +2413,7 @@ class AdminHomeController extends Controller
                 while($right == false)
                 {
                     $response = Http::withToken($token);
-                    $response = $response->get('gigiapi.zanforthstaging.com/api/getConversations');
+                    $response = $response->get(''.config('path.path.WebPath').'api/getConversations');
                     if($response->json() == null)
                     {
 
@@ -1853,7 +2450,7 @@ class AdminHomeController extends Controller
         try{
             $token = session('Authenticated_user_data')['token'];
             $response = Http::withToken($token);
-            $response = $response->get('gigiapi.zanforthstaging.com/api/admin/getMerchants' , [
+            $response = $response->get(''.config('path.path.WebPath').'api/admin/getMerchants' , [
                 'limit' => 1000,
                 'page' => 1,
                 'returnType' => 'customPagination',
@@ -1865,7 +2462,7 @@ class AdminHomeController extends Controller
             $merchants = $this->paginateMerchantRequest($merchants);
             $token = session('Authenticated_user_data')['token'];
             $response = Http::withToken($token);
-            $response = $response->get('gigiapi.zanforthstaging.com/api/getConversations');
+            $response = $response->get(''.config('path.path.WebPath').'api/getConversations');
             // NEW CODE -- START
             if($response->json() == null)
             {
@@ -1874,7 +2471,7 @@ class AdminHomeController extends Controller
                 while($right == false)
                 {
                     $response = Http::withToken($token);
-                    $response = $response->get('gigiapi.zanforthstaging.com/api/getConversations');
+                    $response = $response->get(''.config('path.path.WebPath').'api/getConversations');
                     if($response->json() == null)
                     {
 
@@ -1919,7 +2516,7 @@ class AdminHomeController extends Controller
         try{
             $token = session('Authenticated_user_data')['token'];
             $response = Http::withToken($token);
-            $response = $response->get('gigiapi.zanforthstaging.com/api/admin/getMerchants' , [
+            $response = $response->get(''.config('path.path.WebPath').'api/admin/getMerchants' , [
                 'limit' => 10000,
                 'page' => 1,
                 'returnType' => 'customPagination',
@@ -1931,7 +2528,7 @@ class AdminHomeController extends Controller
             $merchants = $this->paginateActiveMerchantRequest($merchants);
             $token = session('Authenticated_user_data')['token'];
             $response = Http::withToken($token);
-            $response = $response->get('gigiapi.zanforthstaging.com/api/getConversations');
+            $response = $response->get(''.config('path.path.WebPath').'api/getConversations');
             // NEW CODE -- START
             if($response->json() == null)
             {
@@ -1940,7 +2537,7 @@ class AdminHomeController extends Controller
                 while($right == false)
                 {
                     $response = Http::withToken($token);
-                    $response = $response->get('gigiapi.zanforthstaging.com/api/getConversations');
+                    $response = $response->get(''.config('path.path.WebPath').'api/getConversations');
                     if($response->json() == null)
                     {
 
@@ -1987,7 +2584,7 @@ class AdminHomeController extends Controller
             // dd($request['query']);
             $token = session('Authenticated_user_data')['token'];
             $response = Http::withToken($token);
-            $response = $response->get('gigiapi.zanforthstaging.com/api/admin/getDeals' , [
+            $response = $response->get(''.config('path.path.WebPath').'api/admin/getDeals' , [
                 'limit' => 1000,
                 'page' => 1,
                 // 'returnType' => 'dataTable',
@@ -2002,7 +2599,7 @@ class AdminHomeController extends Controller
             // dd($deals);
             $token = session('Authenticated_user_data')['token'];
             $response = Http::withToken($token);
-            $response = $response->get('gigiapi.zanforthstaging.com/api/getConversations');
+            $response = $response->get(''.config('path.path.WebPath').'api/getConversations');
             // NEW CODE -- START
             if($response->json() == null)
             {
@@ -2011,7 +2608,7 @@ class AdminHomeController extends Controller
                 while($right == false)
                 {
                     $response = Http::withToken($token);
-                    $response = $response->get('gigiapi.zanforthstaging.com/api/getConversations');
+                    $response = $response->get(''.config('path.path.WebPath').'api/getConversations');
                     if($response->json() == null)
                     {
 
@@ -2048,7 +2645,7 @@ class AdminHomeController extends Controller
         try{
             $token = session('Authenticated_user_data')['token'];
             $response = Http::withToken($token);
-            $response = $response->get('gigiapi.zanforthstaging.com/api/admin/getDeals' , [
+            $response = $response->get(''.config('path.path.WebPath').'api/admin/getDeals' , [
                 'limit' => 1000,
                 'page' => 1,
                 // 'returnType' => 'dataTable',
@@ -2065,7 +2662,7 @@ class AdminHomeController extends Controller
                 $right = false;
                 while($right == false)
                 {
-                    $response = $response->get('gigiapi.zanforthstaging.com/api/admin/getDeals' , [
+                    $response = $response->get(''.config('path.path.WebPath').'api/admin/getDeals' , [
                         'limit' => 1000,
                         'page' => 1,
                         // 'returnType' => 'dataTable',
@@ -2095,7 +2692,7 @@ class AdminHomeController extends Controller
             // dd($deals);
             $token = session('Authenticated_user_data')['token'];
             $response = Http::withToken($token);
-            $response = $response->get('gigiapi.zanforthstaging.com/api/getConversations');
+            $response = $response->get(''.config('path.path.WebPath').'api/getConversations');
             // NEW CODE -- START
             if($response->json() == null)
             {
@@ -2104,7 +2701,7 @@ class AdminHomeController extends Controller
                 while($right == false)
                 {
                     $response = Http::withToken($token);
-                    $response = $response->get('gigiapi.zanforthstaging.com/api/getConversations');
+                    $response = $response->get(''.config('path.path.WebPath').'api/getConversations');
                     if($response->json() == null)
                     {
 
@@ -2144,7 +2741,7 @@ class AdminHomeController extends Controller
         try{
             $token = session('Authenticated_user_data')['token'];
             $response = Http::withToken($token);
-            $response = $response->get('gigiapi.zanforthstaging.com/api/admin/getDeals' , [
+            $response = $response->get(''.config('path.path.WebPath').'api/admin/getDeals' , [
                 'limit' => 1000,
                 'page' => 1,
                 // 'returnType' => 'dataTable',
@@ -2159,7 +2756,7 @@ class AdminHomeController extends Controller
             // dd($deals);
             $token = session('Authenticated_user_data')['token'];
             $response = Http::withToken($token);
-            $response = $response->get('gigiapi.zanforthstaging.com/api/getConversations');
+            $response = $response->get(''.config('path.path.WebPath').'api/getConversations');
             // NEW CODE -- START
             if($response->json() == null)
             {
@@ -2168,7 +2765,7 @@ class AdminHomeController extends Controller
                 while($right == false)
                 {
                     $response = Http::withToken($token);
-                    $response = $response->get('gigiapi.zanforthstaging.com/api/getConversations');
+                    $response = $response->get(''.config('path.path.WebPath').'api/getConversations');
                     if($response->json() == null)
                     {
 
@@ -2223,67 +2820,67 @@ class AdminHomeController extends Controller
             $toDate = null;
 
 
-            $response = $response->get('gigiapi.zanforthstaging.com/api/admin/getUsers' , [
+            $response = $response->get(''.config('path.path.WebPath').'api/admin/getUsers' , [
                 'limit' => 10000,
                 'page' => 1,
                 'returnType' => 'dataTable',
                 'status' => 1,
             ]);
 
-            // NEW CODE -- START
-            if($response->json() == null)
-            {
-                // dd('yess');
-                $right = false;
-                while($right == false)
-                {
-                    $response = Http::withToken($token);
-                    $response = $response->get('gigiapi.zanforthstaging.com/api/admin/getUsers' , [
-                        'limit' => 10000,
-                        'page' => 1,
-                        'returnType' => 'dataTable',
-                        'status' => 1,
-                    ]);
-                    if($response->json() == null)
-                    {
+            // // NEW CODE -- START
+            // if($response->json() == null)
+            // {
+            //     // dd('yess');
+            //     $right = false;
+            //     while($right == false)
+            //     {
+            //         $response = Http::withToken($token);
+            //         $response = $response->get(''.config('path.path.WebPath').'api/admin/getUsers' , [
+            //             'limit' => 10000,
+            //             'page' => 1,
+            //             'returnType' => 'dataTable',
+            //             'status' => 1,
+            //         ]);
+            //         if($response->json() == null)
+            //         {
 
-                    }
-                    else
-                    {
-                        // dd('yes');
-                        break;
-                    }
-                }
-            }
-            // NEW CODE --END
+            //         }
+            //         else
+            //         {
+            //             // dd('yes');
+            //             break;
+            //         }
+            //     }
+            // }
+            // // NEW CODE --END
 
 
             $users = $response->json()['data'];
             // dd($users);
             $token = session('Authenticated_user_data')['token'];
             $response = Http::withToken($token);
-            $response = $response->get('gigiapi.zanforthstaging.com/api/getConversations');
-            // NEW CODE -- START
-            if($response->json() == null)
-            {
-                // dd('yess');
-                $right = false;
-                while($right == false)
-                {
-                    $response = Http::withToken($token);
-                    $response = $response->get('gigiapi.zanforthstaging.com/api/getConversations');
-                    if($response->json() == null)
-                    {
+            $response = $response->get(''.config('path.path.WebPath').'api/getConversations');
+            // // NEW CODE -- START
+            // if($response->json() == null)
+            // {
+            //     // dd('yess');
+            //     $right = false;
+            //     while($right == false)
+            //     {
+            //         $response = Http::withToken($token);
+            //         $response = $response->get(''.config('path.path.WebPath').'api/getConversations');
+            //         if($response->json() == null)
+            //         {
 
-                    }
-                    else
-                    {
-                        // dd('yes');
-                        break;
-                    }
-                }
-            }
-            // NEW CODE --END
+            //         }
+            //         else
+            //         {
+            //             // dd('yes');
+            //             break;
+            //         }
+            //     }
+            // }
+            // // NEW CODE --END
 
 
             $conversations = $response->json()['data'];
@@ -2293,36 +2890,36 @@ class AdminHomeController extends Controller
             // $notifications = $this->getNotifications($token);
             // $notifications =  $notifications['data'];
             $response = Http::withToken($token);
-            $response = $response->get('gigiapi.zanforthstaging.com/api/getNotifications',[
+            $response = $response->get(''.config('path.path.WebPath').'api/getNotifications',[
                 'limit' => 50,
                 'page' => 1,
                 'timeSort' => 'desc',
             ]);
-            // NEW CODE -- START
-            if($response->json() == null)
-            {
-                // dd('yess');
-                $right = false;
-                while($right == false)
-                {
-                    $response = Http::withToken($token);
-                    $response = $response->get('gigiapi.zanforthstaging.com/api/getNotifications',[
-                        'limit' => 50,
-                        'page' => 1,
-                        'timeSort' => 'desc',
-                    ]);
-                    if($response->json() == null)
-                    {
+            // // NEW CODE -- START
+            // if($response->json() == null)
+            // {
+            //     // dd('yess');
+            //     $right = false;
+            //     while($right == false)
+            //     {
+            //         $response = Http::withToken($token);
+            //         $response = $response->get(''.config('path.path.WebPath').'api/getNotifications',[
+            //             'limit' => 50,
+            //             'page' => 1,
+            //             'timeSort' => 'desc',
+            //         ]);
+            //         if($response->json() == null)
+            //         {
 
-                    }
-                    else
-                    {
-                        // dd('yes');
-                        break;
-                    }
-                }
-            }
-            // NEW CODE --END
+            //         }
+            //         else
+            //         {
+            //             // dd('yes');
+            //             break;
+            //         }
+            //     }
+            // }
+            // // NEW CODE --END
             $notifications = $response->json()['data'];
 
 
@@ -2362,7 +2959,7 @@ class AdminHomeController extends Controller
             // dd($fromDate);
             if($request->gender == 'female')
             {
-                $response = $response->get('gigiapi.zanforthstaging.com/api/admin/getUsers' , [
+                $response = $response->get(''.config('path.path.WebPath').'api/admin/getUsers' , [
                     'limit' => 10,
                     'page' => 1,
                     'returnType' => 'dataTable',
@@ -2376,7 +2973,7 @@ class AdminHomeController extends Controller
             }
             elseif($request->gender == 'male')
             {
-                $response = $response->get('gigiapi.zanforthstaging.com/api/admin/getUsers' , [
+                $response = $response->get(''.config('path.path.WebPath').'api/admin/getUsers' , [
                     'limit' => 10,
                     'page' => 1,
                     'returnType' => 'dataTable',
@@ -2390,7 +2987,7 @@ class AdminHomeController extends Controller
             }
             else
             {
-                $response = $response->get('gigiapi.zanforthstaging.com/api/admin/getUsers' , [
+                $response = $response->get(''.config('path.path.WebPath').'api/admin/getUsers' , [
                     'limit' => 10,
                     'page' => 1,
                     'returnType' => 'dataTable',
@@ -2409,7 +3006,7 @@ class AdminHomeController extends Controller
             // dd($users);
             $token = session('Authenticated_user_data')['token'];
             $response = Http::withToken($token);
-            $response = $response->get('gigiapi.zanforthstaging.com/api/getConversations');
+            $response = $response->get(''.config('path.path.WebPath').'api/getConversations');
             // NEW CODE -- START
             if($response->json() == null)
             {
@@ -2418,7 +3015,7 @@ class AdminHomeController extends Controller
                 while($right == false)
                 {
                     $response = Http::withToken($token);
-                    $response = $response->get('gigiapi.zanforthstaging.com/api/getConversations');
+                    $response = $response->get(''.config('path.path.WebPath').'api/getConversations');
                     if($response->json() == null)
                     {
 
@@ -2441,7 +3038,7 @@ class AdminHomeController extends Controller
             // $notifications = $this->getNotifications($token);
             // $notifications =  $notifications['data'];
             $response = Http::withToken($token);
-            $response = $response->get('gigiapi.zanforthstaging.com/api/getNotifications',[
+            $response = $response->get(''.config('path.path.WebPath').'api/getNotifications',[
                 'limit' => 50,
                 'page' => 1,
                 'timeSort' => 'desc',
@@ -2454,7 +3051,7 @@ class AdminHomeController extends Controller
                 while($right == false)
                 {
                     $response = Http::withToken($token);
-                    $response = $response->get('gigiapi.zanforthstaging.com/api/getNotifications',[
+                    $response = $response->get(''.config('path.path.WebPath').'api/getNotifications',[
                         'limit' => 50,
                         'page' => 1,
                         'timeSort' => 'desc',
@@ -2510,7 +3107,7 @@ class AdminHomeController extends Controller
             // dd($toAge);
             if($request->gender == 'female')
             {
-                $response = $response->get('gigiapi.zanforthstaging.com/api/admin/getUsers' , [
+                $response = $response->get(''.config('path.path.WebPath').'api/admin/getUsers' , [
                     'limit' => 10,
                     'page' => 1,
                     'returnType' => 'dataTable',
@@ -2524,7 +3121,7 @@ class AdminHomeController extends Controller
             }
             elseif($request->gender == 'male')
             {
-                $response = $response->get('gigiapi.zanforthstaging.com/api/admin/getUsers' , [
+                $response = $response->get(''.config('path.path.WebPath').'api/admin/getUsers' , [
                     'limit' => 10,
                     'page' => 1,
                     'returnType' => 'dataTable',
@@ -2538,7 +3135,7 @@ class AdminHomeController extends Controller
             }
             else
             {
-                $response = $response->get('gigiapi.zanforthstaging.com/api/admin/getUsers' , [
+                $response = $response->get(''.config('path.path.WebPath').'api/admin/getUsers' , [
                     'limit' => 10,
                     'page' => 1,
                     'returnType' => 'dataTable',
@@ -2556,7 +3153,7 @@ class AdminHomeController extends Controller
             // dd($users);
             $token = session('Authenticated_user_data')['token'];
             $response = Http::withToken($token);
-            $response = $response->get('gigiapi.zanforthstaging.com/api/getConversations');
+            $response = $response->get(''.config('path.path.WebPath').'api/getConversations');
             // NEW CODE -- START
             if($response->json() == null)
             {
@@ -2565,7 +3162,7 @@ class AdminHomeController extends Controller
                 while($right == false)
                 {
                     $response = Http::withToken($token);
-                    $response = $response->get('gigiapi.zanforthstaging.com/api/getConversations');
+                    $response = $response->get(''.config('path.path.WebPath').'api/getConversations');
                     if($response->json() == null)
                     {
 
@@ -2589,7 +3186,7 @@ class AdminHomeController extends Controller
             // $notifications =  $notifications['data'];
 
             $response = Http::withToken($token);
-            $response = $response->get('gigiapi.zanforthstaging.com/api/getNotifications',[
+            $response = $response->get(''.config('path.path.WebPath').'api/getNotifications',[
                 'limit' => 50,
                 'page' => 1,
                 'timeSort' => 'desc',
@@ -2602,7 +3199,7 @@ class AdminHomeController extends Controller
                 while($right == false)
                 {
                     $response = Http::withToken($token);
-                    $response = $response->get('gigiapi.zanforthstaging.com/api/getNotifications',[
+                    $response = $response->get(''.config('path.path.WebPath').'api/getNotifications',[
                         'limit' => 50,
                         'page' => 1,
                         'timeSort' => 'desc',
@@ -2641,10 +3238,10 @@ class AdminHomeController extends Controller
         try{
             $token = session('Authenticated_user_data')['token'];
             $response = Http::withToken($token);
-            $response = $response->get('gigiapi.zanforthstaging.com/api/admin/getMerchant/'.$id.'?type=admin',[
+            $response = $response->get(''.config('path.path.WebPath').'api/admin/getMerchant/'.$id.'?type=admin',[
                 'type' => 'admin',
             ]);
-            // dd($response);
+            // dd($response->json());
             // NEW CODE -- START
             if($response->json() == null)
             {
@@ -2653,7 +3250,7 @@ class AdminHomeController extends Controller
                 while($right == false)
                 {
                     $response = Http::withToken($token);
-                    $response = $response->get('gigiapi.zanforthstaging.com/api/admin/getMerchant/'.$id.'?type=admin',[
+                    $response = $response->get(''.config('path.path.WebPath').'api/admin/getMerchant/'.$id.'?type=admin',[
                         'type' => 'admin',
                     ]);
                     if($response->json() == null)
@@ -2676,7 +3273,7 @@ class AdminHomeController extends Controller
             if($merchant['status'] == 1)
             {
                 $response = Http::withToken($token);
-                $response = $response->get('gigiapi.zanforthstaging.com/api/admin/getMerchantDeals/'.$id.'');
+                $response = $response->get(''.config('path.path.WebPath').'api/admin/getMerchantDeals/'.$id.'');
     
                 // NEW CODE -- START
                 if($response->json() == null)
@@ -2686,7 +3283,7 @@ class AdminHomeController extends Controller
                     while($right == false)
                     {
                         $response = Http::withToken($token);
-                        $response = $response->get('gigiapi.zanforthstaging.com/api/admin/getMerchantDeals/'.$id.'');
+                        $response = $response->get(''.config('path.path.WebPath').'api/admin/getMerchantDeals/'.$id.'');
                         if($response->json() == null)
                         {
     
@@ -2712,7 +3309,7 @@ class AdminHomeController extends Controller
             // dd($deals);  
             $token = session('Authenticated_user_data')['token'];
             $response = Http::withToken($token);
-            $response = $response->get('gigiapi.zanforthstaging.com/api/getConversations');
+            $response = $response->get(''.config('path.path.WebPath').'api/getConversations');
             // NEW CODE -- START
             if($response->json() == null)
             {
@@ -2721,7 +3318,7 @@ class AdminHomeController extends Controller
                 while($right == false)
                 {
                     $response = Http::withToken($token);
-                    $response = $response->get('gigiapi.zanforthstaging.com/api/getConversations');
+                    $response = $response->get(''.config('path.path.WebPath').'api/getConversations');
                     if($response->json() == null)
                     {
 

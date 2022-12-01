@@ -91,7 +91,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 <head>
 
-    <title>Login | GiGi</title>
+    <title>Login | Sibuy</title>
     <?php include 'layouts/head.php'; ?>
 
     <?php include 'layouts/head-style.php'; ?>
@@ -109,13 +109,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         <div class="d-flex flex-column h-100">
                             <div class="mb-4 mb-md-5 text-center">
                                 <a href="index.php" class="d-block auth-logo">
-                                    <img src="assets/images/gigi-logo.png" alt="" height="28"> <span class="logo-txt">GiGi</span>
+                                    <img src="assets/images/sibuy.png" alt="" height="28"> <span class="logo-txt">Sibuy</span>
                                 </a>
                             </div>
                             <div class="auth-content my-auto">
                                 <div class="text-center">
                                     <h5 class="mb-0">Welcome Back !</h5>
-                                    <p class="text-muted mt-2">Sign in to continue to GiGi.</p>
+                                    <p class="text-muted mt-2">Sign in to continue to Sibuy.</p>
                                 </div>
                                 <form class="custom-form mt-4 pt-2" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
                                     <div class="mb-3 <?php echo (!empty($username_err)) ? 'has-error' : ''; ?>">
@@ -164,7 +164,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             </div>
                             <div class="mt-4 mt-md-5 text-center">
                                 <p class="mb-0">Copyright © <script>
-                                    document.write(new Date().getFullYear() + " GiGi")
+                                    document.write(new Date().getFullYear() + " Sibuy")
                                 </script>
                             </div>
                         </div>

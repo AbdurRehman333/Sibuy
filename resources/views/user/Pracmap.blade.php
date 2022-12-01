@@ -10,7 +10,7 @@
 
 
     {{--
-    <link rel="shortcut icon" href="{{asset('assets/USER/admin/assets/images/gigi-logo.png')}}"> --}}
+    <link rel="shortcut icon" href="{{asset('assets/images/sibuy.png')}}"> --}}
 
     <script src="https://polyfill.io/v3/polyfill.js?features=default"></script>
 
@@ -113,17 +113,17 @@
 
             // // THIS IS WORKING BUT COORDINATES ARE NOT COORECT
             var locAPI = "https://maps.googleapis.com/maps/api/geocode/json?latlng="+position.coords.latitude+","+
-            position.coords.longitude+"&key=AIzaSyCbFOBJYJrSGajJcEs9qkLS_woaNxpY8R0";
+            position.coords.longitude+"&key=AIzaSyC-n4y_PakeAxZrbCGvHOqwmG63JGtsiYM";
             console.log(locAPI);
 
             //Testing mobile loc
             // var locAPI = "https://maps.googleapis.com/maps/api/geocode/json?latlng="+31.4532618+","+
-            // 74.3457784+"&key=AIzaSyCbFOBJYJrSGajJcEs9qkLS_woaNxpY8R0";
+            // 74.3457784+"&key=AIzaSyC-n4y_PakeAxZrbCGvHOqwmG63JGtsiYM";
             // console.log(locAPI);
 
             //RANDOM
             // var locAPI = "https://maps.googleapis.com/maps/api/geocode/json?latlng="+34.4532618+","+
-            // 72.3457784+"&key=AIzaSyCbFOBJYJrSGajJcEs9qkLS_woaNxpY8R0";
+            // 72.3457784+"&key=AIzaSyC-n4y_PakeAxZrbCGvHOqwmG63JGtsiYM";
             // console.log(locAPI);
 
             $.get({
@@ -265,9 +265,9 @@
 
 
 
-    <script async defer
-        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCbFOBJYJrSGajJcEs9qkLS_woaNxpY8R0&callback=initMap">
-    </script>
+    {{-- <script async defer
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC-n4y_PakeAxZrbCGvHOqwmG63JGtsiYM&callback=initMap">
+    </script> --}}
 
 
     <!--**********************************

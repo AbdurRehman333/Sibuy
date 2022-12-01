@@ -11,7 +11,7 @@ class AdminChatController extends Controller
     public function getNotifications($token)
     {
         $response = Http::withToken($token);
-        $response = $response->get('gigiapi.zanforthstaging.com/api/getNotifications',[
+        $response = $response->get(''.config('path.path.WebPath').'api/getNotifications',[
             'limit' => 50,
             'page' => 1,
             'timeSort' => 'desc',
@@ -25,7 +25,7 @@ class AdminChatController extends Controller
             while($right == false)
             {
                 $response = Http::withToken($token);
-                $response = $response->get('gigiapi.zanforthstaging.com/api/getNotifications',[
+                $response = $response->get(''.config('path.path.WebPath').'api/getNotifications',[
                     'limit' => 50,
                     'page' => 1,
                     'timeSort' => 'desc',
@@ -51,7 +51,7 @@ class AdminChatController extends Controller
         $my_id = session('Authenticated_user_data')['id'];
         $token = session('Authenticated_user_data')['token'];
         $response = Http::withToken($token);
-        $response = $response->post('gigiapi.zanforthstaging.com/api/createConversation',
+        $response = $response->post(''.config('path.path.WebPath').'api/createConversation',
         [ 'message' => 'Hello' , 'receiver' => $id] );
         $conversation = $response->json()['data'];
         $convo_id = $conversation['id'];
@@ -66,7 +66,7 @@ class AdminChatController extends Controller
 
         $token = session('Authenticated_user_data')['token'];
         $response = Http::withToken($token);
-        $response = $response->post('gigiapi.zanforthstaging.com/api/createConversation',
+        $response = $response->post(''.config('path.path.WebPath').'api/createConversation',
         [ 'message' => 'Hello' , 'receiver' => $id] );
         $conversation = $response->json()['data'];
 
@@ -75,16 +75,16 @@ class AdminChatController extends Controller
 
         //Get Conversation
         // $response = Http::withToken($token);
-        // $response = $response->get('gigiapi.zanforthstaging.com/api/getConversation/'.$convo_id.'');
+        // $response = $response->get(''.config('path.path.WebPath').'api/getConversation/'.$convo_id.'');
         // $conversation = $response->json()['data'];
         // // dd($conversation);
         // //Get Conversation Messages
         // $response = Http::withToken($token);
-        // $response = $response->get('gigiapi.zanforthstaging.com/api/getConversationMessages/'.$convo_id.'');
+        // $response = $response->get(''.config('path.path.WebPath').'api/getConversationMessages/'.$convo_id.'');
         // $messages = $response->json()['data'];
         // //All Conversations to show
         // $response = Http::withToken($token);
-        // $response = $response->get('gigiapi.zanforthstaging.com/api/getConversations');
+        // $response = $response->get(''.config('path.path.WebPath').'api/getConversations');
         // $conversations = $response->json()['data'];
 
         return redirect()->back()->with('success','Chat Opened! Now You Can Contact This Merchant From Chat Sidebar');
@@ -120,11 +120,11 @@ class AdminChatController extends Controller
 
         $token = session('Authenticated_user_data')['token'];
         $response = Http::withToken($token);
-        $response = $response->get('gigiapi.zanforthstaging.com/api/getConversation/'.$id.'');
+        $response = $response->get(''.config('path.path.WebPath').'api/getConversation/'.$id.'');
         $conversation = $response->json()['data'];
 
         $response = Http::withToken($token);
-        $response = $response->get('gigiapi.zanforthstaging.com/api/getConversationMessages/'.$id.'');
+        $response = $response->get(''.config('path.path.WebPath').'api/getConversationMessages/'.$id.'');
         $messages = $response->json()['data'];
 
         $html = ' <h6 class="mb-1">Chat with '.$conversation['opposite_user']['name'].'</h6> ';
@@ -147,12 +147,12 @@ class AdminChatController extends Controller
         // $id = 1;
         $token = session('Authenticated_user_data')['token'];
         $response = Http::withToken($token);
-        $response = $response->get('gigiapi.zanforthstaging.com/api/getConversation/'.$id.'');
+        $response = $response->get(''.config('path.path.WebPath').'api/getConversation/'.$id.'');
         $conversation = $response->json()['data'];
 
         $token = session('Authenticated_user_data')['token'];
         $response = Http::withToken($token);
-        $response = $response->get('gigiapi.zanforthstaging.com/api/getConversationMessages/'.$id.'');
+        $response = $response->get(''.config('path.path.WebPath').'api/getConversationMessages/'.$id.'');
         $messages = $response->json()['data'];
 
         // $html = '

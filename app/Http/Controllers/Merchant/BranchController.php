@@ -16,7 +16,7 @@ class BranchController extends Controller
     public function getNotifications($token)
     {
         $response = Http::withToken($token);
-        $response = $response->get('gigiapi.zanforthstaging.com/api/getNotifications',[
+        $response = $response->get(''.config('path.path.WebPath').'api/getNotifications',[
             'limit' => 50,
             'page' => 1,
             'timeSort' => 'desc',
@@ -30,7 +30,7 @@ class BranchController extends Controller
             while($right == false)
             {
                 $response = Http::withToken($token);
-                $response = $response->get('gigiapi.zanforthstaging.com/api/getNotifications',[
+                $response = $response->get(''.config('path.path.WebPath').'api/getNotifications',[
                     'limit' => 50,
                     'page' => 1,
                     'timeSort' => 'desc',
@@ -55,7 +55,7 @@ class BranchController extends Controller
     {
         try{
             $token = session('Authenticated_user_data')['token'];
-            $url = "gigiapi.zanforthstaging.com/api/merchant/getBranch/".$id."";
+            $url = "'.config('path.path.WebPath').'api/merchant/getBranch/".$id."";
             $response = Http::withToken($token);
             $response = $response->get($url);
             $branch = $response->json()['data'];
@@ -63,7 +63,7 @@ class BranchController extends Controller
             // dd($token);
             $token = session('Authenticated_user_data')['token'];
             $response = Http::withToken($token);
-            $response = $response->get('gigiapi.zanforthstaging.com/api/getConversations');
+            $response = $response->get(''.config('path.path.WebPath').'api/getConversations');
             $conversations = $response->json()['data'];
             $token = session()->get('Authenticated_user_data')['token'];
             $notifications = $this->getNotifications($token);
@@ -101,7 +101,7 @@ class BranchController extends Controller
                     'logo', file_get_contents($request->logo), 'image.png'  //working
                 )
 
-                ->post('gigiapi.zanforthstaging.com/api/merchant/updateBranch/'.$id.'', [
+                ->post(''.config('path.path.WebPath').'api/merchant/updateBranch/'.$id.'', [
                     'name' =>  $request->name,
                     'address' => $request->address,
                     'description' => $request->description,
@@ -116,7 +116,7 @@ class BranchController extends Controller
                 return redirect('MerchantEditbranch/'.$id.'')->with('success', 'Branch Updated Successfully!');
             }
             //WORKING
-            $response = Http::withToken($token)->post('gigiapi.zanforthstaging.com/api/merchant/updateBranch/'.$id.'', [
+            $response = Http::withToken($token)->post(''.config('path.path.WebPath').'api/merchant/updateBranch/'.$id.'', [
                 'name' =>  $request->name,
                 'address' => $request->address,
                 'description' => $request->description,
@@ -142,7 +142,7 @@ class BranchController extends Controller
     {
         try{
             $token = session('Authenticated_user_data')['token'];
-            $url = "gigiapi.zanforthstaging.com/api/merchant/deleteBranch/".$id."";
+            $url = "'.config('path.path.WebPath').'api/merchant/deleteBranch/".$id."";
             $response = Http::withToken($token);
             $response = $response->post($url);
             // dd($response->json());
@@ -167,7 +167,7 @@ class BranchController extends Controller
         try{
             $token = session('Authenticated_user_data')['token'];
             $response = Http::withToken($token);
-            $response = $response->get('gigiapi.zanforthstaging.com/api/getConversations');
+            $response = $response->get(''.config('path.path.WebPath').'api/getConversations');
             $conversations = $response->json()['data'];
             $id = session('Authenticated_user_data')['id'];
             $token = session()->get('Authenticated_user_data')['token'];
@@ -192,7 +192,7 @@ class BranchController extends Controller
             $token = session('Authenticated_user_data')['token'];
             // dd($token);
             $response = Http::withToken($token);
-            $response = $response->get('gigiapi.zanforthstaging.com/api/merchant/getBranches' , [
+            $response = $response->get(''.config('path.path.WebPath').'api/merchant/getBranches' , [
                 'limit' => 10000,
                 'page' => 1,
                 'returnType' => 'customPagination'
@@ -205,7 +205,7 @@ class BranchController extends Controller
             // dd($branches);
             $token = session('Authenticated_user_data')['token'];
             $response = Http::withToken($token);
-            $response = $response->get('gigiapi.zanforthstaging.com/api/getConversations');
+            $response = $response->get(''.config('path.path.WebPath').'api/getConversations');
             $conversations = $response->json()['data'];
             $id = session('Authenticated_user_data')['id'];
             $token = session()->get('Authenticated_user_data')['token'];
@@ -251,7 +251,7 @@ class BranchController extends Controller
 
             // ->attach('file', $request->logo->getRealPath())
             
-            ->post('gigiapi.zanforthstaging.com/api/merchant/createBranch', [
+            ->post(''.config('path.path.WebPath').'api/merchant/createBranch', [
                 'name' =>  $request->name,
                 'address' => $request->address,
                 'lat' => $request->lat,

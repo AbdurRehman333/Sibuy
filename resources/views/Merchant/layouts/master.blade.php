@@ -1,6 +1,7 @@
 {{-- @extends('admin.layouts.html_upper') --}}
 
 @include('Merchant.layouts.html_upper')
+
 @include('Merchant.layouts.chatbox')
 @include('Merchant.layouts.header')
 @include('Merchant.layouts.sidebar')
@@ -17,7 +18,7 @@
     <script>
         Pusher.logToConsole = true;
     
-        var pusher = new Pusher('814fe1b741785e7ace5e', {
+        var pusher = new Pusher('5c357c77e10eb34aedcb', {
             cluster: 'ap2',
             authEndpoint: "https://gigiapi.zanforthstaging.com/api/channelAuthorization",
             auth: {
@@ -85,15 +86,15 @@
     swal("Success!","{!! Session::get('success') !!}","success");
 </script>
 @endif
-
+<input type="hidden" id="WebPath" value="{{config('path.path.WebPath')}}">
 <script src="https://js.pusher.com/7.2/pusher.min.js"></script>
 
     <script>
         Pusher.logToConsole = true;
-    
-        var pusher = new Pusher('814fe1b741785e7ace5e', {
+    WebPath = document.getElementById('WebPath').value;
+        var pusher = new Pusher('5c357c77e10eb34aedcb', {
             cluster: 'ap2',
-            authEndpoint: "https://gigiapi.zanforthstaging.com/api/channelAuthorization",
+            authEndpoint: `${WebPath}api/channelAuthorization`,
             auth: {
                 headers: {
                     "Authorization": `Bearer ${bearer_token}`,

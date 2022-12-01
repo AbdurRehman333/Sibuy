@@ -5,14 +5,14 @@
     <meta charset="utf-8">
     <meta name="viewport"
         content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>GiGi</title>
+    <title>SiBuy365</title>
     <link rel="canonical" href="index.html" />
     <link rel="alternate" hreflang="en-US" href="index.html" />
     <link rel="alternate" href="index.html" hreflang="x-default" />
-    <meta property="og:image" content="{{asset('assets/USER/img/icons/128.png')}}" />
-    <link rel="icon" href="{{asset('assets/USER/img/icons/128.png')}}" />
+    <meta property="og:image" content="{{asset('assets/images/sibuy.png')}}" />
+    <link rel="icon" href="{{asset('assets/images/sibuy.png')}}" />
     <link href="{{asset('assets/USER/admin/assets/css/icons.min.css')}}" rel="stylesheet" type="text/css" />
-    <link rel="icon" type="{{asset('assets/USER/image/png')}}" href="i{{asset('assets/USER/mg/icons/128.png')}}" />
+    <link rel="icon" type="{{asset('assets/USER/image/png')}}" href="i{{asset('assets/images/sibuy.png')}}" />
     {{-- <script src="vendor/jquery/jquery-3.6.0.min.js"></script> --}}
     {{-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script> --}}
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" />
@@ -121,7 +121,7 @@
                                 <h1 class="home-intro__title text-preset-hero-0">All Discounts & Deals<br />under one
                                     App</h1>
                                 <p class="home-intro__caption text-preset-hero-3 color-text-medium">Switch to the app!
-                                    Search, purchase, and redeem Coupon directly from your mobile device.</p>
+                                    Search, purchase, and redeem Voucher Deal directly from your mobile device.</p>
                                 <div class="row sliderbtn">
                                     <div class="col-md-4">
                                         <a href=""><img src="{{asset('assets/USER/img/pages/home/appstore.png')}}" alt="" loading="lazy"
@@ -139,9 +139,15 @@
                     <div class="edge home-intro__video-wrapper">
                         <div class="home-intro__video-container">
                             <picture> <img width="960" height="600" class="home-intro__video-poster"
-                                    src="{{asset('assets/USER/sequence/pages/home/hero/base.png')}}"
+                                    {{-- src="{{asset('assets/USER/sequence/pages/home/hero/base.png')}}"
                                     srcset="{{asset('assets/USER/sequence/pages/home/hero/base.png')}} 1x, {{asset('assets/USER/sequence/pages/home/hero/base@2x.png')}} 2x"
-                                    alt="Homey Pro" /> </picture>
+                                    alt="Homey Pro" />  --}}
+                                    src="{{asset('assets/baseS2.png')}}"
+                                    srcset="{{asset('assets/base2xS.png')}} 1x, {{asset('assets/base2xS.png')}} 2x"
+                                    alt="Homey Pro" /> 
+                                
+                                
+                                </picture>
                         </div>
                     </div>
                     <div class="home-intro__curve-wrapper">
@@ -169,9 +175,9 @@
                             <div
                                 class="col-md-12 col-lg-5 order-lg-3 trim margin-md-bottom-3 margin-lg-bottom-0 text-align-md-center text-align-lg-left">
                                 <div class="home-controls__intro trim">
-                                    <h3 class="text-preset-hero-2">Get Deals & Discounts via Coupon</h3>
+                                    <h3 class="text-preset-hero-2">Get Deals & Discounts via Voucher Deal</h3>
                                     <p class="text-preset-body-large">Switch to the app! Search, purchase, and redeem
-                                        Coupon directly from your mobile device.</p>
+                                        Voucher Deal directly from your mobile device.</p>
                                 </div>
                             </div>
                             <div class="col-md-3 col-lg-3 order-md-1">
@@ -190,7 +196,7 @@
                                         Discounts</button>
                                     <button data-home-control-tabs-target="4" type="button" class="home-controls__tab">
                                         <span class="home-controls__tab-icon home-controls__tab-icon--locks"></span>Show
-                                        Coupon on Outlet</button>
+                                        Voucher Deal on Outlet</button>
                                     <button data-home-control-tabs-target="5" type="button" class="home-controls__tab">
                                         <span class="home-controls__tab-icon home-controls__tab-icon--media"></span>Save
                                         Money</button>
@@ -283,15 +289,36 @@
                         <section class="margin-top-5 row align-items-center">
                             <div class="col-md-5">
                                 <h3 class="text-preset-hero-2">Brands Onboard</h3>
-                                <p class="text-preset-body-large">With Gigi app you can access thousand of discounts at
+                                <p class="text-preset-body-large">With Sibuy app you can access thousand of discounts at
                                     nearby restaurants, salons, retailers, grocery stores, doctor’s clinic and so many
                                     more.</p>
+{{-- 
+                                    <p class="" style="width:51%;"><a
+                                        class="gradient-button-blue-large-full text-align-center homebtn"
+                                        href="{{url('/categories')}}">Browse Our Deals!</a>
+                                        <a
+                                        class="gradient-button-red-large-full text-align-center homebtn"
+                                        href="{{url('login')}}">Login / Signup!</a>
+                                    </p> --}}
+
+                                    <p class="" style="width:51%;display: -webkit-box;"><a
+                                        class="gradient-button-blue-large-full text-align-center homebtn"
+                                        href="{{url('/categories')}}">Browse Our Deals!</a>
+                                        <a style="margin-left: 17px;"
+                                        class="gradient-button-red-large-full text-align-center homebtn"
+                                        href="{{url('login')}}">Login / Signup!</a>
+                                    </p>
+
+                                    {{-- <p class="" style="width:51%;"><a
+                                        class="gradient-button-red-large-full text-align-center homebtn"
+                                        href="{{url('login')}}">Login / Signup!</a></p> --}}
+
                             </div>
                             <div class="col-md-6 offset-md-1 flex justify-content-center justify-content-md-end">
                                 <div class="home-control-radar-ratio">
                                     <div class="home-control-radar">
                                         <picture> <img class="picture home-control-radar__logo"
-                                                src="{{asset('assets/USER/img/pages/home/circle-logo.png')}}" alt="" loading="lazy" width="80"
+                                                src="{{asset('assets/images/sibuy.png')}}" alt="" loading="lazy" width="80"
                                                 height="80"> </picture>
                                         <div class="home-control-radar__groups">
                                             <div class="home-control-radar__group">
@@ -423,6 +450,9 @@
                                 </div>
                             </div>
                         </section>
+
+
+                        
                         <!--     End Pair and Play -->
                     </div>
                 </section>
@@ -431,11 +461,11 @@
                     <div class="home-gradient-in"></div>
                     <div class="home-gradient-out"></div>
                 </div>
-                <div class="position-relative">
+                {{-- <div class="position-relative">
                     <!-- Start Apps -->
                     <section id="section-apps" data-home-section="apps" class="home__section">
                         <div class="edge trim">
-                            <h2 class="text-preset-hero-1 gradient-text-orange" style="font-size: 77px;">See How can you save with GiGi</h2>
+                            <h2 class="text-preset-hero-1 gradient-text-orange" style="font-size: 77px;">See How can you save with Sibuy</h2>
                         </div>
                         <!-- Start Apps: Explainer -->
                         <div class="home-apps-bloom-wrapper d-none d-lg-block">
@@ -589,7 +619,7 @@
                                                 </g>
                                             </svg>
                                             <picture> <img class="picture home-apps-bloom__logo"
-                                                    src="{{asset('assets/USER/img/pages/home/circle-logo.png')}}" alt="" loading="lazy"
+                                                    src="{{asset('assets/images/sibuy.png')}}" alt="" loading="lazy"
                                                     width="80" height="80"> </picture>
                                             <div class="home-apps-bloom__apps">
                                                 <div id="app-fibaro" class="home-apps-bloom__app">
@@ -777,11 +807,11 @@
                         <!-- End Apps: Explainer -->
                     </section>
                     <!-- End Apps -->
-                </div>
+                </div> --}}
                 <div class="bg-body position-relative">
                     <div class="home-gradient-in"></div>
                     <!-- Start Integrations -->
-                    <section id="section-voice-assistants" data-home-section
+                    {{-- <section id="section-voice-assistants" data-home-section
                         class="margin-top-2 margin-md-top-6 overflow-x-md-hidden" style="margin-top: -126px;">
                         <div class="edge">
                             <!-- Start Integrations: Voice Assistants -->
@@ -959,7 +989,7 @@
                                             </div>
                                         </div>
                                         <div data-home-assistant-logo class="home-assistants-bloom__logo">
-                                            <picture> <img class="picture " src="{{asset('assets/USER/img/pages/home/circle-logo.png')}}" alt=""
+                                            <picture> <img class="picture " src="{{asset('assets/images/sibuy.png')}}" alt=""
                                                     loading="lazy" width="80" height="80"> </picture>
                                         </div>
                                         <div class="home-assistants-bloom__apps">
@@ -1013,7 +1043,7 @@
                             </section>
                             <!-- End Integrations: Assistants -->
                         </div>
-                    </section>
+                    </section> --}}
                     <!-- End Platforms -->
                     <div style="margin-top:4px;"
                         class="home-get-started padding-bottom-3 padding-md-bottom-6 padding-top-3 padding-md-top-2  margin-lg-top-9 overflow-x-hidden">
@@ -1023,7 +1053,7 @@
                                     <h2 class="text-preset-hero-2 text-align-center text-align-md-left">Get Listed
                                         Yourself<br>as a Merchant</h2>
                                     <p class="text-preset-body-large text-align-center text-align-md-left">Switch to the
-                                        app! Search, purchase, and redeem Coupon directly from your mobile device.</p>
+                                        app! Search, purchase, and redeem Voucher Deal directly from your mobile device.</p>
                                     <p class="d-md-none"><a
                                             class="gradient-button-blue-large-full text-align-center homebtn"
                                             href="{{url('/register/merchant')}}">Work with Us</a></p>
@@ -1067,19 +1097,19 @@
             <div class="edge">
                 <div class="row margin-top-2">
                     <div class="col-md">
-                        <h5 class="ul-fold white">GiGi</h5>
+                        <h5 class="ul-fold white">Sibuy</h5>
                         <ul>
                             <li><a href="#">Home</a></li>
-                            <li><a href="#">About Gigi</a></li>
+                            <li><a href="#">About Sibuy</a></li>
                             <li><a href="#">Jobs</a></li>
                             <li><a href="#">Press</a></li>
                             <li><a href="#">In your community</a></li>
                         </ul>
                     </div>
                     <div class="col-md">
-                        <h5 class="ul-fold white">Work with GiGi</h5>
+                        <h5 class="ul-fold white">Work with Sibuy</h5>
                         <ul>
-                            <li><a href="#">Meet Gigi</a></li>
+                            <li><a href="#">Meet Sibuy</a></li>
                             <li><a href="#">Terms and Conditions</a></li>
                             <li><a href="#">Contact Us</a></li>
                         </ul>
@@ -1101,7 +1131,7 @@
                                         width="34" height="34" loading="lazy"> </div>
                             </div>
                             <div class="col-md-6 col-lg-12 text-center text-md-left text-lg-right footer__newsletter">
-                                <h5 class="white">Sign up for the GiGi newsletter</h5>
+                                <h5 class="white">Sign up for the Sibuy newsletter</h5>
                                 <form>
                                     <input type="email" class="email" placeholder="Your e-mail address">
                                     <input type="submit" class="submit" value="Subscribe">
@@ -1119,7 +1149,7 @@
                                                 width="24px" height="20px" /></a> </span> </span>
                             </div>
                             <div class="col-md-12 col-lg-12 text-center text-lg-right p-2 footer__copyright">
-                                <p>Copyright © 2022 GiGi – All rights reserved
+                                <p>Copyright © 2022 Sibuy – All rights reserved
                                     <br /> <a href="#" target="_blank">Privacy and Cookie Notice</a> | <a href="#"
                                         target="_blank">Terms and Conditions</a>
                                 </p>
@@ -1135,14 +1165,14 @@
     
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.0/js/toastr.min.js" integrity="sha512-i5xofbBta9oP3xclkdj0jO68kXE1tPeN8Jf3rwzsbwNrpFVifjhklWi8zMOOUscuMQaCPyIXl0TMWFjGwBaJxw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
-
+    <input type="hidden" id="WebPath" value="{{config('path.path.WebPath')}}">
 
     <script>
         Pusher.logToConsole = true;
-    
-        var pusher = new Pusher('814fe1b741785e7ace5e', {
+    WebPath = document.getElementById('WebPath').value;
+        var pusher = new Pusher('5c357c77e10eb34aedcb', {
             cluster: 'ap2',
-            authEndpoint: "https://gigiapi.zanforthstaging.com/api/channelAuthorization",
+            authEndpoint: `${WebPath}api/channelAuthorization`,
             auth: {
                 headers: {
                     "Authorization": `Bearer ${bearer_token}`,

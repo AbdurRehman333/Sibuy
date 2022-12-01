@@ -5,7 +5,7 @@ require_once "layouts/config.php";
 
 ?>
 <head>
-    <title>GiGi</title>
+    <title>Sibuy</title>
 
     <?php include 'layouts/head.php'; ?>
 
@@ -38,7 +38,7 @@ require_once "layouts/config.php";
 
                             <div class="page-title-right">
                                 <ol class="breadcrumb m-0">
-                                    <li class="breadcrumb-item"><a href="javascript: void(0);">GiGi</a></li>
+                                    <li class="breadcrumb-item"><a href="javascript: void(0);">Sibuy</a></li>
                                     <li class="breadcrumb-item active">View Customer</li>
                                 </ol>
                             </div>

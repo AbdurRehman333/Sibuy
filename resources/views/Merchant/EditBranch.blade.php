@@ -50,7 +50,7 @@ function fetchBranchInfo()
     // console.log(document.getElementById('long'));
 
 
-    var locAPI = "https://maps.googleapis.com/maps/api/geocode/json?address="+query+"&key=AIzaSyCbFOBJYJrSGajJcEs9qkLS_woaNxpY8R0";
+    var locAPI = "https://maps.googleapis.com/maps/api/geocode/json?address="+query+"&key=AIzaSyC-n4y_PakeAxZrbCGvHOqwmG63JGtsiYM";
     console.log(locAPI);
 
     $.get({
@@ -265,8 +265,8 @@ function fetchBranchInfo()
 <script src="{{asset('assets/vendor/jquery-sparkline/jquery.sparkline.min.js')}}"></script>
 <script src="{{asset('assets/js/plugins-init/sparkline-init.js')}}"></script>
 
-<script async defer
-src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCbFOBJYJrSGajJcEs9qkLS_woaNxpY8R0&callback=initMap">
-</script>
+{{-- <script async defer
+src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC-n4y_PakeAxZrbCGvHOqwmG63JGtsiYM&callback=initMap">
+</script> --}}
 
 @endsection

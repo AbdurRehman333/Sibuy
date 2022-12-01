@@ -13,7 +13,7 @@ class ChatController extends Controller
     {
         $token = session('Authenticated_user_data')['token'];
         $response = Http::withToken($token);
-        $response = $response->get('gigiapi.zanforthstaging.com/api/getConversations');
+        $response = $response->get(''.config('path.path.WebPath').'api/getConversations');
         $conversations = $response->json()['data'];
         
 
@@ -62,11 +62,11 @@ class ChatController extends Controller
 
         $token = session('Authenticated_user_data')['token'];
         $response = Http::withToken($token);
-        $response = $response->get('gigiapi.zanforthstaging.com/api/getConversation/'.$id.'');
+        $response = $response->get(''.config('path.path.WebPath').'api/getConversation/'.$id.'');
         $conversation = $response->json()['data'];
 
         $response = Http::withToken($token);
-        $response = $response->get('gigiapi.zanforthstaging.com/api/getConversationMessages/'.$id.'');
+        $response = $response->get(''.config('path.path.WebPath').'api/getConversationMessages/'.$id.'');
         $messages = $response->json()['data'];
 
         $html = ' <h6 class="mb-1">Chat with '.$conversation['opposite_user']['name'].'</h6> ';
@@ -89,12 +89,12 @@ class ChatController extends Controller
         // $id = 1;
         $token = session('Authenticated_user_data')['token'];
         $response = Http::withToken($token);
-        $response = $response->get('gigiapi.zanforthstaging.com/api/getConversation/'.$id.'');
+        $response = $response->get(''.config('path.path.WebPath').'api/getConversation/'.$id.'');
         $conversation = $response->json()['data'];
 
         $token = session('Authenticated_user_data')['token'];
         $response = Http::withToken($token);
-        $response = $response->get('gigiapi.zanforthstaging.com/api/getConversationMessages/'.$id.'');
+        $response = $response->get(''.config('path.path.WebPath').'api/getConversationMessages/'.$id.'');
         $messages = $response->json()['data'];
 
         

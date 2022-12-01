@@ -14,7 +14,7 @@
     <link href="{{asset('assets/vendor/datatables/css/jquery.dataTables.min.css')}}" rel="stylesheet">
 
     <!-- Favicon icon -->
-    <link rel="icon" type="image/png" sizes="16x16" href="{{asset('assets/images/favicon.png')}}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{{asset('assets/images/sibuy.png')}}">
     <link rel="stylesheet" href="{{asset('assets/vendor/chartist/css/chartist.min.css')}}">
     {{-- <link rel="stylesheet" href="{{asset('assets/vendor/chartist/css/chartist.min')}}">
     <link rel="stylesheet" href="{{asset('assets/vendor/chartist/css/chartist.css')}}"> --}}
@@ -113,7 +113,7 @@
                 {{-- <img class="logo-abbr" src="{{asset('assets/images/logo.png')}}" alt="">
                 <img class="logo-compact" src="{{asset('assets/images/logo-text.png')}}" alt="">
                 <img class="brand-title" src="{{asset('assets/images/logo-text.png')}}" alt=""> --}}
-                <img class="logo-abbr" src="{{asset('assets/USER/img/heading/homey.png')}}" width="40px" alt="">
+                <img class="logo-abbr" src="{{asset('assets/images/sibuy.png')}}" width="40px" alt="">
                 {{-- <img class="logo-compact" src="{{asset('assets/images/logo-text.png')}}" alt=""> --}}
                 {{-- <img class="brand-title" src="{{asset('assets/images/logo-text.png')}}" alt=""> --}}
             </a>

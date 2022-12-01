@@ -1,262 +1,303 @@
 (function($) {
     /* "use strict" */
 
-
-    var dzSparkLine = function() {
-
+    var dzSparkLine = (function() {
         var screenWidth = $(window).width();
 
         function getSparkLineGraphBlockSize(selector) {
             var screenWidth = $(window).width();
-            var graphBlockSize = '100%';
+            var graphBlockSize = "100%";
 
             if (screenWidth <= 768) {
-                screenWidth = (screenWidth < 300) ? screenWidth : 200;
+                screenWidth = screenWidth < 300 ? screenWidth : 200;
 
-                var blockWidth = jQuery(selector).parent().innerWidth() - jQuery(selector).parent().width();
+                var blockWidth =
+                    jQuery(selector).parent().innerWidth() -
+                    jQuery(selector).parent().width();
 
                 blockWidth = Math.abs(blockWidth);
 
                 var graphBlockSize = screenWidth - blockWidth - 10;
             }
 
-
-
             return graphBlockSize;
-
         }
 
         var sparkLineDash = function() {
             // Line Chart
-            if (jQuery('#sparklinedash').length > 0) {
-                $("#sparklinedash").sparkline([10, 15, 26, 27, 28, 31, 34, 40, 41, 44, 49, 64, 68, 69, 72], {
-                    type: "bar",
-                    height: "50",
-                    barWidth: "4",
-                    resize: !0,
-                    barSpacing: "5",
-                    barColor: "#0B2A97"
-                });
+            if (jQuery("#sparklinedash").length > 0) {
+                $("#sparklinedash").sparkline(
+                    [
+                        10, 15, 26, 27, 28, 31, 34, 40, 41, 44, 49, 64, 68, 69,
+                        72,
+                    ], {
+                        type: "bar",
+                        height: "50",
+                        barWidth: "4",
+                        resize: !0,
+                        barSpacing: "5",
+                        barColor: "#ff6600",
+                    }
+                );
             }
-        }
+        };
         var sparkLine8 = function() {
-            if (jQuery('#sparkline8').length > 0) {
-                $("#sparkline8").sparkline([79, 72, 29, 6, 52, 32, 73, 40, 14, 75, 77, 39, 9, 15, 10], {
-                    type: "line",
-                    //width: "100%",
-                    width: getSparkLineGraphBlockSize('#sparkline8'),
-                    height: "50",
-                    lineColor: "#0B2A97",
-                    fillColor: "rgba(11, 42, 151, .5)",
-                    minSpotColor: "#0B2A97",
-                    maxSpotColor: "#0B2A97",
-                    highlightLineColor: "#0B2A97",
-                    highlightSpotColor: "#0B2A97",
-
-                });
+            if (jQuery("#sparkline8").length > 0) {
+                $("#sparkline8").sparkline(
+                    [79, 72, 29, 6, 52, 32, 73, 40, 14, 75, 77, 39, 9, 15, 10], {
+                        type: "line",
+                        //width: "100%",
+                        width: getSparkLineGraphBlockSize("#sparkline8"),
+                        height: "50",
+                        lineColor: "#ff6600",
+                        fillColor: "rgba(11, 42, 151, .5)",
+                        minSpotColor: "#ff6600",
+                        maxSpotColor: "#ff6600",
+                        highlightLineColor: "#ff6600",
+                        highlightSpotColor: "#ff6600",
+                    }
+                );
             }
-        }
+        };
 
         var sparkLineGraphForFemaleUsage = function() {
-            if (jQuery('#sparkLineGraphForFemaleUsage').length > 0) {
-                $("#sparkLineGraphForFemaleUsage").sparkline([79, 72, 29, 6, 52, 32, 73, 40, 14, 75, 77, 39, 9, 15, 10], {
-                    type: "line",
-                    //width: "100%",
-                    width: getSparkLineGraphBlockSize('#sparkLineGraphForFemaleUsage'),
-                    height: "50",
-                    lineColor: "#0B2A97",
-                    fillColor: "rgba(11, 42, 151, .5)",
-                    minSpotColor: "#0B2A97",
-                    maxSpotColor: "#0B2A97",
-                    highlightLineColor: "#0B2A97",
-                    highlightSpotColor: "#0B2A97",
-
-                });
+            if (jQuery("#sparkLineGraphForFemaleUsage").length > 0) {
+                $("#sparkLineGraphForFemaleUsage").sparkline(
+                    [79, 72, 29, 6, 52, 32, 73, 40, 14, 75, 77, 39, 9, 15, 10], {
+                        type: "line",
+                        //width: "100%",
+                        width: getSparkLineGraphBlockSize(
+                            "#sparkLineGraphForFemaleUsage"
+                        ),
+                        height: "50",
+                        lineColor: "#ff6600",
+                        fillColor: "rgba(11, 42, 151, .5)",
+                        minSpotColor: "#ff6600",
+                        maxSpotColor: "#ff6600",
+                        highlightLineColor: "#ff6600",
+                        highlightSpotColor: "#ff6600",
+                    }
+                );
             }
-        }
+        };
 
         var sparkLine9 = function() {
-            if (jQuery('#sparkline9').length > 0) {
-                $("#sparkline9").sparkline([27, 31, 35, 28, 45, 52, 24, 4, 50, 11, 54, 49, 72, 59, 75], {
-                    type: "line",
-                    //width: "100%",
-                    width: getSparkLineGraphBlockSize('#sparkline9'),
-                    //width: '200',
-                    height: "50",
-                    lineColor: "#8bc740",
-                    fillColor: "rgba(139, 199, 64, .5)",
-                    minSpotColor: "#8bc740",
-                    maxSpotColor: "#8bc740",
-                    highlightLineColor: "rgb(255, 159, 0)",
-                    highlightSpotColor: "#8bc740"
-                });
+            if (jQuery("#sparkline9").length > 0) {
+                $("#sparkline9").sparkline(
+                    [27, 31, 35, 28, 45, 52, 24, 4, 50, 11, 54, 49, 72, 59, 75], {
+                        type: "line",
+                        //width: "100%",
+                        width: getSparkLineGraphBlockSize("#sparkline9"),
+                        //width: '200',
+                        height: "50",
+                        lineColor: "#8bc740",
+                        fillColor: "rgba(139, 199, 64, .5)",
+                        minSpotColor: "#8bc740",
+                        maxSpotColor: "#8bc740",
+                        highlightLineColor: "rgb(255, 159, 0)",
+                        highlightSpotColor: "#8bc740",
+                    }
+                );
             }
-        }
+        };
 
         var sparkLineGraphForMaleUsage = function() {
-            if (jQuery('#sparkLineGraphForMaleUsage').length > 0) {
-                $("#sparkLineGraphForMaleUsage").sparkline([35, 31, 35, 28, 45, 52, 24, 4, 50, 11, 54, 49, 72, 59, 75], {
-                    type: "line",
-                    //width: "100%",
-                    width: getSparkLineGraphBlockSize('#sparkLineGraphForMaleUsage'),
-                    //width: '200',
-                    height: "50",
-                    lineColor: "#8bc740",
-                    fillColor: "rgba(139, 199, 64, .5)",
-                    minSpotColor: "#8bc740",
-                    maxSpotColor: "#8bc740",
-                    highlightLineColor: "rgb(255, 159, 0)",
-                    highlightSpotColor: "#8bc740"
-                });
+            if (jQuery("#sparkLineGraphForMaleUsage").length > 0) {
+                $("#sparkLineGraphForMaleUsage").sparkline(
+                    [35, 31, 35, 28, 45, 52, 24, 4, 50, 11, 54, 49, 72, 59, 75], {
+                        type: "line",
+                        //width: "100%",
+                        width: getSparkLineGraphBlockSize(
+                            "#sparkLineGraphForMaleUsage"
+                        ),
+                        //width: '200',
+                        height: "50",
+                        lineColor: "#ff6600",
+                        fillColor: "#ff6600",
+                        minSpotColor: "#ff6600",
+                        maxSpotColor: "#ff6600",
+                        highlightLineColor: "#ff6600",
+                        highlightSpotColor: "#ff6600",
+                    }
+                );
             }
-        }
-
+        };
 
         var sparkBar = function() {
             // Bar Chart
-            if (jQuery('#spark-bar').length > 0) {
-                $("#spark-bar").sparkline([33, 22, 68, 54, 8, 30, 74, 7, 36, 5, 41, 19, 43, 29, 38, 43, 29, 38, 43, 29, 38, 29, 38, 43, 29, 38, 29, 38, 43, 29, 38], {
-                    type: "bar",
-                    height: "200",
-                    barWidth: 6,
-                    barSpacing: 7,
-                    barColor: "#1bd084"
-                });
+            if (jQuery("#spark-bar").length > 0) {
+                $("#spark-bar").sparkline(
+                    [
+                        33, 22, 68, 54, 8, 30, 74, 7, 36, 5, 41, 19, 43, 29, 38,
+                        43, 29, 38, 43, 29, 38, 29, 38, 43, 29, 38, 29, 38, 43,
+                        29, 38,
+                    ], {
+                        type: "bar",
+                        height: "200",
+                        barWidth: 6,
+                        barSpacing: 7,
+                        barColor: "#1bd084",
+                    }
+                );
             }
-        }
+        };
         var sparkBar2 = function() {
-            if (jQuery('#spark-bar-2').length > 0) {
-                $("#spark-bar-2").sparkline([33, 22, 68, 54, 8, 30, 74, 7, 36, 5, 41, 19, 43, 29, 38], {
-                    type: "bar",
-                    height: "140",
-                    width: 100,
-                    barWidth: 10,
-                    barSpacing: 10,
-                    barColor: "rgb(255, 206, 120)"
-                });
+            if (jQuery("#spark-bar-2").length > 0) {
+                $("#spark-bar-2").sparkline(
+                    [33, 22, 68, 54, 8, 30, 74, 7, 36, 5, 41, 19, 43, 29, 38], {
+                        type: "bar",
+                        height: "140",
+                        width: 100,
+                        barWidth: 10,
+                        barSpacing: 10,
+                        barColor: "rgb(255, 206, 120)",
+                    }
+                );
             }
-        }
+        };
         var stackedBarChart = function() {
-            if (jQuery('#StackedBarChart').length > 0) {
-                $('#StackedBarChart').sparkline([
-                    [1, 4, 2],
-                    [2, 3, 2],
-                    [3, 2, 2],
-                    [4, 1, 2]
-                ], {
-                    type: "bar",
-                    height: "200",
-                    barWidth: 10,
-                    barSpacing: 7,
-                    stackedBarColor: ['#0B2A97', '#1bd084', '#ff6746']
-                });
+            if (jQuery("#StackedBarChart").length > 0) {
+                $("#StackedBarChart").sparkline(
+                    [
+                        [1, 4, 2],
+                        [2, 3, 2],
+                        [3, 2, 2],
+                        [4, 1, 2],
+                    ], {
+                        type: "bar",
+                        height: "200",
+                        barWidth: 10,
+                        barSpacing: 7,
+                        stackedBarColor: ["#ff6600", "#1bd084", "#ff6746"],
+                    }
+                );
             }
-        }
+        };
         var triState = function() {
-            if (jQuery('#tristate').length > 0) {
-
-                $("#tristate").sparkline([1, 1, 0, 1, -1, -1, 1, -1, 0, 0, 1, 1], {
-                    type: 'tristate',
-                    height: "200",
-                    barWidth: 10,
-                    barSpacing: 7,
-                    colorMap: ['#0B2A97', '#1bd084', '#ff6746'],
-                    negBarColor: '#ff6746'
-                });
+            if (jQuery("#tristate").length > 0) {
+                $("#tristate").sparkline(
+                    [1, 1, 0, 1, -1, -1, 1, -1, 0, 0, 1, 1], {
+                        type: "tristate",
+                        height: "200",
+                        barWidth: 10,
+                        barSpacing: 7,
+                        colorMap: ["#ff6600", "#1bd084", "#ff6746"],
+                        negBarColor: "#ff6746",
+                    }
+                );
             }
-        }
+        };
         var compositeBar = function() {
             // Composite
-            if (jQuery('#composite-bar').length > 0) {
-                $("#composite-bar").sparkline([70, 53, 50, 67, 3, 56, 19, 59, 37, 32, 40, 26, 71, 19, 4, 53, 55, 31, 37], {
-                    type: "bar",
-                    height: "200",
-                    barWidth: "10",
-                    resize: true,
-                    // barSpacing: "7",
-                    barColor: "#0B2A97",
-                    width: '100%',
-
-                });
+            if (jQuery("#composite-bar").length > 0) {
+                $("#composite-bar").sparkline(
+                    [
+                        70, 53, 50, 67, 3, 56, 19, 59, 37, 32, 40, 26, 71, 19,
+                        4, 53, 55, 31, 37,
+                    ], {
+                        type: "bar",
+                        height: "200",
+                        barWidth: "10",
+                        resize: true,
+                        // barSpacing: "7",
+                        barColor: "#ff6600",
+                        width: "100%",
+                    }
+                );
             }
-        }
+        };
         var sparklineCompositeChart = function() {
-            if (jQuery('#sparkline-composite-chart').length > 0) {
-                $("#sparkline-composite-chart").sparkline([5, 6, 7, 2, 0, 3, 6, 8, 1, 2, 2, 0, 3, 6], {
-                    type: 'line',
-                    width: '100%',
-                    height: '200',
-                    barColor: '#1bd084',
-                    colorMap: ['#1bd084', '#ff6746']
-                });
+            if (jQuery("#sparkline-composite-chart").length > 0) {
+                $("#sparkline-composite-chart").sparkline(
+                    [5, 6, 7, 2, 0, 3, 6, 8, 1, 2, 2, 0, 3, 6], {
+                        type: "line",
+                        width: "100%",
+                        height: "200",
+                        barColor: "#1bd084",
+                        colorMap: ["#1bd084", "#ff6746"],
+                    }
+                );
             }
-            if (jQuery('#sparkline-composite-chart').length > 0) {
-                $("#sparkline-composite-chart").sparkline([5, 6, 7, 2, 0, 3, 6, 8, 1, 2, 2, 0, 3, 6], {
-                    type: 'bar',
-                    height: '150px',
-                    width: '100%',
-                    barWidth: 10,
-                    barSpacing: 5,
-                    barColor: '#34C73B',
-                    negBarColor: '#34C73B',
-                    composite: true,
-                });
+            if (jQuery("#sparkline-composite-chart").length > 0) {
+                $("#sparkline-composite-chart").sparkline(
+                    [5, 6, 7, 2, 0, 3, 6, 8, 1, 2, 2, 0, 3, 6], {
+                        type: "bar",
+                        height: "150px",
+                        width: "100%",
+                        barWidth: 10,
+                        barSpacing: 5,
+                        barColor: "#34C73B",
+                        negBarColor: "#34C73B",
+                        composite: true,
+                    }
+                );
             }
-        }
+        };
         var sparkLine11 = function() {
-            if (jQuery('#sparkline11').length > 0) {
+            if (jQuery("#sparkline11").length > 0) {
                 //Pie
                 $("#sparkline11").sparkline([24, 61, 51], {
                     type: "pie",
                     height: "100px",
                     resize: !0,
-                    sliceColors: ["rgba(192, 10, 39, .5)", "rgba(0, 0, 128, .5)", "rgba(11, 42, 151, .5)"]
+                    sliceColors: [
+                        "rgba(192, 10, 39, .5)",
+                        "rgba(0, 0, 128, .5)",
+                        "rgba(11, 42, 151, .5)",
+                    ],
                 });
             }
-        }
+        };
         var sparkLine12 = function() {
-            if (jQuery('#sparkline12').length > 0) {
+            if (jQuery("#sparkline12").length > 0) {
                 //Pie
                 $("#sparkline12").sparkline([24, 61, 51], {
                     type: "pie",
                     height: "100",
                     resize: !0,
-                    sliceColors: ["rgba(179, 204, 255, 1)", "rgba(157, 189, 255, 1)", "rgba(112, 153, 237, 1)"]
+                    sliceColors: [
+                        "rgba(179, 204, 255, 1)",
+                        "rgba(157, 189, 255, 1)",
+                        "rgba(112, 153, 237, 1)",
+                    ],
                 });
             }
-        }
+        };
         var bulletChart = function() {
-            if (jQuery('#bullet-chart').length > 0) {
+            if (jQuery("#bullet-chart").length > 0) {
                 // Bullet
                 $("#bullet-chart").sparkline([10, 12, 12, 9, 7], {
-                    type: 'bullet',
-                    height: '100',
-                    width: '100%',
-                    targetOptions: { // Options related with look and position of targets 
-                        width: '100%', // The width of the target 
-                        height: 3, // The height of the target 
-                        borderWidth: 0, // The border width of the target 
-                        borderColor: 'black', // The border color of the target 
-                        color: 'black' // The color of the target 
-                    }
+                    type: "bullet",
+                    height: "100",
+                    width: "100%",
+                    targetOptions: {
+                        // Options related with look and position of targets
+                        width: "100%", // The width of the target
+                        height: 3, // The height of the target
+                        borderWidth: 0, // The border width of the target
+                        borderColor: "black", // The border color of the target
+                        color: "black", // The color of the target
+                    },
                 });
             }
-        }
+        };
         var boxPlot = function() {
-            if (jQuery('#boxplot').length > 0) {
+            if (jQuery("#boxplot").length > 0) {
                 //Boxplot
-                $("#boxplot").sparkline([4, 27, 34, 52, 54, 59, 61, 68, 78, 82, 85, 87, 91, 93, 100], {
-                    type: 'box'
-                });
+                $("#boxplot").sparkline(
+                    [
+                        4, 27, 34, 52, 54, 59, 61, 68, 78, 82, 85, 87, 91, 93,
+                        100,
+                    ], {
+                        type: "box",
+                    }
+                );
             }
-        }
-
-
+        };
 
         /* Function ============ */
         return {
             init: function() {},
-
 
             load: function() {
                 sparkLineDash();
@@ -292,20 +333,17 @@
                 sparkLine11();
                 sparkLine12();
                 boxPlot();
-            }
-        }
-
-    }();
+            },
+        };
+    })();
 
     jQuery(document).ready(function() {});
 
-    jQuery(window).on('load', function() {
+    jQuery(window).on("load", function() {
         dzSparkLine.load();
     });
 
-    jQuery(window).on('resize', function() {
+    jQuery(window).on("resize", function() {
         dzSparkLine.resize();
-
     });
-
 })(jQuery);

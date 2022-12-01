@@ -14,7 +14,7 @@ class CategoryController extends Controller
     public function getNotifications($token)
     {
         $response = Http::withToken($token);
-        $response = $response->get('gigiapi.zanforthstaging.com/api/getNotifications',[
+        $response = $response->get(''.config('path.path.WebPath').'api/getNotifications',[
             'limit' => 50,
             'page' => 1,
             'timeSort' => 'desc',
@@ -28,7 +28,7 @@ class CategoryController extends Controller
             while($right == false)
             {
                 $response = Http::withToken($token);
-                $response = $response->get('gigiapi.zanforthstaging.com/api/getNotifications',[
+                $response = $response->get(''.config('path.path.WebPath').'api/getNotifications',[
                     'limit' => 50,
                     'page' => 1,
                     'timeSort' => 'desc',
@@ -54,7 +54,7 @@ class CategoryController extends Controller
         try{
             $token = session()->get('Authenticated_user_data')['token'];
             $response = Http::withToken($token);
-            $response = $response->get('gigiapi.zanforthstaging.com/api/admin/getCategories' , [
+            $response = $response->get(''.config('path.path.WebPath').'api/admin/getCategories' , [
                 'limit' => 100000,
                 'page' => 1,
                 'returnType' => 'customPagination'
@@ -63,7 +63,7 @@ class CategoryController extends Controller
             // dd($categories);
             $token = session('Authenticated_user_data')['token'];
             $response = Http::withToken($token);
-            $response = $response->get('gigiapi.zanforthstaging.com/api/getConversations');
+            $response = $response->get(''.config('path.path.WebPath').'api/getConversations');
             // NEW CODE -- START
             if($response->json() == null)
             {
@@ -72,7 +72,7 @@ class CategoryController extends Controller
                 while($right == false)
                 {
                     $response = Http::withToken($token);
-                    $response = $response->get('gigiapi.zanforthstaging.com/api/getConversations');
+                    $response = $response->get(''.config('path.path.WebPath').'api/getConversations');
                     if($response->json() == null)
                     {
 
@@ -109,7 +109,7 @@ class CategoryController extends Controller
             $token = session()->get('Authenticated_user_data')['token'];
 
             $response = Http::withToken($token);
-            $response = $response->get('gigiapi.zanforthstaging.com/api/admin/getCategories' , [
+            $response = $response->get(''.config('path.path.WebPath').'api/admin/getCategories' , [
                 'limit' => 10000,
                 'page' => 1,
                 'returnType' => 'customPagination'
@@ -118,7 +118,7 @@ class CategoryController extends Controller
             // dd($categories);
             $token = session('Authenticated_user_data')['token'];
             $response = Http::withToken($token);
-            $response = $response->get('gigiapi.zanforthstaging.com/api/getConversations');
+            $response = $response->get(''.config('path.path.WebPath').'api/getConversations');
             // NEW CODE -- START
             if($response->json() == null)
             {
@@ -127,7 +127,7 @@ class CategoryController extends Controller
                 while($right == false)
                 {
                     $response = Http::withToken($token);
-                    $response = $response->get('gigiapi.zanforthstaging.com/api/getConversations');
+                    $response = $response->get(''.config('path.path.WebPath').'api/getConversations');
                     if($response->json() == null)
                     {
 
@@ -163,7 +163,7 @@ class CategoryController extends Controller
         try{
             $token = session()->get('Authenticated_user_data')['token'];
             $response = Http::withToken($token)->attach('image', file_get_contents($request->image), 'SomeName.png')
-            ->post('gigiapi.zanforthstaging.com/api/admin/createCategory', [
+            ->post(''.config('path.path.WebPath').'api/admin/createCategory', [
                 'name' =>  $request->name,
                 'parent_id' => $request->parent_id,
             ]);
@@ -186,7 +186,7 @@ class CategoryController extends Controller
     {
         try{
             $token = session()->get('Authenticated_user_data')['token'];
-            $url = 'gigiapi.zanforthstaging.com/api/admin/updateCategory/'.$id.'';
+            $url = ''.config('path.path.WebPath').'api/admin/updateCategory/'.$id.'';
             $response = Http::withToken($token);
             if($request->hasFile('image'))
             {
@@ -223,7 +223,7 @@ class CategoryController extends Controller
             $token = session()->get('Authenticated_user_data')['token'];
             //All Categories
             $response = Http::withToken($token);
-            $response = $response->get('gigiapi.zanforthstaging.com/api/admin/getCategories' , [
+            $response = $response->get(''.config('path.path.WebPath').'api/admin/getCategories' , [
                 'limit' => 10000,
                 'page' => 1,
                 'returnType' => 'customPagination'
@@ -231,12 +231,12 @@ class CategoryController extends Controller
             $categories = $response->json();
             //Get Specific Category Info
             $response = Http::withToken($token);
-            $response = $response->get('gigiapi.zanforthstaging.com/api/admin/getCategory/'.$id.'');
+            $response = $response->get(''.config('path.path.WebPath').'api/admin/getCategory/'.$id.'');
             $category = $response->json();
             // dd($category);
             $token = session('Authenticated_user_data')['token'];
             $response = Http::withToken($token);
-            $response = $response->get('gigiapi.zanforthstaging.com/api/getConversations');
+            $response = $response->get(''.config('path.path.WebPath').'api/getConversations');
             // NEW CODE -- START
             if($response->json() == null)
             {
@@ -245,7 +245,7 @@ class CategoryController extends Controller
                 while($right == false)
                 {
                     $response = Http::withToken($token);
-                    $response = $response->get('gigiapi.zanforthstaging.com/api/getConversations');
+                    $response = $response->get(''.config('path.path.WebPath').'api/getConversations');
                     if($response->json() == null)
                     {
 
@@ -280,7 +280,7 @@ class CategoryController extends Controller
     {
         try{
             $token = session()->get('Authenticated_user_data')['token'];
-            $response = Http::withToken($token)->post('gigiapi.zanforthstaging.com/api/admin/deleteCategory/'.$id.'');
+            $response = Http::withToken($token)->post(''.config('path.path.WebPath').'api/admin/deleteCategory/'.$id.'');
             // dd($response->json());
 
             if (array_key_exists("error",$response->json()))

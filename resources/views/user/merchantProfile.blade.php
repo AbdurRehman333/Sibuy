@@ -5,14 +5,14 @@
     <meta charset="utf-8">
     <meta name="viewport"
         content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>GiGi</title>
+    <title>SiBuy365</title>
     <link rel="canonical" href="index.html" />
     <link rel="alternate" hreflang="en-US" href="index.html" />
     <link rel="alternate" href="index.html" hreflang="x-default" />
-    <meta property="og:image" content="{{asset('assets/USER/img/icons/128.png')}}" />
-    <link rel="icon" href="{{asset('assets/USER/img/icons/128.png')}}" />
+    <meta property="og:image" content="{{asset('assets/images/sibuy.png')}}" />
+    <link rel="icon" href="{{asset('assets/images/sibuy.png')}}" />
     <link href="{{asset('assets/USER/admin/assets/css/icons.min.css')}}" rel="stylesheet" type="text/css" />
-    <link rel="icon" type="image/png" href="{{asset('assets/USER/img/icons/128.png')}}" />
+    <link rel="icon" type="image/png" href="{{asset('assets/images/sibuy.png')}}" />
     <script src="{{asset('assets/USER/vendor/jquery/jquery-3.6.0.min.js')}}"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" />
@@ -249,84 +249,7 @@
 
                             </div>
 
-                            <div class="col-md-12">
-
-                                <div class="col-md-12">
-                                    <h1 style="    text-align-last: center;    margin-bottom: 30px;
-                                    margin-top: 30px; ">Branches of Merchant
-                                        <hr style="    margin-top: 4rem;">
-                                    </h1>
-
-                                </div>
-
-
-                                <style>
-                                    .card-horizontal {
-                                    display: flex;
-                                    flex: 1 1 auto;
-                                }
-
-                                @media screen and (max-width: 480px) {
-                                .card-horizontal {
-                                    display: table-header-group;
-                                }
-                                }
-
-                                </style>
-
-                                <div class="container-fluid">
-                                    <div class="row">
-                                        
-                                        @foreach($merchant['branches'] as $key => $branch)
-                                        <div class="col-6 mt-3">
-                                            <div class="card">
-                                                <div class="card-horizontal">
-
-                                                    <div class="img-square-wrapper">
-                                                        {{-- <img class="" style="margin-right: 23px;" src="{{asset('assets/USER/admin/uploads/0c3Rcv5CGGarch.png')}}" width="150px;" alt="Card image cap"> --}}
-                                                        <img class="" style="margin-right: 23px;" src="{{'https://gigiapi.zanforthstaging.com/'.config('path.path.BranchesPath').'/'.$branch['logo'].''}}" width="100px;" alt="Card image cap">
-                                                    </div>
-
-                                                    <div class="card-body">
-                                                        <h3 class="card-title" style="margin-bottom: 10px;margin-top: 8px;"><strong>{{$branch['name']}}</strong></h3>
-                                                        <p class="card-text" style="    margin-bottom: 8px;"> <strong>Address</strong> : {{$branch['address']}}.</p>
-                                                        <p class="card-text"> <strong>Branch Description</strong> : {{$branch['description']}}</p>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        @endforeach
-                                        
-                                    </div>
-                                </div>
-                                
-                                {{-- @foreach($merchant['deals'] as $key => $deal) --}}
-
-                                {{-- <a href="{{ URL('discount_details/'.$deal['id'])}}">
-
-                                    <div class='col-md-4 discount-card' style='padding: 10px; cursor: pointer;'><img
-                                            style='width:100%; object-fit: contain;' src='{{asset('assets/USER/admin/uploads/0c3Rcv5CGGarch.png')}}' />
-                                        <b style='font-size: 18px;'>{{$deal['name']}}</b>
-
-                                        <br /><span class='deal_des'>
-                                            {{ substr($deal['description'], 0, 40)}}...
-                                        </span>
-                                        <br />
-                                        <span class='old-price'>$219.8</span>&nbsp;
-                                        <span class='new-price'>$157</span>
-                                        &nbsp;
-                                        <span class='percent-off'>${{$deal['discount']}}
-                                            OFF</span>
-                                        <hr>
-                                       <div class='location'>Sed ut perspiciatis unde omnis iste natu...</div>
-                                        
-                                        <div class='nearkm'>Near <span>10 KMs</span></div>
-                                    </div>
-                                </a>  --}}
-
-                                {{-- @endforeach  --}}
-                                
-                            </div>
+                    
 
 
                             <div class="col-md-12">
@@ -368,7 +291,7 @@
                                         @endif
     
                                         <a class="anchor_trending" href="{{ URL('discount_details/'.$deal['id'])}}">
-                                        <img style='width:100%; height:264px;object-fit: contain;' src='{{'https://gigiapi.zanforthstaging.com/'.$deal['image']['path'].'/'.$deal['image']['image'].''}}' />
+                                        <img style='width:100%; height:264px;object-fit: contain;' src='{{''.config('path.path.WebPath').''.$deal['image']['path'].'/'.$deal['image']['image'].''}}' />
     
 
                                         {{-- new code  --}}
@@ -673,19 +596,19 @@
             <div class="edge">
                 <div class="row margin-top-2">
                     <div class="col-md">
-                        <h5 class="ul-fold white">GiGi</h5>
+                        <h5 class="ul-fold white">Sibuy</h5>
                         <ul>
                             <li><a href="#">Home</a></li>
-                            <li><a href="#">About Gigi</a></li>
+                            <li><a href="#">About Sibuy</a></li>
                             <li><a href="#">Jobs</a></li>
                             <li><a href="#">Press</a></li>
                             <li><a href="#">In your community</a></li>
                         </ul>
                     </div>
                     <div class="col-md">
-                        <h5 class="ul-fold white">Work with GiGi</h5>
+                        <h5 class="ul-fold white">Work with Sibuy</h5>
                         <ul>
-                            <li><a href="#">Meet Gigi</a></li>
+                            <li><a href="#">Meet Sibuy</a></li>
                             <li><a href="#">Terms and Conditions</a></li>
                             <li><a href="#">Contact Us</a></li>
                         </ul>
@@ -707,7 +630,7 @@
                                         width="34" height="34" loading="lazy"> </div>
                             </div>
                             <div class="col-md-6 col-lg-12 text-center text-md-left text-lg-right footer__newsletter">
-                                <h5 class="white">Sign up for the GiGi newsletter</h5>
+                                <h5 class="white">Sign up for the Sibuy newsletter</h5>
                                 <form>
                                     <input type="email" class="email" placeholder="Your e-mail address">
                                     <input type="submit" class="submit" value="Subscribe">
@@ -727,7 +650,7 @@
                                                 height="20px" /></a> </span> </span>
                             </div>
                             <div class="col-md-12 col-lg-12 text-center text-lg-right p-2 footer__copyright">
-                                <p>Copyright © 2022 GiGi – All rights reserved
+                                <p>Copyright © 2022 Sibuy – All rights reserved
                                     <br /> <a href="#" target="_blank">Privacy and Cookie Notice</a> | <a href="#"
                                         target="_blank">Terms and Conditions</a>
                                 </p>
@@ -743,14 +666,14 @@
     
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.0/js/toastr.min.js" integrity="sha512-i5xofbBta9oP3xclkdj0jO68kXE1tPeN8Jf3rwzsbwNrpFVifjhklWi8zMOOUscuMQaCPyIXl0TMWFjGwBaJxw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
-
+    <input type="hidden" id="WebPath" value="{{config('path.path.WebPath')}}">
 
     <script>
         Pusher.logToConsole = true;
-    
-        var pusher = new Pusher('814fe1b741785e7ace5e', {
+        WebPath = document.getElementById('WebPath').value;
+        var pusher = new Pusher('5c357c77e10eb34aedcb', {
             cluster: 'ap2',
-            authEndpoint: "https://gigiapi.zanforthstaging.com/api/channelAuthorization",
+            authEndpoint: `${WebPath}api/channelAuthorization`,
             auth: {
                 headers: {
                     "Authorization": `Bearer ${bearer_token}`,

@@ -60,7 +60,7 @@ while($row = $result->fetch_assoc()) {
 }
 ?>
 <head>
-    <title>GiGi</title>
+    <title>Sibuy</title>
 
     <?php include 'layouts/head.php'; ?>
 
@@ -93,7 +93,7 @@ while($row = $result->fetch_assoc()) {
 
                             <div class="page-title-right">
                                 <ol class="breadcrumb m-0">
-                                    <li class="breadcrumb-item"><a href="javascript: void(0);">GiGi</a></li>
+                                    <li class="breadcrumb-item"><a href="javascript: void(0);">Sibuy</a></li>
                                     <li class="breadcrumb-item active">Edit Product or Service</li>
                                 </ol>
                             </div>

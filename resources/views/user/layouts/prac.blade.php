@@ -514,7 +514,7 @@
                                                                 class="sub-menu-button__icon icon-eye "></span>
                                                         </span>
                                                         <div class="sub-menu-button__text">
-                                                            <span class="sub-menu-button__title "> Discover GiGi
+                                                            <span class="sub-menu-button__title "> Discover Sibuy
                                                             </span>
                                                             <div class="sub-menu-button__subtitle"> Browse All Discounts
                                                             </div>
@@ -1967,7 +1967,7 @@
                                 <a href="{{url('myprofile')}}" class="anchors_in_nav_purple"> 
                                 <div style="color: white;x"> 
                                     <h4> <i class="fa fa-bars" aria-hidden="true"></i>
-                                         <span style="margin-left: 10px;">My GiGi</span> </h4>
+                                         <span style="margin-left: 10px;">My Sibuy</span> </h4>
                                 </div>
 
                                 <a href="{{url('wishlist')}}" class="anchors_in_nav_purple"> 
@@ -1990,14 +1990,14 @@
                                 <a href="{{url('MerchantDashboard')}}" class="anchors_in_nav_purple"> 
                                     <div style="color: white;x"> 
                                         <h4> <i class="fa fa-bars" aria-hidden="true"></i>
-                                             <span style="margin-left: 10px;">My GiGi</span> </h4>
+                                             <span style="margin-left: 10px;">My Sibuy</span> </h4>
                                     </div>
                                     </a>
                                 @elseif(session('Authenticated_user_data')['type'] == 3)
                                 <a href="{{url('AdminDashboard')}}" class="anchors_in_nav_purple"> 
                                     <div style="color: white;x"> 
                                         <h4> <i class="fa fa-bars" aria-hidden="true"></i>
-                                             <span style="margin-left: 10px;">My GiGi</span> </h4>
+                                             <span style="margin-left: 10px;">My Sibuy</span> </h4>
                                     </div>
                                     </a>
                                 @endif

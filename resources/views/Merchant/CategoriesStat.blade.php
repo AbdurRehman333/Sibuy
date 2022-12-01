@@ -88,7 +88,7 @@
                                 <thead>
                                     <tr>
                                         <th>Sr.No</th>
-                                        <th>Name</th>
+                                        <th>Category</th>
                                         <th>Active Deals</th>
                                         <th>Inactive Deals</th>
                                         <th>Total Purchased</th>
@@ -106,7 +106,7 @@
                                         <td>{{$deal['active_deals']}}</td>
                                         <td>{{$deal['inactive_deals']}}</td>
                                         <td> {{$deal['total_purchase']}}</td>
-                                        <td> {{$deal['total_revenue']}} Azn</td>
+                                        <td> {{$deal['total_revenue']}}</td>
                                     </tr>
 
                                     @endforeach

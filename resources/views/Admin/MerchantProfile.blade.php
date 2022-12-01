@@ -29,17 +29,21 @@
                         <img style="border-radius: 50% !important;" src="{{asset('assets/images/testimonial/1.jpg')}}"
                             alt="">
                         @else
-                        <img style="border-radius: 50% !important;" width="400px" src="{{'https://gigiapi.zanforthstaging.com/'.config('path.path.UserPath').'/'.$merchant['profile_picture'].''}}"
+                        <img style="border-radius: 50% !important;" width="400px"
+                            src="{{''.config('path.path.WebPath').''.config('path.path.UserPath').'/'.$merchant['profile_picture'].''}}"
                             alt="">
                         @endif
-                        
+
 
                         <h5 class="fs-30 font-w500 mb-1 " style="margin-top: 8px !important;"><a
                                 href="{{url('AdminMerchantProfile/'.$merchant['id'])}}" class="text-black">
                                 {{$merchant['name']}} </a></h5>
                         {{-- <p class="fs-21" style="color: #082073 !important; font-weight:500;">Baku, Azerbaijan</p>
                         --}}
-                        <p> {{$merchant['phone']}} - {{$merchant['email']}} </p>
+                        <p style="margin-bottom: 0px;"> {{$merchant['phone']}} - {{$merchant['email']}} </p>
+                        <p style="margin-bottom: 0px;"> Lahore - Pakistan </p>
+                        <p style="margin-bottom: 0px;"> Street#32, Block#O, Gulberg. </p>
+
                         <div class="d-flex align-items-center justify-content-center" style="    margin-bottom: 15px;">
                             <svg width="20" height="20" viewBox="0 0 20 20" fill="none"
                                 xmlns="http://www.w3.org/2000/svg">
@@ -60,11 +64,11 @@
                                     href="{{url('AdminEditMerchant/'.$merchant['id'])}}">Edit</a> </span></button> --}}
 
                         <div style="    text-align: -webkit-center; margin-top:2rem;">
-                            <span>
+                            {{-- <span>
                                 <button class="btn btn-primary"><span> <a style="color: white !important;"
                                             href="{{url('AdminEditMerchant/'.$merchant['id'])}}">Edit</a>
                                     </span></button>
-                            </span>
+                            </span> --}}
                             <span class='button_chat'>
                                 <a class="chat_open_anchor" href="{{url('AdminchatWithMerchant/'.$merchant['id'])}}">
                                     <button class="btn btn-info btn_top_open_chat" data-id="{{$merchant['id']}}"
@@ -72,6 +76,108 @@
                                         <i class="fa fa-envelope" aria-hidden="true"></i> Open Chat </button>
                                 </a>
                             </span>
+
+
+                            @if($merchant['status'] == 1)
+                            <span class=''>
+                                <a class="" href="{{url('InactiveMerchant/'.$merchant['id'])}}">
+                                    <button class="btn btn-danger " data-id="{{$merchant['id']}}"
+                                        style="padding: 15px;font-size: 16px;">
+                                        Disable Merchant </button>
+                                </a>
+                            </span>
+                            @else
+                            <span class=''>
+                                <a class="" href="{{url('ActiveMerchant/'.$merchant['id'])}}">
+                                    <button class="btn btn-danger " data-id="{{$merchant['id']}}"
+                                        style="padding: 15px;font-size: 16px;">
+                                        Enable Merchant </button>
+                                </a>
+                            </span>
+                            @endif
+                            
+
+                            <span class=''>
+                                <a class="" href="#">
+                                    <button class="btn btn-success " data-id="{{$merchant['id']}}"
+                                        style="padding: 15px;font-size: 16px;" data-toggle="modal"
+                                        data-target="#basicModal">
+                                        Commission Settings </button>
+                                </a>
+                            </span>
+
+                            <div class="modal fade" id="basicModal">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title">Payment Settings</h5>
+                                            <button type="button" class="close"
+                                                data-dismiss="modal"><span>&times;</span>
+                                            </button>
+                                        </div>
+
+                                        {{-- <div class="modal-body">Modal body text goes here.</div> --}}
+                                        <div class="modal-footer">
+                                            <div class="card-body">
+                                                <div class="basic-form">
+                                                    <form method="POST" action="{{url('SetMerchantCommission')}}">
+                                                        @csrf
+                                                        <div class="form-group" style="display: flex;">
+                                                            <input type="number" name="monthly_charges" class="form-control input-default"
+                                                                placeholder="Monthly Subscription Charge">
+                                                                <span style="    place-self: center;
+                                                                font-size: 25px;
+                                                                visibility:hidden;
+                                                                /* position: unset; */
+                                                                margin-left: 2px;">%</span>
+                                                        </div>
+                                                        <div class="form-group" style="display: flex;">
+                                                            <input type="number" step="0.1" name="admin_after_redeem_percentage" min="0" max="100" class="form-control input-rounded"
+                                                                placeholder="Admin Commission On Redeemed Sale ( % )">
+                                                                <span style="    place-self: center;
+                                                                font-size: 25px;
+                                                                /* position: unset; */
+                                                                margin-left: 2px;">%</span>
+                                                        </div>
+                                                        {{-- <div class="form-group">
+                                                            <input type="text" class="form-control input-rounded"
+                                                                placeholder="Merchant Commission On Redeemed Sale ( % )">
+                                                        </div> --}}
+                                                        <div class="form-group" style="display: flex;">
+                                                            <input type="number" step="0.1" name="admin_before_redeem_percentage" min="0" max="100" class="form-control input-rounded"
+                                                                placeholder="Admin Commission On Unredeemed Sale ( % )">
+                                                                <span style="    place-self: center;
+                                                                font-size: 25px;
+                                                                /* position: unset; */
+                                                                margin-left: 2px;">%</span>
+                                                        </div>
+
+                                                        <div class="form-group">
+                                                            <button type="submit" class="btn btn-primary">Save changes</button>
+                                                        </div>
+                                                        {{-- <div class="form-group">
+                                                            <input type="text" class="form-control input-rounded"
+                                                                placeholder="Merchant Commission On Unedeemed Sale ( % )">
+                                                        </div> --}}
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-danger light"
+                                                data-dismiss="modal">Close</button>
+
+                                            {{-- <button type="button" class="btn btn-primary">Save changes</button> --}}
+                                        </div>
+
+
+
+                                    </div>
+                                </div>
+                            </div>
+
+
                         </div>
 
                     </div>
@@ -206,212 +312,225 @@
 
             <div class="container-fluid">
                 <div class="row">
-        
-        
+
+
                     <div class="col-xl-12 col-xxl-12">
                         <div class="row">
-        
+
                             {{-- <div class="col-sm-4">
-        
-        
+
+
                                 <div class="card" style=" box-shadow: none !important;  background-color: inherit;">
                                     <div class="card-body">
-        
+
                                         <img style="border-radius: 50% !important;" width="90px"
                                             src="{{asset('assets/images/testimonial/1.jpg')}}" alt="">
                                         <h5 class="fs-16 font-w500 mb-1" style="font-size: 15px !important;"><a
                                                 href="app-profile.html" class="text-black">Roberto Carloz</a></h5>
                                         <p class="fs-14"
-                                            style="font-size: 13px !important; color:blue !important;font-weight:500;">10th
+                                            style="font-size: 13px !important; color:blue !important;font-weight:500;">
+                                            10th
                                             Street, Baku, Azerbaijan</p>
                                         <p style="margin-top: -16px;
                                                         margin-bottom: 7px;">Merchant ID: 40042</p>
                                         <p style="margin-top: -15px !important;color:blue !important;"> <span
                                                 style="font-size:13px;">
-                                                +123456789 </span> | <span style="font-size:13px;"> email@domain.com </span></p>
-        
+                                                +123456789 </span> | <span style="font-size:13px;"> email@domain.com
+                                            </span></p>
+
                                     </div>
                                     <div class="effect bg-success"></div>
                                 </div>
-        
-        
+
+
                             </div> --}}
-        
+
                             @foreach($deals as $deal)
-        
-                                @php
-                                $now = Carbon\Carbon::now();
-                                $expiry = $deal['additional_discount_date'];
-                                $result = $now->lt($expiry);
-                                @endphp
-        
+
+                            @php
+                            $now = Carbon\Carbon::now();
+                            $expiry = $deal['additional_discount_date'];
+                            $result = $now->lt($expiry);
+                            @endphp
+
                             <div class="col-sm-6">
                                 <div class="media border-bottom mb-3 pb-3 d-lg-flex d-block menu-list">
                                     <a href="{{url('AdminMerchantProfile/'.$deal['merchant_id'])}}">
                                         <img class="rounded mr-3 mb-md-0 mb-3"
-                                            src="{{'https://gigiapi.zanforthstaging.com/'.config('path.path.DealsPath').'/'.$deal['image']['image'].''}}" alt="" width="120">
+                                            src="{{''.config('path.path.WebPath').''.config('path.path.DealsPath').'/'.$deal['image']['image'].''}}"
+                                            alt="" width="120">
                                         {{-- <img class="rounded mr-3 mb-md-0 mb-3"
                                             src="{{asset('assets/images/testimonial/1.jpg')}}" alt="" width="120"> --}}
-                                        
-                                        </a>
+
+                                    </a>
                                     <div class="media-body col-lg-8 pl-0">
                                         <h6 class="fs-16 font-w600"><a href="{{url('OfferDetails/'.$deal['id'])}}"
                                                 class="text-black">{{$deal['name']}}</a></h6>
-        
-                                                
+
+
                                         <p class="fs-14">{{$deal['description']}}</p>
                                         <div class="">
-        
-                                                @php
-                                                    // $percentage_to_pay = 100 - $deal['discount_on_price'];
-                                                    $price_to_pay = $deal['price'] - ($deal['price'] * ($deal['discount_on_price'] / 100) )
-                                                @endphp
-        
+
+                                            @php
+                                            // $percentage_to_pay = 100 - $deal['discount_on_price'];
+                                            $price_to_pay = $deal['price'] - ($deal['price'] *
+                                            ($deal['discount_on_price'] / 100) )
+                                            @endphp
+
                                             <div class="media-body">
-        
+
 
                                                 @if($deal['type'] == 'Entire Menu')
-                                                
+
                                                 <span class="fs-14 text-primary font-w500"
-                                                style="color:rgb(210, 45, 45) !important; font-size:1.2rem !important;">
-                                                Entire Menu </span>
+                                                    style="color:rgb(210, 45, 45) !important; font-size:1.2rem !important;">
+                                                    Entire Menu </span>
 
 
-                                                @if($deal['additional_discount'] && $result)
+                                                {{-- @if($deal['additional_discount'] && $result)
                                                 <span class="badge light badge-danger"
-                                                style="margin-left: 8px !important;float: right !important;">
-                                                {{$deal['additional_discount']}}% off</span>
-                                                @endif
-                                                
-
-                                                <span class="badge light badge-primary"
                                                     style="margin-left: 8px !important;float: right !important;">
-                                                    {{$deal['discount_on_price']}}% off</span>
+                                                    {{$deal['additional_discount']}}% off</span> --}}
+                                                {{-- @endif --}}
+
+
+                                                {{-- <span class="badge light badge-primary"
+                                                    style="margin-left: 8px !important;float: right !important;">
+                                                    {{$deal['discount_on_price']}}% off</span> --}}
 
 
                                                 @else
 
-        
-                                                    @if($deal['additional_discount'] && $result)
-            
-            
-                                                        <span class="fs-14 text-primary font-w500"
-                                                        style="color:rgb(210, 45, 45) !important; font-size:1.2rem !important;">
-                                                        <del>{{$deal['price']}}Azn</del> </span>
-            
-                                                        <span class="fs-14 text-primary font-w500" style="color:rgb(210, 45, 45) !important; font-size:1.2rem !important;">
-                                                        <del> {{$price_to_pay}}Azn</del>
-                                                        </span>
-                                                        <span class="fs-14 text-primary font-w500" style="font-size:1rem !important;">
-                                                            
-                                                            @php
-                                                                $price_to_pay_in_double_discount = $deal['price'] - ($deal['price'] * ($deal['additional_discount'] / 100) )
-                                                            @endphp
-            
-                                                            {{$price_to_pay_in_double_discount}}Azn
-            
-                                                        </span>
-            
-            
-            
-                                                        @else
-            
-                                                        <span class="fs-14 text-primary font-w500"
-                                                        style="color:rgb(210, 45, 45) !important; font-size:1.2rem !important;">
-            
-                                                        <del>{{$deal['price']}}Azn</del> </span>
-            
-                                                        <span class="fs-14 text-primary font-w500" style="font-size:1rem !important;">
-                                                            {{$price_to_pay}}Azn
-                                                        </span>
-            
-                                                        @endif
-            
-            
-            
-                                                        @if($deal['additional_discount'] && $result)
-                                                        <span class="badge light badge-danger"
-                                                        style="margin-left: 8px !important;float: right !important;">
-                                                        {{$deal['additional_discount']}}% off</span>
-                                                        @endif
-            
-                                                    {{-- <span class="fs-14 text-primary font-w500"
-                                                        style="color:rgb(210, 45, 45) !important; font-size:1.2rem !important;">
-                                                        <del>100%</del> </span> --}}
-                                                    {{-- <span class="fs-14 text-primary font-w500" style="font-size:1rem !important;">
-                                                        {{$percentage_to_pay}}%
-                                                    </span> --}}
-                                                    <span class="badge light badge-primary"
-                                                        style="margin-left: 8px !important;float: right !important;">
-                                                        {{$deal['discount_on_price']}}% off</span>
+
+                                                {{-- @if($deal['additional_discount'] && $result)
+
+
+                                                <span class="fs-14 text-primary font-w500"
+                                                    style="color:rgb(210, 45, 45) !important; font-size:1.2rem !important;">
+                                                    <del>{{$deal['price']}}Azn</del> </span>
+
+                                                <span class="fs-14 text-primary font-w500"
+                                                    style="color:rgb(210, 45, 45) !important; font-size:1.2rem !important;">
+                                                    <del> {{$price_to_pay}}Azn</del>
+                                                </span>
+                                                <span class="fs-14 text-primary font-w500"
+                                                    style="font-size:1rem !important;">
+
+                                                    @php
+                                                    $price_to_pay_in_double_discount = $deal['price'] - ($deal['price']
+                                                    * ($deal['additional_discount'] / 100) )
+                                                    @endphp
+
+                                                    {{$price_to_pay_in_double_discount}}Azn
+
+                                                </span>
+
+
+
+                                                @else --}}
+
+                                                <span class="fs-14 text-primary font-w500"
+                                                    style="color:rgb(210, 45, 45) !important; font-size:1.2rem !important;">
+
+                                                    ${{$deal['price']}} </span>
+
+                                                {{-- <span class="fs-14 text-primary font-w500"
+                                                    style="font-size:1rem !important;">
+                                                    {{$price_to_pay}}Azn
+                                                </span> --}}
+
+                                                {{-- @endif --}}
+
+
+
+                                                {{-- @if($deal['additional_discount'] && $result)
+                                                <span class="badge light badge-danger"
+                                                    style="margin-left: 8px !important;float: right !important;">
+                                                    {{$deal['additional_discount']}}% off</span>
+                                                @endif --}}
+
+                                                {{-- <span class="fs-14 text-primary font-w500"
+                                                    style="color:rgb(210, 45, 45) !important; font-size:1.2rem !important;">
+                                                    <del>100%</del> </span> --}}
+                                                {{-- <span class="fs-14 text-primary font-w500"
+                                                    style="font-size:1rem !important;">
+                                                    {{$percentage_to_pay}}%
+                                                </span> --}}
+                                                {{-- <span class="badge light badge-primary"
+                                                    style="margin-left: 8px !important;float: right !important;">
+                                                    {{$deal['discount_on_price']}}% off</span> --}}
                                                 @endif
-            
+
                                             </div>
-        
-        
+
+
                                             </ul>
-        
+
                                             <div>
-                                                <span class="" style="color:#0B2A97 !important;"> {{$deal['totalRadeem']}} Redeemed / {{$deal['totalPurchase']}} Available
+                                                <span class="" style="color:#0B2A97 !important;">
+                                                    {{$deal['totalRadeem']}} Redeemed / {{$deal['totalPurchase']}}
+                                                    Available
                                                 </span>
                                             </div>
-        
+                                            @if($deal['status'] == 0)
                                             <div style="    text-align: -webkit-center;
-                                                        margin-top: 10px;"> <a href="{{'AdminEditOffer/'.$deal['id']}}">
-        
-                                                            @if($deal['status'] == 0)
-                                                            <button class="btn btn-primary"> <span>Edit</span>
-                                                            </button>
-                                                            @endif
-                                                    
-        
+                                                        margin-top: 10px;"> <a
+                                                    href="{{'AdminEditOffer/'.$deal['id']}}">
+
+
+                                                    <button class="btn btn-primary"> <span>Edit</span>
+                                                    </button>
+
+
+
                                                 </a> </div>
+                                            @endif
+
+
                                         </div>
                                     </div>
                                 </div>
                             </div>
                             @endforeach
-        
-        
+
+
                         </div>
                     </div>
-        
-        
-        
-        
-        
+
+
+
+
+
                 </div>
                 <style>
                     .pagination {
                         place-content: center;
                     }
                 </style>
-                @if(count($deals) <= 0)
-                @else
-                <div>
+                @if(count($deals) <= 0) @else <div>
                     {{$deals->links()}}
-                </div>
-                @endif
-                
-        
             </div>
-
-
+            @endif
 
 
         </div>
 
 
+
+
     </div>
 
-    <style>
-        .pagination {
-            place-content: center;
-        }
-    </style>
-    <div>
-        {{$deals->links()}}
-    </div>
+
+</div>
+
+{{-- <style>
+    .pagination {
+        place-content: center;
+    }
+</style>
+<div>
+    {{$deals->links()}}
+</div> --}}
 
 
 

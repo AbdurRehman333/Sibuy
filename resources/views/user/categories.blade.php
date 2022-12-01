@@ -5,14 +5,14 @@
     <meta charset="utf-8">
     <meta name="viewport"
         content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>GiGi</title>
+    <title>SiBuy365</title>
     <link rel="canonical" href="index.html" />
     <link rel="alternate" hreflang="en-US" href="index.html" />
     <link rel="alternate" href="index.html" hreflang="x-default" />
-    <meta property="og:image" content="{{asset('assets/USER/img/icons/128.png')}}" />
-    <link rel="icon" href="{{asset('assets/USER/img/icons/128.png')}}" />
+    <meta property="og:image" content="{{asset('assets/images/sibuy.png')}}" />
+    <link rel="icon" href="{{asset('assets/images/sibuy.png')}}" />
     <link href="{{asset('assets/USER/admin/assets/css/icons.min.css')}}" rel="stylesheet" type="text/css" />
-    <link rel="icon" type="image/png" href="{{asset('assets/USER/img/icons/128.png')}}" />
+    <link rel="icon" type="image/png" href="{{asset('assets/images/sibuy.png')}}" />
     <script src="{{asset('assets/USER/vendor/jquery/jquery-3.6.0.min.js')}}"></script>
 
     {{-- <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script> --}}
@@ -289,20 +289,37 @@ crossorigin="anonymous" />
 
         <main style="background:#F6F7FB">
             <div class="home">
+
+              
+
                 <div id="section-intro" data-home-section class="bg-body" style="padding-top: 15vh;">
+                  
+
                     <div class="home-intro__body edge">
                         {{-- <div class="row">
                             <div class="col-md-12">
                                 <h1>Categories</h1>
                             </div>
                         </div> --}}
+                   
                         <div class="row">
                           
 
                             <div class="col-md-3 scroll" style="">
 
 
+                               
 
+                                {{-- @if(Session::has('success'))
+                                <p class="alert alert-success" style="    text-align-last: center;
+                                ">{{ Session::get('success') }}</p>
+                              
+                                @endif
+        
+                                @if(Session::has('alert'))
+                                <p class="alert alert-danger" style="    text-align-last: center;
+                                ">{{ Session::get('alert') }}</p>
+                                @endif --}}
 
 
 
@@ -625,17 +642,11 @@ crossorigin="anonymous" />
 
                                 @if($what_page == 'dealsByCat' )
                                     @if($cat_id_and_count > 0)
-                                    <div style="margin-bottom: 17px; margin-top:20px;">
+                                    {{-- <div style="margin-bottom: 17px; margin-top:20px;">
                                         <form method="get" action="{{url('DealsByCat/'.$cat_id_and_count.'')}}">
                                             @csrf
                                             <div class="form-group" style="">
-                                            {{-- <label for="exampleInputEmail1">Min: </label>
-                                            <input type="text" name="min" class="form-control" placeholder="Minimum...">
-                                            </div>
-                                            <div class="form-group" style="">
-                                            <label for="exampleInputPassword1">Max: </label>
-                                            <input type="text" name="max" class="form-control" placeholder="Maximum..."> --}}
-
+                                     
                                             <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ion-rangeslider/2.3.1/css/ion.rangeSlider.min.css"/>
                                             <script src="https://cdnjs.cloudflare.com/ajax/libs/ion-rangeslider/2.3.1/js/ion.rangeSlider.min.js"></script>
 
@@ -667,39 +678,20 @@ crossorigin="anonymous" />
                                                         skin: "round",
                                                     });
                                             </script>
-                                            {{-- <input type="text" class="js-range-slider23" name="my_range" value="" />
-                                            <script>    
-                                                    $(".js-range-slider23").ionRangeSlider({
-                                                        type: "double",
-                                                        grid: true,                             
-                                                        min: 0,
-                                                        max: 100,
-                                                        from: Discountmin,
-                                                        to: Discountmax,
-                                                        prefix: "%"
-                                                    });
-
-                                            </script> --}}
+                                           
 
                                             </div>
                                             <div style="   margin-top: 21px; text-align-last: center;">
                                                 <button type="submit" style="background-color: #6ab6df" class="btn btn-primary">Search</button>
                                             </div>
                                         </form>
-                                    </div>
+                                    </div> --}}
                                     @endif
                                 @else
-                                <div style="margin-bottom: 17px; margin-top:20px;">
+                                {{-- <div style="margin-bottom: 17px; margin-top:20px;">
                                     <form method="get" action="{{url('PriceFilter')}}">
                                         @csrf
-                                        {{-- <div class="form-group" style="">
-                                          <label for="exampleInputEmail1">Min: </label>
-                                          <input type="text" name="min" class="form-control" placeholder="Minimum...">
-                                        </div>
-                                        <div class="form-group" style="">
-                                          <label for="exampleInputPassword1">Max: </label>
-                                          <input type="text" name="max" class="form-control" placeholder="Maximum...">
-                                        </div> --}}
+                                        
                                         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ion-rangeslider/2.3.1/css/ion.rangeSlider.min.css"/>
                                         <script src="https://cdnjs.cloudflare.com/ajax/libs/ion-rangeslider/2.3.1/js/ion.rangeSlider.min.js"></script>
     
@@ -732,30 +724,18 @@ crossorigin="anonymous" />
                                                 });
 
                                         </script>
-                                        {{-- <input type="text" class="js-range-slider23" name="my_range" value="" />
-                                            <script>    
-                                                    $(".js-range-slider23").ionRangeSlider({
-                                                        type: "double",
-                                                        grid: true,                             
-                                                        min: 0,
-                                                        max: 100,
-                                                        from: Discountmin,
-                                                        to: Discountmax,
-                                                        prefix: "%"
-                                                    });
-
-                                            </script> --}}
+                                       
 
                                         <div style="    margin-top: 21px; text-align-last: center;">
                                             <button type="submit" style="background-color: #6ab6df"  class="btn btn-primary">Search</button>
                                         </div>
                                     </form>
-                                </div>
+                                </div> --}}
                                 @endif
 
 
 
-                                <div class="widget widget--tags" style="margin-bottom: 30px;">
+                                {{-- <div class="widget widget--tags" style="margin-bottom: 30px;">
                                     <h4 class="h6 widget-title">Popular Tags</h4>
 
                                     <ul class="UlWidget_ttile">
@@ -766,7 +746,7 @@ crossorigin="anonymous" />
                                         <li class="listwidgettt"><a class="classANTag" href="#">Photography</a></li>
                                         <li class="listwidgettt"><a class="classANTag" href="#">UI</a></li>
                                     </ul>
-                                </div>
+                                </div> --}}
 
                                 <style>
                                     .classANTag:hover{
@@ -949,6 +929,15 @@ crossorigin="anonymous" />
 
                             <div class="col-md-9">
 
+                                @if(Session::has('success'))
+                                <p class="alert alert-success" style="    text-align-last: center;
+                                ">{{ Session::get('success') }}</p>
+                                @endif
+        
+                                @if(Session::has('alert'))
+                                <p class="alert alert-danger" style="    text-align-last: center;
+                                ">{{ Session::get('alert') }}</p>
+                                @endif
 
                                 <div class="col-md-12">
 
@@ -1042,7 +1031,7 @@ crossorigin="anonymous" />
                                                         position: absolute;"
                                                         ><i class="fa fa-heart" aria-hidden="true"></i></span>
                                                     @endif
-                                                <img style='width:100%; height:250px;; object-fit: contain;' src='{{'https://gigiapi.zanforthstaging.com/'.$deal['image']['path'].'/'.$deal['image']['image'].''}}' />
+                                                <img style='width:100%; height:250px;; object-fit: contain;' src='{{''.config('path.path.WebPath').''.$deal['image']['path'].'/'.$deal['image']['image'].''}}' />
                                                 <p style="margin-bottom: 0px;"><span> {{$deal['merchant_name']}}</span></p>
                                                 @php
                                                     $length = Str::length($deal['name']);
@@ -1077,45 +1066,30 @@ crossorigin="anonymous" />
                                                     @endphp
                                                     </span>
                                                     <br />
-                                                    @if($deal['type'] == 'Entire Menu')
+                                                    {{-- @if($deal['type'] == 'Entire Menu')
                                                             <span class='old-price' style="display: none;">{{$blue_text}}</span>
                                                             <img style="margin-bottom: 7px;margin-left: -5px; visibility:hidden" src="{{asset('assets/mannatIconBlack.png')}}" width="20px" alt="">
                                                             @php
                                                                 $price_to_pay_in_double_discount = $deal['price'] - ($deal['price'] * ($deal['additional_discount'] / 100) )
                                                             @endphp
-                                                            <span
-                                                            class='new-price' style="color: #d30b0b;">Entire Menu</span>
-                                                    @else
-                                                        @if($deal['additional_discount'] && $result)
-                                                            @if($deal['additional_discount'] > 0 )
-            
-                                                            <span class='old-price'>{{$blue_text}}</span>
-                                                            <img style="    margin-bottom: 7px;margin-left: -5px;" src="{{asset('assets/mannatIconBlack.png')}}" width="20px" alt="">
-            
-            
-                                                            @php
-                                                                $price_to_pay_in_double_discount = $deal['price'] - ($deal['price'] * ($deal['additional_discount'] / 100) )
-                                                            @endphp
+
                                                             
                                                             <span
-                                                            class='new-price' style="color: #d30b0b;">{{$price_to_pay_in_double_discount}}Azn</span>
+                                                            class='new-price' style="color: #d30b0b;"> <span style="visibility: hidden;">12313</span> Entire Menu</span>
+                                                    @else
+                                                     
             
-                                                            @endif
-                                                        @else
+                                                        <span style="visibility:hidden;"  class='old-price'>1231233</span>
+                                                        <img   style=" visibility:hidden;   margin-bottom: 7px;margin-left: -5px;" src="{{asset('assets/mannatIconBlack.png')}}" width="20px" alt="">
             
-                                                        <span class='old-price'>{{$deal['price']}}</span>
-                                                        <img style="    margin-bottom: 7px;margin-left: -5px;" src="{{asset('assets/mannatIconBlack.png')}}" width="20px" alt="">
-            
-                                                        
-                                                        <span
-                                                            class='new-price'>{{$blue_text}}</span>
-                                                            <img style="    margin-bottom: 7px;margin-left: -5px;" src="{{asset('assets/mannatIcon.webp')}}" width="20px" alt="">
-            
-                                                        @endif
+                                                      
+                                                            <span
+                                                            class='new-price'>${{$blue_text}}</span>
+                                                   
 
-                                                    @endif
+                                                    @endif --}}
                                                     &nbsp;
-                                                    @if($deal['additional_discount'] && $result)
+                                                    {{-- @if($deal['additional_discount'] && $result)
                                                         @if($deal['additional_discount'] > 0)
         
                                                         <span class='percent-off' style="background-color: #d30b0b;">{{$deal['additional_discount']}}%
@@ -1125,8 +1099,8 @@ crossorigin="anonymous" />
                                                     @else
                                                     <span class='percent-off'>{{$deal['discount_on_price']}}%
                                                         OFF</span>
-                                                    @endif
-                                                @if(session()->has('Authenticated_user_data') && session()->get('Authenticated_user_data')['type'] == 1)
+                                                    @endif --}}
+                                                {{-- @if(session()->has('Authenticated_user_data') && session()->get('Authenticated_user_data')['type'] == 1)
                                                 <hr>
                                                 <div class='location'>{{$deal['nearbyBranch']}}</div>
                                                 <div class='nearkm'>Near <span>{{$deal['nearby']}} KMs</span></div>
@@ -1134,7 +1108,7 @@ crossorigin="anonymous" />
                                                 <hr>
                                                 <div class='location'>{{$deal['nearbyBranch']}}</div>
                                                 <div class='nearkm'>Near <span>{{$deal['nearby']}} KMs</span></div>
-                                                @endif
+                                                @endif --}}
                                             </div>
                                         </a>
                                     </div>
@@ -1608,13 +1582,13 @@ crossorigin="anonymous" />
 <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.0/js/toastr.min.js" integrity="sha512-i5xofbBta9oP3xclkdj0jO68kXE1tPeN8Jf3rwzsbwNrpFVifjhklWi8zMOOUscuMQaCPyIXl0TMWFjGwBaJxw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
 
-
+<input type="hidden" id="WebPath" value="{{config('path.path.WebPath')}}">
 <script>
     Pusher.logToConsole = true;
-
-    var pusher = new Pusher('814fe1b741785e7ace5e', {
+WebPath = document.getElementById('WebPath').value;
+    var pusher = new Pusher('5c357c77e10eb34aedcb', {
         cluster: 'ap2',
-        authEndpoint: "https://gigiapi.zanforthstaging.com/api/channelAuthorization",
+        authEndpoint: `${WebPath}api/channelAuthorization`,
         auth: {
             headers: {
                 "Authorization": `Bearer ${bearer_token}`,

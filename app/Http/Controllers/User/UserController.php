@@ -21,13 +21,56 @@ class UserController extends Controller
     public function getNotifications($token)
     {
         $response = Http::withToken($token);
-        $response = $response->get('gigiapi.zanforthstaging.com/api/getNotifications',[
+        $response = $response->get(''.config('path.path.WebPath').'api/getNotifications',[
             'limit' => 20,
             'page' => 1,
             'timeSort' => 'desc',
         ]);
         return $response->json();
         // dd($response->json()); 
+    }
+
+    public function ReferralCode()
+    {
+        // dd(1);
+        try{
+            $AuthUserCities = [];
+            if(session()->has('Authenticated_user_data') && session()->get('Authenticated_user_data')['type'] == 1)
+            {
+                $token = session()->get('Authenticated_user_data')['token'];
+                $AuthUserCities = $this->getAuthUserLocations($token);
+            }
+            $url = ''.config('path.path.WebPath').'api/categoryAutoComplete';
+            $categories = Http::get($url)->json()['data'];
+            $notifications = null;
+            if(session()->has('Authenticated_user_data') && session()->get('Authenticated_user_data')['type'] == 1)
+            {
+                $UserType = 'User';
+                $token = session()->get('Authenticated_user_data')['token'];
+                $notifications = $this->getNotifications($token);
+                $notifications =  $notifications['data'];
+            }
+            // dd($cat_array['couples']);
+            if(session()->has('Authenticated_user_data') && session()->get('Authenticated_user_data')['type'] == 1)
+            {
+                $UserType = 'User';
+                $token = session('Authenticated_user_data')['token'];
+                $id = session('Authenticated_user_data')['id'];
+                echo "<script>";
+                echo "var bearer_token = `". $token ."` ;";
+                echo "var id = `". $id ."` ;";
+                echo "</script>";
+            }
+            return view('user.ReferralCode',compact('notifications','categories','AuthUserCities'));
+
+        } catch (\Exception $e) {
+            return response()->json([
+                'Success' => 'False',
+                'Error' => $e->getMessage(),
+            ]);
+        }
+
+        
     }
 
     public function UserSelectedCity($city)
@@ -67,119 +110,7 @@ class UserController extends Controller
         // dd(session()->get('AuthenticatedUserSelectedCities'));
     }
 
-    public function UpdateCurrentLocation( Request $request)
-    {
-        // api/user/deleteUserLocation/1
-        // dd($request);
-        $token = session()->get('Authenticated_user_data')['token'];
-        $response = Http::withToken($token);
-        $response = $response->get('gigiapi.zanforthstaging.com/api/user/getUserLocations');
-        // dd($response->json());
-        $user_locs = $response->json()['data'];
-        foreach($user_locs as $loc)
-        {
-            if((int)$loc['lat'] == 0 && (int)$loc['long'] == 0)
-            {
-                // dd($loc['id']);
-                // /api/user/updateUserLocation/3
-                // $response = Http::withToken($token);
-                // $response = $response->post('gigiapi.zanforthstaging.com/api/user/deleteUserLocation/'.$loc['id'].'');
-                // dd($response);
-            }
-            else
-            {
-                // dd($loc);
-                $primary_location = $loc;
-            }
-        }
-        // dd($primary_location);
-        $response = Http::withToken($token);
-        $response = $response->post('gigiapi.zanforthstaging.com/api/user/updateUserLocation/'.$primary_location['id'].'',[
-            'address' => $request->address,
-            'city' => $request->city,
-            'country' => $request->country,
-            'lat' => $request->lat,
-            'long' =>  $request->long,
-        ]);
-        
-        //Resetting the session
-        $userData = session()->get('Authenticated_user_data');
-        $userData['location'] = [
-            'address' => $request->address,
-            'city' => $request->city,
-            'country' => $request->country,
-            'lat' => $request->lat,
-            'long' =>  $request->long,
-        ];
-        // dd($userData);
-        session()->forget('Authenticated_user_data');
-        Session::put('Authenticated_user_data', $userData);
-        // session()->get('Authenticated_user_data')['location']['city'] = $request->city ;
-        // dd(session()->get('Authenticated_user_data'));
 
-
-        // dd($response->json());
-        return redirect()->back()->with('success', 'Current Location Updated!');
-        // dd($response->json());
-    }
-
-    public function SETCITIES(Request $request)
-    {
-        try
-        {
-            // dd($request);
-            $token = session()->get('Authenticated_user_data')['token'];
-            // dd($token);
-            $country = session()->get('Authenticated_user_data')['location']['country'];
-            $cities = $request->cities;
-
-            if($cities == null)
-            {
-                return redirect()->back()->with('alert','Cannot Empty Your Cities');
-            }
-
-            $response = Http::withToken($token);
-            $response = $response->get('gigiapi.zanforthstaging.com/api/user/getUserLocations');
-            // dd($response->json);
-            $user_locs = $response->json()['data'];
-            foreach($user_locs as $loc)
-            {
-                if((int)$loc['lat'] == 0 && (int)$loc['long'] == 0)
-                {
-                    // dd($loc['id']);
-                    // /api/user/updateUserLocation/3
-                    $response = Http::withToken($token);
-                    $response = $response->post('gigiapi.zanforthstaging.com/api/user/deleteUserLocation/'.$loc['id'].'');
-                    // dd($response);
-                }
-                else
-                {
-                    // dd($loc);
-                }
-            }
-
-            //Updating
-            foreach($cities as $c)
-            {
-                $response = Http::withToken($token);
-                $response = $response->post('gigiapi.zanforthstaging.com/api/user/addUserLocation',[
-                    'country' => $country,
-                    'city' => $c,
-                    'lat' => 0,
-                    'long' => 0,
-                    'address' => 'NULL',
-                ]);
-                // dd($response->json());
-            }
-            return redirect()->back()->with('success','Your Cities Updated');
-        } catch (\Exception $e) {
-            return response()->json([
-                'Success' => 'False',
-                'Error' => $e->getMessage(),
-                // 'Message' => $response->json()['error'],
-            ]);
-        }
-    }
 
     public function SelectingCity($city)
     {
@@ -209,7 +140,7 @@ class UserController extends Controller
             {
                 $UserType = 'LocationUser';
                 $session_data = session()->get('unAuthUserLocations');
-                $response = Http::get('gigiapi.zanforthstaging.com/api/getSystemCitiesByCountry',[
+                $response = Http::get(''.config('path.path.WebPath').'api/getSystemCitiesByCountry',[
                     'country' => session()->get('unAuthUserLocations')['country'],
                 ]);
                 // dd($request->country);
@@ -219,31 +150,31 @@ class UserController extends Controller
             {
                 $UserType = 'User';
                 $session_data = session()->get('unAuthUserLocations');
-                $response = Http::get('gigiapi.zanforthstaging.com/api/getSystemCitiesByCountry',[
-                    'country' => session()->get('Authenticated_user_data')['location']['country'],
+                $response = Http::get(''.config('path.path.WebPath').'api/getSystemCitiesByCountry',[
+                    'country' => session()->get('Authenticated_user_data')['userLocations'][0]['country'],
                 ]);
                 // dd($request->country);
                 $cities = $response->json();
             }
-            $response = Http::get('gigiapi.zanforthstaging.com/api/getSystemCitiesByCountry',[
+            $response = Http::get(''.config('path.path.WebPath').'api/getSystemCitiesByCountry',[
                 'country' => session()->get('unAuthUserLocations')['country'],
             ]);
             $cities = $response->json();
 
 
-            $category_section = Http::get('gigiapi.zanforthstaging.com/api/user/getHomePageSections',['section' => 'category']);
+            $category_section = Http::get(''.config('path.path.WebPath').'api/user/getHomePageSections',['section' => 'category']);
             $categorySection = $category_section->json()['data'];
 
-            $upperImage_Section = Http::get('gigiapi.zanforthstaging.com/api/user/getHomePageSections',['section' => 'upperImageSection']);
+            $upperImage_Section = Http::get(''.config('path.path.WebPath').'api/user/getHomePageSections',['section' => 'upperImageSection']);
             $upperImageSection = $upperImage_Section->json()['data'];
 
-            $lowerImage_Section = Http::get('gigiapi.zanforthstaging.com/api/user/getHomePageSections',['section' => 'lowerImageSection']);
+            $lowerImage_Section = Http::get(''.config('path.path.WebPath').'api/user/getHomePageSections',['section' => 'lowerImageSection']);
             $lowerImageSection = $lowerImage_Section->json()['data'];
 
-            $footerImage_Section = Http::get('gigiapi.zanforthstaging.com/api/user/getHomePageSections',['section' => 'footerImageSection']);
+            $footerImage_Section = Http::get(''.config('path.path.WebPath').'api/user/getHomePageSections',['section' => 'footerImageSection']);
             $footerImageSection = $footerImage_Section->json()['data'];
 
-            $CatBlock_Section = Http::get('gigiapi.zanforthstaging.com/api/user/getHomePageSections',['section' => 'CatBlockSection']);
+            $CatBlock_Section = Http::get(''.config('path.path.WebPath').'api/user/getHomePageSections',['section' => 'CatBlockSection']);
             $CatBlockSection = $CatBlock_Section->json()['data'];
 
             $category_to_show_on_block = $CatBlockSection[0]['data_id'];
@@ -257,7 +188,7 @@ class UserController extends Controller
             if( !session()->has('Authenticated_user_data') && session()->has('unAuthUserLocations'))
             {
                 $UserType = 'LocationUser';
-                $response = Http::get('gigiapi.zanforthstaging.com/api/user/getNearByDeals',[
+                $response = Http::get(''.config('path.path.WebPath').'api/user/getNearByDeals',[
                     'limit' => 4,
                     'page' => 1,
                     'category' => $category_to_show_on_block,
@@ -276,7 +207,7 @@ class UserController extends Controller
                     $right = false;
                     while($right == false)
                     {
-                        $response = Http::get('gigiapi.zanforthstaging.com/api/user/getNearByDeals',[
+                        $response = Http::get(''.config('path.path.WebPath').'api/user/getNearByDeals',[
                             'limit' => 4,
                             'page' => 1,
                             'category' => $category_to_show_on_block,
@@ -353,8 +284,8 @@ class UserController extends Controller
             elseif(session()->has('Authenticated_user_data') && session()->get('Authenticated_user_data')['type'] == 1)
             {
                 $UserType = 'User';
-                $lat = (float)session()->get('Authenticated_user_data')['location']['lat'];
-                $long = (float)session()->get('Authenticated_user_data')['location']['long'];
+                $lat = (float)session()->get('Authenticated_user_data')['userLocations'][0]['lat'];
+                $long = (float)session()->get('Authenticated_user_data')['userLocations'][0]['long'];
 
                 if(session()->has('AuthenticatedUserSelectedCities'))
                 {
@@ -362,17 +293,17 @@ class UserController extends Controller
                 }
                 else
                 {
-                    $city = session()->get('Authenticated_user_data')['location']['city'];
+                    $city = session()->get('Authenticated_user_data')['userLocations'][0]['city'];
                 }
           
 
 
 
-                $country = session()->get('Authenticated_user_data')['location']['country'];
+                $country = session()->get('Authenticated_user_data')['userLocations'][0]['country'];
 
                 $token = session()->get('Authenticated_user_data')['token'];
                 $response = Http::withToken($token);
-                $response = $response->get('gigiapi.zanforthstaging.com/api/user/getUserLocations');
+                $response = $response->get(''.config('path.path.WebPath').'api/user/getUserLocations');
                 $userCities = $response->json()['data'];
                 $data = ['limit' => 10000,
                 'page' => 1,
@@ -401,7 +332,7 @@ class UserController extends Controller
                 // {
                 //     $data['cities['.$key.']'] = $c['city'];
                 // }
-                $response = Http::get('gigiapi.zanforthstaging.com/api/user/getNearByDeals',$data);
+                $response = Http::get(''.config('path.path.WebPath').'api/user/getNearByDeals',$data);
 
                 // NEW CODE -- START
                 if($response->json() == null)
@@ -411,7 +342,7 @@ class UserController extends Controller
                     while($right == false)
                     {
                         $response = Http::withToken($token);
-                        $response = $response->get('gigiapi.zanforthstaging.com/api/user/getUserLocations');
+                        $response = $response->get(''.config('path.path.WebPath').'api/user/getUserLocations');
                         $userCities = $response->json()['data'];
                         $data = ['limit' => 10000,
                         'page' => 1,
@@ -437,7 +368,7 @@ class UserController extends Controller
                         // {
                         //     $data['cities['.$key.']'] = $c['city'];
                         // }
-                        $response = Http::get('gigiapi.zanforthstaging.com/api/user/getNearByDeals',$data);
+                        $response = Http::get(''.config('path.path.WebPath').'api/user/getNearByDeals',$data);
                         if($response == null)
                         {
     
@@ -502,7 +433,7 @@ class UserController extends Controller
             }
             else
             {
-                $cats_in_block = Http::get('gigiapi.zanforthstaging.com/api/user/getDeals',[
+                $cats_in_block = Http::get(''.config('path.path.WebPath').'api/user/getDeals',[
                     'limit' => 4,
                     'page' => 1,
                     'category' => $category_to_show_on_block,
@@ -516,7 +447,7 @@ class UserController extends Controller
                     $right = false;
                     while($right == false)
                     {
-                        $cats_in_block = Http::get('gigiapi.zanforthstaging.com/api/user/getDeals',[
+                        $cats_in_block = Http::get(''.config('path.path.WebPath').'api/user/getDeals',[
                             'limit' => 4,
                             'page' => 1,
                             'category' => $category_to_show_on_block,
@@ -543,10 +474,10 @@ class UserController extends Controller
 
 
             // RENDER HOME PAGE NOW
-            $url = 'gigiapi.zanforthstaging.com/api/categoryAutoComplete';
+            $url = ''.config('path.path.WebPath').'api/categoryAutoComplete';
             $categories = Http::get($url)->json()['data'];
             //Trending Deals
-            $response = Http::get('gigiapi.zanforthstaging.com/api/user/getTrendingDeals',[
+            $response = Http::get(''.config('path.path.WebPath').'api/user/getTrendingDeals',[
                 'limit' => 10000,
                 'page' => 1,
                 'returnType' => 'customPagination',
@@ -659,7 +590,7 @@ class UserController extends Controller
             {
                 $UserType = 'LocationUser';
                 $session_data = session()->get('unAuthUserLocations');
-                $response = Http::get('gigiapi.zanforthstaging.com/api/getSystemCitiesByCountry',[
+                $response = Http::get(''.config('path.path.WebPath').'api/getSystemCitiesByCountry',[
                     'country' => session()->get('unAuthUserLocations')['country'],
                 ]);
                 // dd($request->country);
@@ -669,8 +600,8 @@ class UserController extends Controller
             {
                 $UserType = 'User';
                 $session_data = session()->get('unAuthUserLocations');
-                $response = Http::get('gigiapi.zanforthstaging.com/api/getSystemCitiesByCountry',[
-                    'country' => session()->get('Authenticated_user_data')['location']['country'],
+                $response = Http::get(''.config('path.path.WebPath').'api/getSystemCitiesByCountry',[
+                    'country' => session()->get('Authenticated_user_data')['userLocations'][0]['country'],
                 ]);
                 // dd($request->country);
                 $cities = $response->json();
@@ -688,7 +619,7 @@ class UserController extends Controller
                 Session::put('unAuthUserLocations', $already_selected);
             }
             
-            $response = Http::get('gigiapi.zanforthstaging.com/api/getSystemCitiesByCountry',[
+            $response = Http::get(''.config('path.path.WebPath').'api/getSystemCitiesByCountry',[
                 'country' => $request->country,
             ]);
             // dd($request->country);
@@ -702,19 +633,19 @@ class UserController extends Controller
                 return redirect('home');
             }
             // dd('yes');
-            $category_section = Http::get('gigiapi.zanforthstaging.com/api/user/getHomePageSections',['section' => 'category']);
+            $category_section = Http::get(''.config('path.path.WebPath').'api/user/getHomePageSections',['section' => 'category']);
             $categorySection = $category_section->json()['data'];
 
-            $upperImage_Section = Http::get('gigiapi.zanforthstaging.com/api/user/getHomePageSections',['section' => 'upperImageSection']);
+            $upperImage_Section = Http::get(''.config('path.path.WebPath').'api/user/getHomePageSections',['section' => 'upperImageSection']);
             $upperImageSection = $upperImage_Section->json()['data'];
 
-            $lowerImage_Section = Http::get('gigiapi.zanforthstaging.com/api/user/getHomePageSections',['section' => 'lowerImageSection']);
+            $lowerImage_Section = Http::get(''.config('path.path.WebPath').'api/user/getHomePageSections',['section' => 'lowerImageSection']);
             $lowerImageSection = $lowerImage_Section->json()['data'];
 
-            $footerImage_Section = Http::get('gigiapi.zanforthstaging.com/api/user/getHomePageSections',['section' => 'footerImageSection']);
+            $footerImage_Section = Http::get(''.config('path.path.WebPath').'api/user/getHomePageSections',['section' => 'footerImageSection']);
             $footerImageSection = $footerImage_Section->json()['data'];
 
-            $CatBlock_Section = Http::get('gigiapi.zanforthstaging.com/api/user/getHomePageSections',['section' => 'CatBlockSection']);
+            $CatBlock_Section = Http::get(''.config('path.path.WebPath').'api/user/getHomePageSections',['section' => 'CatBlockSection']);
             $CatBlockSection = $CatBlock_Section->json()['data'];
 
             $category_to_show_on_block = $CatBlockSection[0]['data_id'];
@@ -728,7 +659,7 @@ class UserController extends Controller
             if( !session()->has('Authenticated_user_data') && session()->has('unAuthUserLocations'))
             {
                 $UserType = 'LocationUser';
-                $response = Http::get('gigiapi.zanforthstaging.com/api/user/getNearByDeals',[
+                $response = Http::get(''.config('path.path.WebPath').'api/user/getNearByDeals',[
                     'limit' => 4,
                     'page' => 1,
                     'category' => $category_to_show_on_block,
@@ -747,7 +678,7 @@ class UserController extends Controller
                     $right = false;
                     while($right == false)
                     {
-                        $response = Http::get('gigiapi.zanforthstaging.com/api/user/getNearByDeals',[
+                        $response = Http::get(''.config('path.path.WebPath').'api/user/getNearByDeals',[
                             'limit' => 4,
                             'page' => 1,
                             'category' => $category_to_show_on_block,
@@ -823,8 +754,8 @@ class UserController extends Controller
             elseif(session()->has('Authenticated_user_data') && session()->get('Authenticated_user_data')['type'] == 1)
             {
                 $UserType = 'User';
-                $lat = (float)session()->get('Authenticated_user_data')['location']['lat'];
-                $long = (float)session()->get('Authenticated_user_data')['location']['long'];
+                $lat = (float)session()->get('Authenticated_user_data')['userLocations'][0]['lat'];
+                $long = (float)session()->get('Authenticated_user_data')['userLocations'][0]['long'];
 
                 if(session()->has('AuthenticatedUserSelectedCities'))
                 {
@@ -832,15 +763,15 @@ class UserController extends Controller
                 }
                 else
                 {
-                    $city = session()->get('Authenticated_user_data')['location']['city'];
+                    $city = session()->get('Authenticated_user_data')['userLocations'][0]['city'];
                 }
 
-                // $city = session()->get('Authenticated_user_data')['location']['city'];
-                $country = session()->get('Authenticated_user_data')['location']['country'];
+                // $city = session()->get('Authenticated_user_data')['userLocations'][0]['city'];
+                $country = session()->get('Authenticated_user_data')['userLocations'][0]['country'];
 
                 $token = session()->get('Authenticated_user_data')['token'];
                 $response = Http::withToken($token);
-                $response = $response->get('gigiapi.zanforthstaging.com/api/user/getUserLocations');
+                $response = $response->get(''.config('path.path.WebPath').'api/user/getUserLocations');
                 $userCities = $response->json()['data'];
                 $data = ['limit' => 10000,
                 'page' => 1,
@@ -868,7 +799,7 @@ class UserController extends Controller
                 // {
                 //     $data['cities['.$key.']'] = $c['city'];
                 // }
-                $response = Http::get('gigiapi.zanforthstaging.com/api/user/getNearByDeals',$data);
+                $response = Http::get(''.config('path.path.WebPath').'api/user/getNearByDeals',$data);
 
                 // NEW CODE -- START
                 if($response->json() == null)
@@ -878,7 +809,7 @@ class UserController extends Controller
                     while($right == false)
                     {
                         $response = Http::withToken($token);
-                        $response = $response->get('gigiapi.zanforthstaging.com/api/user/getUserLocations');
+                        $response = $response->get(''.config('path.path.WebPath').'api/user/getUserLocations');
                         $userCities = $response->json()['data'];
                         $data = ['limit' => 10000,
                         'page' => 1,
@@ -905,7 +836,7 @@ class UserController extends Controller
                         // {
                         //     $data['cities['.$key.']'] = $c['city'];
                         // }
-                        $response = Http::get('gigiapi.zanforthstaging.com/api/user/getNearByDeals',$data);
+                        $response = Http::get(''.config('path.path.WebPath').'api/user/getNearByDeals',$data);
                         if($response == null)
                         {
     
@@ -970,7 +901,7 @@ class UserController extends Controller
             }
             else
             {
-                $cats_in_block = Http::get('gigiapi.zanforthstaging.com/api/user/getDeals',[
+                $cats_in_block = Http::get(''.config('path.path.WebPath').'api/user/getDeals',[
                     'limit' => 4,
                     'page' => 1,
                     'category' => $category_to_show_on_block,
@@ -984,7 +915,7 @@ class UserController extends Controller
                     $right = false;
                     while($right == false)
                     {
-                        $cats_in_block = Http::get('gigiapi.zanforthstaging.com/api/user/getDeals',[
+                        $cats_in_block = Http::get(''.config('path.path.WebPath').'api/user/getDeals',[
                             'limit' => 4,
                             'page' => 1,
                             'category' => $category_to_show_on_block,
@@ -1014,7 +945,7 @@ class UserController extends Controller
 
 
 
-            // $cats_in_block = Http::get('gigiapi.zanforthstaging.com/api/user/getDeals',[
+            // $cats_in_block = Http::get(''.config('path.path.WebPath').'api/user/getDeals',[
             //     'limit' => 4,
             //     'page' => 1,
             //     'returnType' => 'customPagination',
@@ -1030,10 +961,10 @@ class UserController extends Controller
 
 
             // RENDER HOME PAGE NOW
-            $url = 'gigiapi.zanforthstaging.com/api/categoryAutoComplete';
+            $url = ''.config('path.path.WebPath').'api/categoryAutoComplete';
             $categories = Http::get($url)->json()['data'];
             //Trending Deals
-            $response = Http::get('gigiapi.zanforthstaging.com/api/user/getTrendingDeals',[
+            $response = Http::get(''.config('path.path.WebPath').'api/user/getTrendingDeals',[
                 'limit' => 10000,
                 'page' => 1,
                 'returnType' => 'customPagination',
@@ -1148,7 +1079,7 @@ class UserController extends Controller
             {
                 $UserType = 'LocationUser';
                 $session_data = session()->get('unAuthUserLocations');
-                $response = Http::get('gigiapi.zanforthstaging.com/api/getSystemCitiesByCountry',[
+                $response = Http::get(''.config('path.path.WebPath').'api/getSystemCitiesByCountry',[
                     'country' => session()->get('unAuthUserLocations')['country'],
                 ]);
                 // dd($request->country);
@@ -1159,14 +1090,14 @@ class UserController extends Controller
             {
                 $UserType = 'User';
                 $session_data = session()->get('unAuthUserLocations');
-                $response = Http::get('gigiapi.zanforthstaging.com/api/getSystemCitiesByCountry',[
-                    'country' => session()->get('Authenticated_user_data')['location']['country'],
+                $response = Http::get(''.config('path.path.WebPath').'api/getSystemCitiesByCountry',[
+                    'country' => session()->get('Authenticated_user_data')['userLocations'][0]['country'],
                 ]);
                 // dd($request->country);
                 $cities = $response->json();
             }
             // dd($cities);
-            $url = 'gigiapi.zanforthstaging.com/api/categoryAutoComplete';
+            $url = ''.config('path.path.WebPath').'api/categoryAutoComplete';
             $categories = Http::get($url)->json()['data'];
             // dd($categories);
 
@@ -1207,14 +1138,14 @@ class UserController extends Controller
                 {
                     $UserType = 'User';
 
-                    $lat = (float)session()->get('Authenticated_user_data')['location']['lat'];
-                    $long = (float)session()->get('Authenticated_user_data')['location']['long'];
-                    $city = session()->get('Authenticated_user_data')['location']['city'];
-                    $country = session()->get('Authenticated_user_data')['location']['country'];
+                    $lat = (float)session()->get('Authenticated_user_data')['userLocations'][0]['lat'];
+                    $long = (float)session()->get('Authenticated_user_data')['userLocations'][0]['long'];
+                    $city = session()->get('Authenticated_user_data')['userLocations'][0]['city'];
+                    $country = session()->get('Authenticated_user_data')['userLocations'][0]['country'];
 
                     $token = session()->get('Authenticated_user_data')['token'];
                     $response = Http::withToken($token);
-                    $response = $response->get('gigiapi.zanforthstaging.com/api/user/getUserLocations');
+                    $response = $response->get(''.config('path.path.WebPath').'api/user/getUserLocations');
                     $userCities = $response->json()['data'];
                     $data = ['limit' => 10000,
                     'page' => 1,
@@ -1228,16 +1159,16 @@ class UserController extends Controller
                     {
                         $data['cities['.$key.']'] = $c['city'];
                     }
-                    $response = Http::get('gigiapi.zanforthstaging.com/api/user/getNearByDeals',$data);
+                    $response = Http::get(''.config('path.path.WebPath').'api/user/getNearByDeals',$data);
 
-                    // dd(session()->get('Authenticated_user_data')['location']);
-                    // $lat = (float)session()->get('Authenticated_user_data')['location']['lat'];
-                    // $long = (float)session()->get('Authenticated_user_data')['location']['long'];
-                    // $city = session()->get('Authenticated_user_data')['location']['city'];
-                    // $country = session()->get('Authenticated_user_data')['location']['country'];
-                    // // dd(session()->get('Authenticated_user_data')['location']);
+                    // dd(session()->get('Authenticated_user_data')['userLocations'][0]);
+                    // $lat = (float)session()->get('Authenticated_user_data')['userLocations'][0]['lat'];
+                    // $long = (float)session()->get('Authenticated_user_data')['userLocations'][0]['long'];
+                    // $city = session()->get('Authenticated_user_data')['userLocations'][0]['city'];
+                    // $country = session()->get('Authenticated_user_data')['userLocations'][0]['country'];
+                    // // dd(session()->get('Authenticated_user_data')['userLocations'][0]);
                     // // dd($lat);
-                    // $response = Http::get('gigiapi.zanforthstaging.com/api/user/getTrendingDeals',[
+                    // $response = Http::get(''.config('path.path.WebPath').'api/user/getTrendingDeals',[
                     //     'limit' => 10000,
                     //     'page' => 1,
                     //     'returnType' => 'customPagination',
@@ -1255,7 +1186,7 @@ class UserController extends Controller
                 elseif( !session()->has('Authenticated_user_data') && session()->has('unAuthUserLocations'))
                 {
                     $UserType = 'LocationUser';
-                    $response = Http::get('gigiapi.zanforthstaging.com/api/user/getTrendingDeals',[
+                    $response = Http::get(''.config('path.path.WebPath').'api/user/getTrendingDeals',[
                         'limit' => 10000,
                         'page' => 1,
                         'returnType' => 'customPagination',
@@ -1270,7 +1201,7 @@ class UserController extends Controller
                 }
                 else
                 {
-                    $response = Http::get('gigiapi.zanforthstaging.com/api/user/getDeals',[
+                    $response = Http::get(''.config('path.path.WebPath').'api/user/getDeals',[
                         'limit' => 10000,
                         'page' => 1,
                         'returnType' => 'customPagination',
@@ -1287,14 +1218,14 @@ class UserController extends Controller
                 if(session()->has('Authenticated_user_data') && session()->get('Authenticated_user_data')['type'] == 1)
                 {
                     $UserType = 'User';
-                    $lat = (float)session()->get('Authenticated_user_data')['location']['lat'];
-                    $long = (float)session()->get('Authenticated_user_data')['location']['long'];
-                    $city = session()->get('Authenticated_user_data')['location']['city'];
-                    $country = session()->get('Authenticated_user_data')['location']['country'];
+                    $lat = (float)session()->get('Authenticated_user_data')['userLocations'][0]['lat'];
+                    $long = (float)session()->get('Authenticated_user_data')['userLocations'][0]['long'];
+                    $city = session()->get('Authenticated_user_data')['userLocations'][0]['city'];
+                    $country = session()->get('Authenticated_user_data')['userLocations'][0]['country'];
 
                     $token = session()->get('Authenticated_user_data')['token'];
                     $response = Http::withToken($token);
-                    $response = $response->get('gigiapi.zanforthstaging.com/api/user/getUserLocations');
+                    $response = $response->get(''.config('path.path.WebPath').'api/user/getUserLocations');
                     $userCities = $response->json()['data'];
                     $data = ['limit' => 10000,
                     'page' => 1,
@@ -1321,7 +1252,7 @@ class UserController extends Controller
                     // {
                     //     $data['cities['.$key.']'] = $c['city'];
                     // }
-                    $response = Http::get('gigiapi.zanforthstaging.com/api/user/getNearByDeals',$data);
+                    $response = Http::get(''.config('path.path.WebPath').'api/user/getNearByDeals',$data);
 
                     $loc_yes_no = true;
             
@@ -1329,7 +1260,7 @@ class UserController extends Controller
                 elseif( !session()->has('Authenticated_user_data') && session()->has('unAuthUserLocations'))
                 {
                     $UserType = 'LocationUser';
-                    $response = Http::get('gigiapi.zanforthstaging.com/api/user/getTrendingDeals',[
+                    $response = Http::get(''.config('path.path.WebPath').'api/user/getTrendingDeals',[
                         'limit' => 10000,
                         'page' => 1,
                         'returnType' => 'customPagination',
@@ -1344,7 +1275,7 @@ class UserController extends Controller
                 }
                 else
                 {
-                    $response = Http::get('gigiapi.zanforthstaging.com/api/user/getTrendingDeals',[
+                    $response = Http::get(''.config('path.path.WebPath').'api/user/getTrendingDeals',[
                         'limit' => 10000,
                         'page' => 1,
                         'returnType' => 'customPagination',
@@ -1358,7 +1289,7 @@ class UserController extends Controller
             }
             else
             {
-                $response = Http::get('gigiapi.zanforthstaging.com/api/user/getTrendingDeals',[
+                $response = Http::get(''.config('path.path.WebPath').'api/user/getTrendingDeals',[
                     'limit' => 10000,
                     'page' => 1,
                     'returnType' => 'customPagination',
@@ -1375,7 +1306,7 @@ class UserController extends Controller
             // if( !session()->has('Authenticated_user_data') && session()->has('unAuthUserLocations'))
             // {
                 $UserType = 'LocationUser';
-            //     $response = Http::get('gigiapi.zanforthstaging.com/api/user/getTrendingDeals',[
+            //     $response = Http::get(''.config('path.path.WebPath').'api/user/getTrendingDeals',[
             //         'lat' => session()->get('unAuthUserLocations')['lat'],
             //         'long' =>session()->get('unAuthUserLocations')['long'],
             //         'city' =>session()->get('unAuthUserLocations')['city'],
@@ -1387,11 +1318,11 @@ class UserController extends Controller
             // elseif(session()->has('Authenticated_user_data') && session()->get('Authenticated_user_data')['type'] == 1)
             // {
                 $UserType = 'User';
-            //     $response = Http::get('gigiapi.zanforthstaging.com/api/user/getTrendingDeals',[
-            //         'lat' => session()->get('Authenticated_user_data')['location']['lat'],
-            //         'long' =>session()->get('Authenticated_user_data')['location']['long'],
-            //         'city' =>session()->get('Authenticated_user_data')['location']['city'],
-            //         'country' =>session()->get('Authenticated_user_data')['location']['country'],
+            //     $response = Http::get(''.config('path.path.WebPath').'api/user/getTrendingDeals',[
+            //         'lat' => session()->get('Authenticated_user_data')['userLocations'][0]['lat'],
+            //         'long' =>session()->get('Authenticated_user_data')['userLocations'][0]['long'],
+            //         'city' =>session()->get('Authenticated_user_data')['userLocations'][0]['city'],
+            //         'country' =>session()->get('Authenticated_user_data')['userLocations'][0]['country'],
 
             //     ]);
 
@@ -1400,7 +1331,7 @@ class UserController extends Controller
             // }
             // elseif(!session()->has('Authenticated_user_data') && !session()->has('unAuthUserLocations'))
             // {
-            //     $response = Http::get('gigiapi.zanforthstaging.com/api/user/getTrendingDeals');
+            //     $response = Http::get(''.config('path.path.WebPath').'api/user/getTrendingDeals');
             //     $trendingDeals = $response->json();
             // }
 
@@ -1503,7 +1434,7 @@ class UserController extends Controller
             {
                 $UserType = 'LocationUser';
                 $session_data = session()->get('unAuthUserLocations');
-                $response = Http::get('gigiapi.zanforthstaging.com/api/getSystemCitiesByCountry',[
+                $response = Http::get(''.config('path.path.WebPath').'api/getSystemCitiesByCountry',[
                     'country' => session()->get('unAuthUserLocations')['country'],
                 ]);
                 // dd($request->country);
@@ -1514,14 +1445,14 @@ class UserController extends Controller
             {
                 $UserType = 'User';
                 $session_data = session()->get('unAuthUserLocations');
-                $response = Http::get('gigiapi.zanforthstaging.com/api/getSystemCitiesByCountry',[
-                    'country' => session()->get('Authenticated_user_data')['location']['country'],
+                $response = Http::get(''.config('path.path.WebPath').'api/getSystemCitiesByCountry',[
+                    'country' => session()->get('Authenticated_user_data')['userLocations'][0]['country'],
                 ]);
                 // dd($request->country);
                 $cities = $response->json();
             }
             // dd($cities);
-            $url = 'gigiapi.zanforthstaging.com/api/categoryAutoComplete';
+            $url = ''.config('path.path.WebPath').'api/categoryAutoComplete';
             $categories = Http::get($url)->json()['data'];
             // dd($categories);
 
@@ -1529,7 +1460,7 @@ class UserController extends Controller
             {
                 $UserType = 'LocationUser';
                 // dd(2);
-                $response = Http::get('gigiapi.zanforthstaging.com/api/user/getTrendingDeals',[
+                $response = Http::get(''.config('path.path.WebPath').'api/user/getTrendingDeals',[
                     'limit' => 10000,
                     'page' => 1,
                     'returnType' => 'customPagination',
@@ -1545,15 +1476,15 @@ class UserController extends Controller
             {
                 $UserType = 'User';
                 // dd(1);
-                $lat = (float)session()->get('Authenticated_user_data')['location']['lat'];
-                $long = (float)session()->get('Authenticated_user_data')['location']['long'];
-                $city = session()->get('Authenticated_user_data')['location']['city'];
-                $country = session()->get('Authenticated_user_data')['location']['country'];
+                $lat = (float)session()->get('Authenticated_user_data')['userLocations'][0]['lat'];
+                $long = (float)session()->get('Authenticated_user_data')['userLocations'][0]['long'];
+                $city = session()->get('Authenticated_user_data')['userLocations'][0]['city'];
+                $country = session()->get('Authenticated_user_data')['userLocations'][0]['country'];
 
                 $token = session()->get('Authenticated_user_data')['token'];
                 // dd($token);
                 $response = Http::withToken($token);
-                $response = $response->get('gigiapi.zanforthstaging.com/api/user/getUserLocations');
+                $response = $response->get(''.config('path.path.WebPath').'api/user/getUserLocations');
                 $userCities = $response->json()['data'];
                 $data = [
                  'limit' => 10000,
@@ -1581,13 +1512,13 @@ class UserController extends Controller
                 //     $data['cities['.$key.']'] = $c['city'];
                 // }
                 // dd($data);
-                $response = Http::get('gigiapi.zanforthstaging.com/api/user/getTrendingDeals',$data);
+                $response = Http::get(''.config('path.path.WebPath').'api/user/getTrendingDeals',$data);
                 // dd($response->json());
-                // $response = Http::get('gigiapi.zanforthstaging.com/api/user/getTrendingDeals',[
-                //     'lat' => session()->get('Authenticated_user_data')['location']['lat'],
-                //     'long' =>session()->get('Authenticated_user_data')['location']['long'],
-                //     'city' =>session()->get('Authenticated_user_data')['location']['city'],
-                //     'country' =>session()->get('Authenticated_user_data')['location']['country'],
+                // $response = Http::get(''.config('path.path.WebPath').'api/user/getTrendingDeals',[
+                //     'lat' => session()->get('Authenticated_user_data')['userLocations'][0]['lat'],
+                //     'long' =>session()->get('Authenticated_user_data')['userLocations'][0]['long'],
+                //     'city' =>session()->get('Authenticated_user_data')['userLocations'][0]['city'],
+                //     'country' =>session()->get('Authenticated_user_data')['userLocations'][0]['country'],
                 // ]);
                 // dd($response->json());
                 
@@ -1596,7 +1527,7 @@ class UserController extends Controller
             elseif(!session()->has('Authenticated_user_data') && !session()->has('unAuthUserLocations'))
             {
                 // dd();
-                $response = Http::get('gigiapi.zanforthstaging.com/api/user/getTrendingDeals',['limit' => 10000,
+                $response = Http::get(''.config('path.path.WebPath').'api/user/getTrendingDeals',['limit' => 10000,
                 'page' => 1,
                 'returnType' => 'customPagination',]);
                 $trendingDeals = $response->json();
@@ -1765,9 +1696,10 @@ class UserController extends Controller
             //Sending Request
             $token = session()->get('Authenticated_user_data')['token'];
             // dd($token);
-            $url = 'gigiapi.zanforthstaging.com/api/user/purchaseDeal';
+            $url = ''.config('path.path.WebPath').'api/user/purchaseDeal';
             // dd($sendData);
             $response = Http::withToken($token)->post( $url , $sendData);
+
             // dd($response->json());
 
             if (array_key_exists("error",$response->json()))
@@ -1806,7 +1738,7 @@ class UserController extends Controller
         {
             $UserType = '00';
             // dd($request['query']);
-            $url = 'gigiapi.zanforthstaging.com/api/categoryAutoComplete';
+            $url = ''.config('path.path.WebPath').'api/categoryAutoComplete';
             $categories = Http::get($url)->json()['data'];
             // dd($categories);
 
@@ -1814,14 +1746,14 @@ class UserController extends Controller
             {
                 $UserType = 'User';
 
-                $lat = (float)session()->get('Authenticated_user_data')['location']['lat'];
-                $long = (float)session()->get('Authenticated_user_data')['location']['long'];
-                $city = session()->get('Authenticated_user_data')['location']['city'];
-                $country = session()->get('Authenticated_user_data')['location']['country'];
+                $lat = (float)session()->get('Authenticated_user_data')['userLocations'][0]['lat'];
+                $long = (float)session()->get('Authenticated_user_data')['userLocations'][0]['long'];
+                $city = session()->get('Authenticated_user_data')['userLocations'][0]['city'];
+                $country = session()->get('Authenticated_user_data')['userLocations'][0]['country'];
 
                 $token = session()->get('Authenticated_user_data')['token'];
                 $response = Http::withToken($token);
-                $response = $response->get('gigiapi.zanforthstaging.com/api/user/getUserLocations');
+                $response = $response->get(''.config('path.path.WebPath').'api/user/getUserLocations');
                 $userCities = $response->json()['data'];
                 $data = ['limit' => 10000,
                 'page' => 1,
@@ -1843,7 +1775,7 @@ class UserController extends Controller
                             $data['cities['.$key.']'] = $c['city'];
                         }
                     }
-                $response = Http::get('gigiapi.zanforthstaging.com/api/user/getNearByDeals',$data);
+                $response = Http::get(''.config('path.path.WebPath').'api/user/getNearByDeals',$data);
                 if($response->json()['status'] == true)
                 {
                     $data = $response->json()['data'];
@@ -1873,7 +1805,7 @@ class UserController extends Controller
             elseif( !session()->has('Authenticated_user_data') && session()->has('unAuthUserLocations'))
             {
                 $UserType = 'LocationUser';
-                $response = Http::get('gigiapi.zanforthstaging.com/api/user/getNearByDeals',[
+                $response = Http::get(''.config('path.path.WebPath').'api/user/getNearByDeals',[
                     'limit' => 10000,
                     'page' => 1,
                     'returnType' => 'customPagination',
@@ -1936,7 +1868,7 @@ class UserController extends Controller
             }
             else
             {
-                $response = Http::get('gigiapi.zanforthstaging.com/api/user/getDeals',[
+                $response = Http::get(''.config('path.path.WebPath').'api/user/getDeals',[
                     'limit' => 10000,
                     'page' => 1,
                     'returnType' => 'customPagination',
@@ -1958,7 +1890,7 @@ class UserController extends Controller
             {
                 $UserType = 'LocationUser';
                 $session_data = session()->get('unAuthUserLocations');
-                $response = Http::get('gigiapi.zanforthstaging.com/api/getSystemCitiesByCountry',[
+                $response = Http::get(''.config('path.path.WebPath').'api/getSystemCitiesByCountry',[
                     'country' => session()->get('unAuthUserLocations')['country'],
                 ]);
                 // dd($request->country);
@@ -1968,8 +1900,8 @@ class UserController extends Controller
             {
                 $UserType = 'User';
                 $session_data = session()->get('unAuthUserLocations');
-                $response = Http::get('gigiapi.zanforthstaging.com/api/getSystemCitiesByCountry',[
-                    'country' => session()->get('Authenticated_user_data')['location']['country'],
+                $response = Http::get(''.config('path.path.WebPath').'api/getSystemCitiesByCountry',[
+                    'country' => session()->get('Authenticated_user_data')['userLocations'][0]['country'],
                 ]);
                 // dd($request->country);
                 $cities = $response->json();
@@ -2018,7 +1950,7 @@ class UserController extends Controller
         $token = session('Authenticated_user_data')['token'];
         // return $token;
         $response = Http::withToken($token);
-        $response = $response->get('gigiapi.zanforthstaging.com/api/getConversations');
+        $response = $response->get(''.config('path.path.WebPath').'api/getConversations');
         $conversations = $response->json()['data'];
 
         $html = '<ul class="ul_chatList" style="" id="ul_chatList_to_refresh">';
@@ -2080,7 +2012,7 @@ class UserController extends Controller
         {
             $UserType = 'LocationUser';
             $session_data = session()->get('unAuthUserLocations');
-            $response = Http::get('gigiapi.zanforthstaging.com/api/getSystemCitiesByCountry',[
+            $response = Http::get(''.config('path.path.WebPath').'api/getSystemCitiesByCountry',[
                 'country' => session()->get('unAuthUserLocations')['country'],
             ]);
             // dd($request->country);
@@ -2090,8 +2022,8 @@ class UserController extends Controller
         {
             $UserType = 'User';
             $session_data = session()->get('unAuthUserLocations');
-            $response = Http::get('gigiapi.zanforthstaging.com/api/getSystemCitiesByCountry',[
-                'country' => session()->get('Authenticated_user_data')['location']['country'],
+            $response = Http::get(''.config('path.path.WebPath').'api/getSystemCitiesByCountry',[
+                'country' => session()->get('Authenticated_user_data')['userLocations'][0]['country'],
             ]);
             // dd($request->country);
             $cities = $response->json();
@@ -2101,7 +2033,7 @@ class UserController extends Controller
         $token = session('Authenticated_user_data')['token'];
         $id = session('Authenticated_user_data')['id'];
         $response = Http::withToken($token);
-        $response = $response->post('gigiapi.zanforthstaging.com/api/createConversation',
+        $response = $response->post(''.config('path.path.WebPath').'api/createConversation',
         [ 'message' => 'Hello' , 'receiver' => $Target_id] );
         $conversation = $response->json()['data'];
 
@@ -2112,19 +2044,19 @@ class UserController extends Controller
         {
             //Get Conversation
             $response = Http::withToken($token);
-            $response = $response->get('gigiapi.zanforthstaging.com/api/getConversation/'.$convo_id.'');
+            $response = $response->get(''.config('path.path.WebPath').'api/getConversation/'.$convo_id.'');
             $conversation = $response->json()['data'];
             // dd($conversation);
             //Get Conversation Messages
             $response = Http::withToken($token);
-            $response = $response->get('gigiapi.zanforthstaging.com/api/getConversationMessages/'.$convo_id.'');
+            $response = $response->get(''.config('path.path.WebPath').'api/getConversationMessages/'.$convo_id.'');
             $messages = $response->json()['data'];
             //All Conversations to show
             $response = Http::withToken($token);
-            $response = $response->get('gigiapi.zanforthstaging.com/api/getConversations');
+            $response = $response->get(''.config('path.path.WebPath').'api/getConversations');
             $conversations = $response->json()['data'];
             //Categories on Top
-            $url = 'gigiapi.zanforthstaging.com/api/categoryAutoComplete';
+            $url = ''.config('path.path.WebPath').'api/categoryAutoComplete';
             $categories = Http::get($url)->json()['data'];
             //Indication that coming from discountDetail Page.
             $auto_open_chat = 1;
@@ -2163,7 +2095,7 @@ class UserController extends Controller
         {
             $UserType = 'LocationUser';
             $session_data = session()->get('unAuthUserLocations');
-            $response = Http::get('gigiapi.zanforthstaging.com/api/getSystemCitiesByCountry',[
+            $response = Http::get(''.config('path.path.WebPath').'api/getSystemCitiesByCountry',[
                 'country' => session()->get('unAuthUserLocations')['country'],
             ]);
             // dd($request->country);
@@ -2173,8 +2105,8 @@ class UserController extends Controller
         {
             $UserType = 'User';
             $session_data = session()->get('unAuthUserLocations');
-            $response = Http::get('gigiapi.zanforthstaging.com/api/getSystemCitiesByCountry',[
-                'country' => session()->get('Authenticated_user_data')['location']['country'],
+            $response = Http::get(''.config('path.path.WebPath').'api/getSystemCitiesByCountry',[
+                'country' => session()->get('Authenticated_user_data')['userLocations'][0]['country'],
             ]);
             // dd($request->country);
             $cities = $response->json();
@@ -2184,7 +2116,7 @@ class UserController extends Controller
         $token = session('Authenticated_user_data')['token'];
         $id = session('Authenticated_user_data')['id'];
         $response = Http::withToken($token);
-        $response = $response->post('gigiapi.zanforthstaging.com/api/createConversation',
+        $response = $response->post(''.config('path.path.WebPath').'api/createConversation',
         [ 'message' => 'Hello' , 'receiver' => $Target_id] );
         $conversation = $response->json()['data'];
 
@@ -2195,19 +2127,19 @@ class UserController extends Controller
         {
             //Get Conversation
             $response = Http::withToken($token);
-            $response = $response->get('gigiapi.zanforthstaging.com/api/getConversation/'.$convo_id.'');
+            $response = $response->get(''.config('path.path.WebPath').'api/getConversation/'.$convo_id.'');
             $conversation = $response->json()['data'];
             // dd($conversation);
             //Get Conversation Messages
             $response = Http::withToken($token);
-            $response = $response->get('gigiapi.zanforthstaging.com/api/getConversationMessages/'.$convo_id.'');
+            $response = $response->get(''.config('path.path.WebPath').'api/getConversationMessages/'.$convo_id.'');
             $messages = $response->json()['data'];
             //All Conversations to show
             $response = Http::withToken($token);
-            $response = $response->get('gigiapi.zanforthstaging.com/api/getConversations');
+            $response = $response->get(''.config('path.path.WebPath').'api/getConversations');
             $conversations = $response->json()['data'];
             //Categories on Top
-            $url = 'gigiapi.zanforthstaging.com/api/categoryAutoComplete';
+            $url = ''.config('path.path.WebPath').'api/categoryAutoComplete';
             $categories = Http::get($url)->json()['data'];
             //Indication that coming from discountDetail Page.
             $auto_open_chat = 1;
@@ -2245,7 +2177,7 @@ class UserController extends Controller
         // STORE IN DB
         $token = session('Authenticated_user_data')['token'];
         $response = Http::withToken($token);
-        $response = $response->post('gigiapi.zanforthstaging.com/api/sendMessage/'.$request->convo_id.'',
+        $response = $response->post(''.config('path.path.WebPath').'api/sendMessage/'.$request->convo_id.'',
         [ 'message' => $request->message ] );
         $conversation = $response->json()['data'];
 
@@ -2262,12 +2194,12 @@ class UserController extends Controller
         // $id = 1;
         $token = session('Authenticated_user_data')['token'];
         $response = Http::withToken($token);
-        $response = $response->get('gigiapi.zanforthstaging.com/api/getConversation/'.$id.'');
+        $response = $response->get(''.config('path.path.WebPath').'api/getConversation/'.$id.'');
         $conversation = $response->json()['data'];
 
         $token = session('Authenticated_user_data')['token'];
         $response = Http::withToken($token);
-        $response = $response->get('gigiapi.zanforthstaging.com/api/getConversationMessages/'.$id.'');
+        $response = $response->get(''.config('path.path.WebPath').'api/getConversationMessages/'.$id.'');
         $messages = $response->json()['data'];
         // return $id;
         $html = '
@@ -2289,7 +2221,7 @@ class UserController extends Controller
 
         // return $conversation['opposite_user']['profile_picture'];
 
-        // $html = ' <img src="gigiapi.zanforthstaging.com/'.config('path.path.BranchesPath').'/'.$conversation['opposite_user']['profile_picture'].'" style="width:50px;" width="50px" alt=""> ';
+        // $html = ' <img src="'.config('path.path.WebPath').''.config('path.path.BranchesPath').'/'.$conversation['opposite_user']['profile_picture'].'" style="width:50px;" width="50px" alt=""> ';
 
 
         $html .= ' <div class="intro_div">
@@ -2390,7 +2322,7 @@ class UserController extends Controller
             {
                 $UserType = 'LocationUser';
                 $session_data = session()->get('unAuthUserLocations');
-                $response = Http::get('gigiapi.zanforthstaging.com/api/getSystemCitiesByCountry',[
+                $response = Http::get(''.config('path.path.WebPath').'api/getSystemCitiesByCountry',[
                     'country' => session()->get('unAuthUserLocations')['country'],
                 ]);
                 // dd($request->country);
@@ -2400,8 +2332,8 @@ class UserController extends Controller
             {
                 $UserType = 'User';
                 $session_data = session()->get('unAuthUserLocations');
-                $response = Http::get('gigiapi.zanforthstaging.com/api/getSystemCitiesByCountry',[
-                    'country' => session()->get('Authenticated_user_data')['location']['country'],
+                $response = Http::get(''.config('path.path.WebPath').'api/getSystemCitiesByCountry',[
+                    'country' => session()->get('Authenticated_user_data')['userLocations'][0]['country'],
                 ]);
                 // dd($request->country);
                 $cities = $response->json();
@@ -2410,20 +2342,20 @@ class UserController extends Controller
             // $id = 1;
             // $token = session('Authenticated_user_data')['token'];
             // $response = Http::withToken($token);
-            // $response = $response->get('gigiapi.zanforthstaging.com/api/getConversationMessages/'.$id.'');
-            // $response = $response->get('gigiapi.zanforthstaging.com/api/getConversation/1');
+            // $response = $response->get(''.config('path.path.WebPath').'api/getConversationMessages/'.$id.'');
+            // $response = $response->get(''.config('path.path.WebPath').'api/getConversation/1');
             // $conversation = $response->json()['data'];
-            // $conversation = Http::get('gigiapi.zanforthstaging.com/api/getConversation/1');
+            // $conversation = Http::get(''.config('path.path.WebPath').'api/getConversation/1');
             // dd($conversation);
 
             $token = session('Authenticated_user_data')['token'];
             $response = Http::withToken($token);
-            $response = $response->get('gigiapi.zanforthstaging.com/api/getConversations');
+            $response = $response->get(''.config('path.path.WebPath').'api/getConversations');
             $conversations = $response->json()['data'];
             // dd($conversations);
             // dd($conversations);
             // dd(1);
-            $url = 'gigiapi.zanforthstaging.com/api/categoryAutoComplete';
+            $url = ''.config('path.path.WebPath').'api/categoryAutoComplete';
             $categories = Http::get($url)->json()['data'];
 
             $id = session('Authenticated_user_data')['id'];
@@ -2469,7 +2401,7 @@ class UserController extends Controller
             {
                 $UserType = 'LocationUser';
                 $session_data = session()->get('unAuthUserLocations');
-                $response = Http::get('gigiapi.zanforthstaging.com/api/getSystemCitiesByCountry',[
+                $response = Http::get(''.config('path.path.WebPath').'api/getSystemCitiesByCountry',[
                     'country' => session()->get('unAuthUserLocations')['country'],
                 ]);
                 // dd($request->country);
@@ -2479,8 +2411,8 @@ class UserController extends Controller
             {
                 $UserType = 'User';
                 $session_data = session()->get('unAuthUserLocations');
-                $response = Http::get('gigiapi.zanforthstaging.com/api/getSystemCitiesByCountry',[
-                    'country' => session()->get('Authenticated_user_data')['location']['country'],
+                $response = Http::get(''.config('path.path.WebPath').'api/getSystemCitiesByCountry',[
+                    'country' => session()->get('Authenticated_user_data')['userLocations'][0]['country'],
                 ]);
                 // dd($request->country);
                 $cities = $response->json();
@@ -2488,10 +2420,10 @@ class UserController extends Controller
 
             $token = session('Authenticated_user_data')['token'];
             $response = Http::withToken($token);
-            $response = $response->get('gigiapi.zanforthstaging.com/api/user/getWishlist');
+            $response = $response->get(''.config('path.path.WebPath').'api/user/getWishlist');
             $wishlistItems = $response->json()['data'];
             // dd($response);
-            $url = 'gigiapi.zanforthstaging.com/api/categoryAutoComplete';
+            $url = ''.config('path.path.WebPath').'api/categoryAutoComplete';
             $categories = Http::get($url)->json()['data'];
             $notifications = null;
             if(session()->has('Authenticated_user_data') && session()->get('Authenticated_user_data')['type'] == 1)
@@ -2539,7 +2471,7 @@ class UserController extends Controller
         // dd($data);
         $token = session('Authenticated_user_data')['token'];
         $response = Http::withToken($token);
-        $response = $response->post('gigiapi.zanforthstaging.com/api/user/addToWishlist', $data);
+        $response = $response->post(''.config('path.path.WebPath').'api/user/addToWishlist', $data);
         $response = $response->json();
 
         if (array_key_exists("error",$response))
@@ -2566,7 +2498,7 @@ class UserController extends Controller
         // dd($id);
         $token = session('Authenticated_user_data')['token'];
         $response = Http::withToken($token);
-        $response = $response->post('gigiapi.zanforthstaging.com/api/user/deleteFromWishlist/'.$id.'');
+        $response = $response->post(''.config('path.path.WebPath').'api/user/deleteFromWishlist/'.$id.'');
         $response = $response->json();
         // dd($response);
         if(session()->has('Authenticated_user_data') && session()->get('Authenticated_user_data')['type'] == 1)
@@ -2589,7 +2521,7 @@ class UserController extends Controller
             // dd($request);
             $token = session('Authenticated_user_data')['token'];
             $response = Http::withToken($token);
-            $response = $response->post('gigiapi.zanforthstaging.com/api/user/updatePreference', $request->all());
+            $response = $response->post(''.config('path.path.WebPath').'api/user/updatePreference', $request->all());
             $response = $response->json();
             if($response['message'] == "success")
             {
@@ -2626,7 +2558,7 @@ class UserController extends Controller
         {
             $token = session('Authenticated_user_data')['token'];
             $response = Http::withToken($token);
-            $response = $response->post('gigiapi.zanforthstaging.com/api/user/updatePassword', $request->all());
+            $response = $response->post(''.config('path.path.WebPath').'api/user/updatePassword', $request->all());
             $response = $response->json();
             
             if($response['message'] == "success")
@@ -2663,7 +2595,7 @@ class UserController extends Controller
         {
             $token = session('Authenticated_user_data')['token'];
             $response = Http::withToken($token);
-            $response = $response->post('gigiapi.zanforthstaging.com/api/user/updatePassword', $request->all());
+            $response = $response->post(''.config('path.path.WebPath').'api/user/updatePassword', $request->all());
             $response = $response->json();
             if($response['message'] == "success")
             {
@@ -2695,21 +2627,42 @@ class UserController extends Controller
 
     public function myprofile()
     {
-        try 
-        {
+        // try 
+        // {
             // dd(session()->get('Authenticated_user_data'));
             $token = session()->get('Authenticated_user_data')['token'];
-            $Usercities;
-            $locations = Http::withToken($token)->get('gigiapi.zanforthstaging.com/api/user/getUserLocations')->json()['data'];
-            foreach($locations as $L)
-            {
-                // dd($L);
-                if((int)$L['lat'] == 0 && (int)$L['long'] == 0)
-                {
-                    $primary_city = $L['city'];
-                }
-                $Usercities[] = $L['city'];
-            }
+            $Usercities = [];
+            $locations = Http::withToken($token)->get(''.config('path.path.WebPath').'api/user/getUserLocations')->json()['data'];
+
+            // $CitiesOfUser = [];
+            // foreach($locations as $L)
+            // {
+            //     $CitiesOfUser[] = $L['cityId'];
+            // }
+            // dd($CitiesOfUser);
+            // dd($locations);
+            // foreach($locations as $L)
+            // {
+            //     // dd($L);
+            //     if((int)$L['lat'] == 0 && (int)$L['long'] == 0)
+            //     {
+            //         $primary_city = $L['city'];
+            //     }
+            //     $Usercities[] = $L['city'];
+            // }
+
+            $url = ''.config('path.path.WebPath').'api/getAllLanguages';
+            $languages = Http::get($url)->json()['data'];
+
+            $url = ''.config('path.path.WebPath').'api/getCountries';
+            $countries = Http::get($url)->json()['data'];
+
+            $url = ''.config('path.path.WebPath').'api/getCityByCountryID?id='.$locations[0]['countryId'].'';
+            $CitiesOfUsersCountry = Http::get($url)->json()['data'];
+
+            
+
+            // dd($CitiesOfUsersCountry);
             // dd($primary_location);
 
             //SETTING CITIES FOR UN AUTH
@@ -2718,7 +2671,7 @@ class UserController extends Controller
             {
                 $UserType = 'LocationUser';
                 $session_data = session()->get('unAuthUserLocations');
-                $response = Http::get('gigiapi.zanforthstaging.com/api/getSystemCitiesByCountry',[
+                $response = Http::get(''.config('path.path.WebPath').'api/getSystemCitiesByCountry',[
                     'country' => session()->get('unAuthUserLocations')['country'],
                 ]);
                 // dd($request->country);
@@ -2728,15 +2681,15 @@ class UserController extends Controller
             {
                 $UserType = 'User';
                 $session_data = session()->get('unAuthUserLocations');
-                $response = Http::get('gigiapi.zanforthstaging.com/api/getSystemCitiesByCountry',[
-                    'country' => session()->get('Authenticated_user_data')['location']['country'],
+                $response = Http::get(''.config('path.path.WebPath').'api/getSystemCitiesByCountry',[
+                    'country' => session()->get('Authenticated_user_data')['userLocations'][0]['country'],
                 ]);
                 // dd($request->country);
                 $cities = $response->json();
             }
 
             
-            $url = 'gigiapi.zanforthstaging.com/api/user/getCustomerPurchasedDeals';
+            $url = ''.config('path.path.WebPath').'api/user/getCustomerPurchasedDeals';
             $purchasedDeals = Http::withToken($token)->get($url,[
                 'limit' => 10000,
                 'page' => 1,
@@ -2746,10 +2699,13 @@ class UserController extends Controller
 
                 // dd($purchasedDeals);
 
-            $url = 'gigiapi.zanforthstaging.com/api/categoryAutoComplete';
+            $url = ''.config('path.path.WebPath').'api/categoryAutoComplete';
             $categories = Http::get($url)->json()['data'];
+
+            $url = ''.config('path.path.WebPath').'api/getTrendingCategories';
+            $Trendingcategories = Http::get($url)->json()['data'];
             // dd($categories);
-            $url = 'gigiapi.zanforthstaging.com/api/user/getCurrentUser';
+            $url = ''.config('path.path.WebPath').'api/user/getCurrentUser';
             $profile = Http::withToken($token)->get($url)->json()['data'];
             // dd($profile['perference']);
 
@@ -2786,12 +2742,167 @@ class UserController extends Controller
                 echo "var id = `". $id ."` ;";
                 echo "</script>";
             }
+            
             // return view('user.myprofile', compact('AuthUserCities','purchasedDeals','categories','profile','cities','locations','Usercities','primary_location','notifications'));
-            return view('user.myprofile', compact('AuthUserCities','purchasedDeals','categories','profile','cities','locations','Usercities','notifications'));
+            return view('user.myprofile', compact('Trendingcategories','CitiesOfUsersCountry','locations','languages','countries','Usercities','AuthUserCities','purchasedDeals','categories','profile','cities','locations','notifications'));
+        // } catch (\Exception $e) {
+        //     return response()->json([
+        //         'Success' => 'False',
+        //         'Error' => $e->getMessage(),
+        //     ]);
+        // }
+    }
+
+    public function UpdateCurrentLocation( Request $request)
+    {
+        // api/user/deleteUserLocation/1
+        // dd($request);d
+        // dd(session()->get('Authenticated_user_data'));
+        $token = session()->get('Authenticated_user_data')['token'];
+        $response = Http::withToken($token);
+        $userLocationsResponse = $response->get(''.config('path.path.WebPath').'api/user/getUserLocations');
+        // dd($response->json()['data'][0]['country']);
+
+        //SettingProfileVariables
+        $response = Http::withToken($token);
+        $response = $response->get(''.config('path.path.WebPath').'api/user/getCurrentUser')->json();
+        $data['name'] = $response['data']['name'];
+        $data['gender'] = $response['data']['gender'];
+        $data['phone_no'] = $response['data']['phone'];
+
+        if($request->country == $userLocationsResponse->json()['data'][0]['countryId'])
+        {    // Same country
+            // dd("sAme");
+            foreach($request->city as $c)
+            {
+                $locations[] = ['address'=>'N/A','country'=>$request->country,'city'=>$c];
+                
+            }
+        }else
+        {
+            foreach($request->city as $c)
+            {
+                $locations[] = ['address'=>'N/A','country'=>$request->country,'city'=>$c];
+                
+            }
+        }
+        $data['locations'] = json_encode($locations);
+        // dd($data);
+
+        // dd($response->json());
+        // $user_locs = $response->json()['data'];
+        // foreach($user_locs as $loc)
+        // {
+        //     if((int)$loc['lat'] == 0 && (int)$loc['long'] == 0)
+        //     {
+        //         // dd($loc['id']);
+        //         // /api/user/updateUserLocation/3
+        //         // $response = Http::withToken($token);
+        //         // $response = $response->post(''.config('path.path.WebPath').'api/user/deleteUserLocation/'.$loc['id'].'');
+        //         // dd($response);
+        //     }
+        //     else
+        //     {
+        //         // dd($loc);
+        //         $primary_location = $loc;
+        //     }
+        // }
+        // dd($primary_location);
+
+        $response = Http::withToken($token);
+        $response = $response->post(''.config('path.path.WebPath').'api/user/updateProfile',$data);
+        // $response = $response->post(''.config('path.path.WebPath').'api/user/updateUserLocation/'.$primary_location['id'].'',[
+        //     'address' => $request->address,
+        //     'city' => $request->city,
+        //     'country' => $request->country,
+        //     'lat' => 0,
+        //     'long' =>  0,
+        // ]);
+        
+        //Resetting the session
+        $response = Http::withToken($token);
+        $userLocationsResponse = $response->get(''.config('path.path.WebPath').'api/user/getUserLocations');
+        // dd($userLocationsResponse->json()['data']);
+
+        $userData = session()->get('Authenticated_user_data');
+        $userData['userLocations'] = [];
+        foreach($userLocationsResponse->json()['data'] as $key => $Loc)
+        {
+            $userData['userLocations'][$key] = $Loc;
+            $userData['userLocations'][$key]['country'] = $Loc['countryId'];
+            $userData['userLocations'][$key]['city'] = $Loc['cityId'];
+        }
+        // $userData['userLocations'][0] = [
+        //     'address' => 'N/A',
+        //     'city' => $request->city[0],
+        //     'country' => $request->country,
+        // ];
+        // dd($userData);
+        session()->forget('Authenticated_user_data');
+        Session::put('Authenticated_user_data', $userData);
+        // session()->get('Authenticated_user_data')['userLocations'][0]['city'] = $request->city ;
+        // dd(session()->get('Authenticated_user_data'));
+
+
+        // dd($response->json());
+        return redirect()->back()->with('success', 'Current Location Updated!');
+        // dd($response->json());
+    }
+
+    public function SETCITIES(Request $request)
+    {
+        try
+        {
+            // dd($request);
+            $token = session()->get('Authenticated_user_data')['token'];
+            // dd($token);
+            $country = session()->get('Authenticated_user_data')['userLocations'][0]['country'];
+            $cities = $request->cities;
+
+            if($cities == null)
+            {
+                return redirect()->back()->with('alert','Cannot Empty Your Cities');
+            }
+
+            $response = Http::withToken($token);
+            $response = $response->get(''.config('path.path.WebPath').'api/user/getUserLocations');
+            // dd($response->json);
+            $user_locs = $response->json()['data'];
+            foreach($user_locs as $loc)
+            {
+                if((int)$loc['lat'] == 0 && (int)$loc['long'] == 0)
+                {
+                    // dd($loc['id']);
+                    // /api/user/updateUserLocation/3
+                    $response = Http::withToken($token);
+                    $response = $response->post(''.config('path.path.WebPath').'api/user/deleteUserLocation/'.$loc['id'].'');
+                    // dd($response);
+                }
+                else
+                {
+                    // dd($loc);
+                }
+            }
+
+            //Updating
+            foreach($cities as $c)
+            {
+                $response = Http::withToken($token);
+                $response = $response->post(''.config('path.path.WebPath').'api/user/addUserLocation',[
+                    'country' => $country,
+                    'city' => $c,
+                    'lat' => 0,
+                    'long' => 0,
+                    'address' => 'NULL',
+                ]);
+                // dd($response->json());
+            }
+            return redirect()->back()->with('success','Your Cities Updated');
         } catch (\Exception $e) {
             return response()->json([
                 'Success' => 'False',
                 'Error' => $e->getMessage(),
+                // 'Message' => $response->json()['error'],
             ]);
         }
     }
@@ -2813,12 +2924,12 @@ class UserController extends Controller
             }
             // dd($response);
             // dd(1);
-            $response = $response->post('gigiapi.zanforthstaging.com/api/user/updateProfile', $request->all());
+            $response = $response->post(''.config('path.path.WebPath').'api/user/updateProfile', $request->all());
             $response = $response->json();
             // To Update Session, I made a $data array.
             $data['userData'] = $response['data'];
             $data['userData']['token'] = $token;
-            $data['userData']['location'] = session('Authenticated_user_data')['location'];
+            $data['userData']['userLocations'][0] = session('Authenticated_user_data')['userLocations'][0];
             // dd($data);
             if($response['message'] == "success")
             {
@@ -2914,7 +3025,7 @@ class UserController extends Controller
             {
                 $UserType = 'LocationUser';
                 $session_data = session()->get('unAuthUserLocations');
-                $response = Http::get('gigiapi.zanforthstaging.com/api/getSystemCitiesByCountry',[
+                $response = Http::get(''.config('path.path.WebPath').'api/getSystemCitiesByCountry',[
                     'country' => session()->get('unAuthUserLocations')['country'],
                 ]);
                 // dd($request->country);
@@ -2924,8 +3035,8 @@ class UserController extends Controller
             {
                 $UserType = 'User';
                 $session_data = session()->get('unAuthUserLocations');
-                $response = Http::get('gigiapi.zanforthstaging.com/api/getSystemCitiesByCountry',[
-                    'country' => session()->get('Authenticated_user_data')['location']['country'],
+                $response = Http::get(''.config('path.path.WebPath').'api/getSystemCitiesByCountry',[
+                    'country' => session()->get('Authenticated_user_data')['userLocations'][0]['country'],
                 ]);
                 // dd($request->country);
                 $cities = $response->json();
@@ -2939,10 +3050,10 @@ class UserController extends Controller
 
             // }
 
-            // dd($data);
+            // dd($session_data);
 
 
-            $url = 'gigiapi.zanforthstaging.com/api/categoryAutoComplete';
+            $url = ''.config('path.path.WebPath').'api/categoryAutoComplete';
             $categories = Http::get($url)->json()['data'];
             $notifications = null;
             if(session()->has('Authenticated_user_data') && session()->get('Authenticated_user_data')['type'] == 1)
@@ -2985,10 +3096,10 @@ class UserController extends Controller
             $found = false;
             $existing_ids_in_session;
             //Get Deal
-            $response = Http::get('gigiapi.zanforthstaging.com/api/user/getDeal/'.$id.'');
+            $response = Http::get(''.config('path.path.WebPath').'api/user/getDeal',['deal_id' => $id,]);
             $deal = $response->json()['data'];
             //Merchant Name
-            $response = Http::get('gigiapi.zanforthstaging.com/api/user/getMerchant/'.$deal['merchant_id'].'');
+            $response = Http::get(''.config('path.path.WebPath').'api/user/getMerchant/'.$deal['merchant_id'].'');
             $merchant = $response->json()['data'];
             $deal['merchant_name'] = $merchant['name'];
 
@@ -3041,7 +3152,7 @@ class UserController extends Controller
             $token = session()->get('Authenticated_user_data')['token'];
         
             //commenting for here
-            $response = Http::withToken($token)->get('gigiapi.zanforthstaging.com/api/user/getCustomerPurchasedDeals',[
+            $response = Http::withToken($token)->get(''.config('path.path.WebPath').'api/user/getCustomerPurchasedDeals',[
                 'limit' => 10000,
                 'page' => 1,
                 'returnType' => 'customPagination'
@@ -3062,11 +3173,11 @@ class UserController extends Controller
             $found = false;
             $existing_ids_in_session;
             //Get Deal
-            $response = Http::get('gigiapi.zanforthstaging.com/api/user/getDeal/'.$id.'');
+            $response = Http::get(''.config('path.path.WebPath').'api/user/getDeal',['deal_id' => $id,]);
             $deal = $response->json()['data'];
             // dd($deal);
             //Merchant Name
-            $response = Http::get('gigiapi.zanforthstaging.com/api/user/getMerchant/'.$deal['merchant_id'].'');
+            $response = Http::get(''.config('path.path.WebPath').'api/user/getMerchant/'.$deal['merchant_id'].'');
             $merchant = $response->json()['data'];
 
             $deal['merchant_name'] = $merchant['name'];
@@ -3169,7 +3280,7 @@ class UserController extends Controller
             }
             // dd($rating);
 
-            $deal = $response = Http::get('gigiapi.zanforthstaging.com/api/user/getDeal/'.$id.'');
+            $deal = $response = Http::get(''.config('path.path.WebPath').'api/user/getDeal',['deal_id' => $id,]);
             $merchant_id = $deal->json()['data']['merchant_id'];
             // dd();
             // 74
@@ -3178,7 +3289,7 @@ class UserController extends Controller
 
             $user = session()->get('Authenticated_user_data');
             $token = $user['token'];
-            $url = 'gigiapi.zanforthstaging.com/api/user/addReview';
+            $url = ''.config('path.path.WebPath').'api/user/addReview';
             $data = [
                 'rating' => $rating,
                 'notes' => $request->notes,
@@ -3221,7 +3332,7 @@ class UserController extends Controller
         {
             $user = session()->get('Authenticated_user_data');
             $token = $user['token'];
-            $url = 'gigiapi.zanforthstaging.com/api/user/addReview';
+            $url = ''.config('path.path.WebPath').'api/user/addReview';
             $data = [
                 'rating' => $request->rating,
                 'notes' => $request->notes,
@@ -3270,7 +3381,7 @@ class UserController extends Controller
             {
                 $UserType = 'LocationUser';
                 $session_data = session()->get('unAuthUserLocations');
-                $response = Http::get('gigiapi.zanforthstaging.com/api/getSystemCitiesByCountry',[
+                $response = Http::get(''.config('path.path.WebPath').'api/getSystemCitiesByCountry',[
                     'country' => session()->get('unAuthUserLocations')['country'],
                 ]);
                 // dd($request->country);
@@ -3280,22 +3391,22 @@ class UserController extends Controller
             {
                 $UserType = 'User';
                 $session_data = session()->get('unAuthUserLocations');
-                $response = Http::get('gigiapi.zanforthstaging.com/api/getSystemCitiesByCountry',[
-                    'country' => session()->get('Authenticated_user_data')['location']['country'],
+                $response = Http::get(''.config('path.path.WebPath').'api/getSystemCitiesByCountry',[
+                    'country' => session()->get('Authenticated_user_data')['userLocations'][0]['country'],
                 ]);
                 // dd($request->country);
                 $cities = $response->json();
             }
 
-            $response = Http::get('gigiapi.zanforthstaging.com/api/user/getMerchant/'.$id.'');
+            $response = Http::get(''.config('path.path.WebPath').'api/user/getMerchant/'.$id.'');
             $merchant = $response->json()['data'];
 
-            $url = 'gigiapi.zanforthstaging.com/api/categoryAutoComplete';
+            $url = ''.config('path.path.WebPath').'api/categoryAutoComplete';
             $categories = Http::get($url)->json()['data'];
             // dd($merchant);
             // dd($merchant);
 
-            $response = Http::get('gigiapi.zanforthstaging.com/api/user/getMerchantDeals/'.$id.'');
+            $response = Http::get(''.config('path.path.WebPath').'api/user/getMerchantDeals/'.$id.'');
             $deals = $response->json()['data'];
             // dd($deals);
             $deals = $this->paginate($deals);
@@ -3337,808 +3448,110 @@ class UserController extends Controller
     {
         // try
         // {
-            
-            
-            
-
-            $category_section = Http::get('gigiapi.zanforthstaging.com/api/user/getHomePageSections',['section' => 'category']);
-            // NEW CODE -- START
-            if($category_section->json() == null)
-            {
-                // dd('yess');
-                $right = false;
-                while($right == false)
-                {
-                    $category_section = Http::withToken($token);
-                    $category_section = $category_section->get('gigiapi.zanforthstaging.com/api/admin/getMerchantDeals/'.$id.'');
-                    if($category_section->json() == null)
-                    {
-
-                    }
-                    else
-                    {
-                        // dd('yes');
-                        break;
-                    }
-                }
-            }
-            // NEW CODE --END
+            // dd(session()->get('Authenticated_user_data'));
+            $category_section = Http::get(''.config('path.path.WebPath').'api/user/getHomePageSections',['section' => 'category']);
             $categorySection = $category_section->json()['data'];
 
-            $upperImage_Section = Http::get('gigiapi.zanforthstaging.com/api/user/getHomePageSections',['section' => 'upperImageSection']);
-            // NEW CODE -- START
-            if($upperImage_Section->json() == null)
-            {
-                // dd('yess');
-                $right = false;
-                while($right == false)
-                {
-                    $upperImage_Section = Http::withToken($token);
-                    $upperImage_Section = $upperImage_Section->get('gigiapi.zanforthstaging.com/api/admin/getMerchantDeals/'.$id.'');
-                    if($upperImage_Section->json() == null)
-                    {
+            // $upperImage_Section = Http::get(''.config('path.path.WebPath').'api/user/getHomePageSections',['section' => 'upperImageSection']);
+            // $upperImageSection = $upperImage_Section->json()['data'];
 
-                    }
-                    else
-                    {
-                        // dd('yes');
-                        break;
-                    }
-                }
-            }
-            // NEW CODE --END
-            $upperImageSection = $upperImage_Section->json()['data'];
+            // $lowerImage_Section = Http::get(''.config('path.path.WebPath').'api/user/getHomePageSections',['section' => 'lowerImageSection']);
+            // $lowerImageSection = $lowerImage_Section->json()['data'];
 
-            $lowerImage_Section = Http::get('gigiapi.zanforthstaging.com/api/user/getHomePageSections',['section' => 'lowerImageSection']);
-            // NEW CODE -- START
-            if($lowerImage_Section->json() == null)
-            {
-                // dd('yess');
-                $right = false;
-                while($right == false)
-                {
-                    $lowerImage_Section = Http::withToken($token);
-                    $lowerImage_Section = $lowerImage_Section->get('gigiapi.zanforthstaging.com/api/admin/getMerchantDeals/'.$id.'');
-                    if($lowerImage_Section->json() == null)
-                    {
+            // $footerImage_Section = Http::get(''.config('path.path.WebPath').'api/user/getHomePageSections',['section' => 'footerImageSection']);
+            // $footerImageSection = $footerImage_Section->json()['data'];
 
-                    }
-                    else
-                    {
-                        // dd('yes');
-                        break;
-                    }
-                }
-            }
-            // NEW CODE --END
-            $lowerImageSection = $lowerImage_Section->json()['data'];
+            // $CatBlock_Section = Http::get(''.config('path.path.WebPath').'api/user/getHomePageSections',['section' => 'CatBlockSection']);
+            // $CatBlockSection = $CatBlock_Section->json()['data'];
 
-            $footerImage_Section = Http::get('gigiapi.zanforthstaging.com/api/user/getHomePageSections',['section' => 'footerImageSection']);
-            // dd($footerImage_Section->json());
-            // NEW CODE -- START
-            if($footerImage_Section->json() == null)
-            {
-                // dd('yess');
-                $right = false;
-                while($right == false)
-                {
-                    $footerImage_Section = Http::withToken($token);
-                    $footerImage_Section = $footerImage_Section->get('gigiapi.zanforthstaging.com/api/admin/getMerchantDeals/'.$id.'');
-                    if($footerImage_Section->json() == null)
-                    {
+            $crousel_section = Http::get(''.config('path.path.WebPath').'api/user/getCarousals');
+            $crousel = $crousel_section->json()['data'];
 
-                    }
-                    else
-                    {
-                        // dd('yes');
-                        break;
-                    }
-                }
-            }
-            // NEW CODE --END
-            $footerImageSection = $footerImage_Section->json()['data'];
-            // dd($footerImageSection[2]);
-            $CatBlock_Section = Http::get('gigiapi.zanforthstaging.com/api/user/getHomePageSections',['section' => 'CatBlockSection']);
-            // NEW CODE -- START
-            if($CatBlock_Section->json() == null)
-            {
-                // dd('yess');
-                $right = false;
-                while($right == false)
-                {
-                    $CatBlock_Section = Http::withToken($token);
-                    $CatBlock_Section = $CatBlock_Section->get('gigiapi.zanforthstaging.com/api/admin/getMerchantDeals/'.$id.'');
-                    if($CatBlock_Section->json() == null)
-                    {
-
-                    }
-                    else
-                    {
-                        // dd('yes');
-                        break;
-                    }
-                }
-            }
-            // NEW CODE --END
-            $CatBlockSection = $CatBlock_Section->json()['data'];
+            // dd($categorySection);s
+            //AuthenticatedUserSelectedCities
+            // dd(count($crousel));
             // dd($CatBlockSection);
+            // $category_to_show_on_block = $CatBlockSection[0]['data_id'];
 
-            $category_to_show_on_block = $CatBlockSection[0]['data_id'];
+            // dd(session()->get('Authenticated_user_data'));
 
+            $data = ['limit' => 10000,
+                'page' => 1,
+                'returnType' => 'customPagination',
+            ];
 
-
-            // NEW------s
-            if( !session()->has('Authenticated_user_data') && session()->has('unAuthUserLocations'))
+            if( !session()->has('Authenticated_user_data')) // Guest
             {
-                $UserType = 'LocationUser';
-                $response = Http::get('gigiapi.zanforthstaging.com/api/user/getNearByDeals',[
-                    'limit' => 4,
-                    'page' => 1,
-                    'category' => $category_to_show_on_block,
-                    'returnType' => 'customPagination',
-                    'timeSort' => 'desc',
-                    'lat' => session()->get('unAuthUserLocations')['lat'],
-                    'long' =>session()->get('unAuthUserLocations')['long'],
-                    'cities[0]' =>session()->get('unAuthUserLocations')['city'],
-                    'country' =>session()->get('unAuthUserLocations')['country'],
-                ])->json();
-
-                // NEW CODE -- START
-                if($response == null)
-                {
-                    // dd('yess');
-                    $right = false;
-                    while($right == false)
-                    {
-                        $response = Http::get('gigiapi.zanforthstaging.com/api/user/getNearByDeals',[
-                            'limit' => 4,
-                            'page' => 1,
-                            'category' => $category_to_show_on_block,
-                            'returnType' => 'customPagination',
-                            'timeSort' => 'desc',
-                            'lat' => session()->get('unAuthUserLocations')['lat'],
-                            'long' =>session()->get('unAuthUserLocations')['long'],
-                            'cities[0]' =>session()->get('unAuthUserLocations')['city'],
-                            'country' =>session()->get('unAuthUserLocations')['country'],
-                        ])->json();
-                        if($response == null)
-                        {
-    
-                        }
-                        else
-                        {
-                            // dd('yes');
-                            break;
-                        }
-                    }
-                }
-                // NEW CODE --END
-                // dd(session()->get('unAuthUserLocations'));
-                if($response['status'] == true)
-                {
-                    $data = $response['data'];
-                    foreach($data as $key => &$datum)
-                    {
-                        //NearBy Deal
-                        $datum['nearby'] = 0;
-                        $datum['nearbyBranch'] = 0;
-                        $distances = [];
-                        $firstDistanceArray = reset($datum['distance']);
-                        foreach($datum['distance'] as $i => &$d)
-                        {
-                        
-                            $datum['nearby'] = $firstDistanceArray['distance_in_km'];
-                            $datum['nearbyBranch'] = $firstDistanceArray['branch_name'];
-    
-                            if($d['distance_in_km'] < $datum['nearby'])
-                            {
-                                $datum['nearby'] = $d['distance_in_km'];
-                                $datum['nearbyBranch'] = $d['branch_name'];
-                            }
-                        }
-                    }
-                }
-                // dd($data);
-                
-                
-
-                $cats_in_block = $data;
+                $UserType = 'Guest';
             }
-            elseif(session()->has('Authenticated_user_data') && session()->get('Authenticated_user_data')['type'] == 1)
+            elseif(session()->has('Authenticated_user_data') && session()->get('Authenticated_user_data')['type'] == 1) // User
             {
-                // dd($category_to_show_on_block);
                 $UserType = 'User';
-                $lat = (float)session()->get('Authenticated_user_data')['location']['lat'];
-                $long = (float)session()->get('Authenticated_user_data')['location']['long'];
-                $city = session()->get('Authenticated_user_data')['location']['city'];
-                $country = session()->get('Authenticated_user_data')['location']['country'];
+                $city = session()->get('Authenticated_user_data')['userLocations'][0]['city'];
+                $country = session()->get('Authenticated_user_data')['userLocations'][0]['country'];
 
                 $token = session()->get('Authenticated_user_data')['token'];
                 $response = Http::withToken($token);
-                $response = $response->get('gigiapi.zanforthstaging.com/api/user/getUserLocations');
-                $userCities = $response->json()['data'];
-                $data = ['limit' => 10000,
-                'page' => 1,
-                'returnType' => 'customPagination',
-                'lat' => $lat ,
-                'long' => $long,
-                'country' =>$country,
-                'category' => $category_to_show_on_block,
-                ];
+                $response = $response->get(''.config('path.path.WebPath').'api/user/getUserLocations');
 
-                if(session()->has('AuthenticatedUserSelectedCities'))
+                if(count($response->json()['data']) !== 0)
                 {
-                    $data['cities[0]'] = session()->get('AuthenticatedUserSelectedCities');
-                }
-                else
-                {
+                    $userCities = $response->json()['data'];
                     foreach($userCities as $key => $c)
                     {
-                        $data['cities['.$key.']'] = $c['city'];
+                        $data['cities['.$key.']'] = $c['cityName'];
                     }
+                    $data['country'] = $country;
                 }
-                // foreach($userCities as $key => $c)
-                // {
-                //     $data['cities['.$key.']'] = $c['city'];
-                // }
-                $response = Http::get('gigiapi.zanforthstaging.com/api/user/getNearByDeals',$data);
-
-                // NEW CODE -- START
-                if($response->json() == null)
-                {
-                   
-                    // dd('yess');
-                    $right = false;
-                    while($right == false)
-                    {
-                        $response = Http::withToken($token);
-                        $response = $response->get('gigiapi.zanforthstaging.com/api/user/getUserLocations');
-                        $userCities = $response->json()['data'];
-                        $data = ['limit' => 10000,
-                        'page' => 1,
-                        'returnType' => 'customPagination',
-                        'lat' => $lat ,
-                        'long' => $long,
-                        'country' =>$country,
-                        'category' => $category_to_show_on_block,
-                        ];
-
-                        if(session()->has('AuthenticatedUserSelectedCities'))
-                        {
-                            $data['cities[0]'] = session()->get('AuthenticatedUserSelectedCities');
-                        }
-                        else
-                        {
-                            foreach($userCities as $key => $c)
-                            {
-                                $data['cities['.$key.']'] = $c['city'];
-                            }
-                        }
-
-                        
-                        // foreach($userCities as $key => $c)
-                        // {
-                        //     $data['cities['.$key.']'] = $c['city'];
-                        // }
-                       
-
-
-                        $response = Http::get('gigiapi.zanforthstaging.com/api/user/getNearByDeals',$data);
-                        if($response == null)
-                        {
-    
-                        }
-                        else
-                        {
-                            // dd('yes');
-                            break;
-                        }
-                    }
-                }
-                // NEW CODE --END
-
-                // dd($response->json());
-                $response = $response->json();
-                if($response['status'] == true)
-                {
-                    $data = $response['data'];
-                    // dd($data);
-                    foreach($data as $key => &$datum)
-                    {
-                        //NearBy Deal
-                        $datum['nearby'] = 0;
-                        $datum['nearbyBranch'] = 0;
-                        $distances = [];
-                        $firstDistanceArray = reset($datum['distance']);
-                        foreach($datum['distance'] as $i => &$d)
-                        {
-                        
-                            $datum['nearby'] = $firstDistanceArray['distance_in_km'];
-                            $datum['nearbyBranch'] = $firstDistanceArray['branch_name'];
-    
-                            if($d['distance_in_km'] < $datum['nearby'])
-                            {
-                                $datum['nearby'] = $d['distance_in_km'];
-                                $datum['nearbyBranch'] = $d['branch_name'];
-                            }
-                        }
-                    }
-                }
-                // dd($data);
-                
-                
-                $cats_in_block = $data;
-                // dd($cats_in_block);
             }
-            else
+            elseif(session()->has('Authenticated_user_data') && session()->get('Authenticated_user_data')['type'] !== 1) // Merchant/Admin
             {
-                $cats_in_block = Http::get('gigiapi.zanforthstaging.com/api/user/getDeals',[
-                    'limit' => 4,
-                    'page' => 1,
-                    'category' => $category_to_show_on_block,
-                    'returnType' => 'customPagination',
-                    'timeSort' => 'desc',
-                ])->json();
-                // NEW CODE -- START
-                if($cats_in_block == null)
-                {
-                    // dd('yess');
-                    $right = false;
-                    while($right == false)
-                    {
-                        $cats_in_block = Http::get('gigiapi.zanforthstaging.com/api/user/getDeals',[
-                            'limit' => 4,
-                            'page' => 1,
-                            'category' => $category_to_show_on_block,
-                            'returnType' => 'customPagination',
-                            'timeSort' => 'desc',
-                        ])->json();
-                        if($cats_in_block == null)
-                        {
-    
-                        }
-                        else
-                        {
-                            // dd('yes');
-                            break;
-                        }
-                    }
+                if(session()->get('Authenticated_user_data')['type'] == 3){
+                    $UserType = 'Admin';
+                }else{
+                    $UserType = 'Merchant';
+                    $city = session()->get('Authenticated_user_data')['userLocations'][0]['city'];
+                    $country = session()->get('Authenticated_user_data')['userLocations'][0]['country'];
+                    $data['country'] = $country;
+                    $data['cities[0]'] = $city;
                 }
-                // NEW CODE --END
-                // dd($cats_in_block);
-                $cats_in_block = $cats_in_block['data'];
             }
-            // NEW------e
-            // dd($cats_in_block);
+            $trendingDeals = Http::get(''.config('path.path.WebPath').'api/user/getDeals', $data)->json();
+
+            $data['is_sponsered'] = 1;
+            $sponsoredDeals = Http::get(''.config('path.path.WebPath').'api/user/getDeals', $data)->json();
+            // dd($sponsoredDeals);
+            // dd($trendingDeals['data'][0]['image']['image']);
+            // dd($trendingDeals);
 
 
-            
-            // $cats_in_block = Http::get('gigiapi.zanforthstaging.com/api/user/getDeals',[
-            //     'limit' => 4,
-            //     'page' => 1,
-            //     'category' => $category_to_show_on_block,
-            //     'returnType' => 'customPagination',
-            //     'timeSort' => 'desc',
-            // ])->json();
-            // // NEW CODE -- START
-            // if($cats_in_block == null)
-            // {
-            //     // dd('yess');
-            //     $right = false;
-            //     while($right == false)
-            //     {
-            //         $cats_in_block = Http::get('gigiapi.zanforthstaging.com/api/user/getDeals',[
-            //             'limit' => 4,
-            //             'page' => 1,
-            //             'category' => $category_to_show_on_block,
-            //             'returnType' => 'customPagination',
-            //             'timeSort' => 'desc',
-            //         ])->json();
-            //         if($cats_in_block == null)
-            //         {
 
-            //         }
-            //         else
-            //         {
-            //             // dd('yes');
-            //             break;
-            //         }
-            //     }
-            // }
-            // // NEW CODE --END
 
-          
-            // dd($cats_in_block['data']);
-
+        
             //SETTING CITIES FOR UN AUTH
             $cities['data'] = [1,2,3];
             if( !session()->has('Authenticated_user_data') && session()->has('unAuthUserLocations'))
             {
                 $UserType = 'LocationUser';
                 $session_data = session()->get('unAuthUserLocations');
-                $response = Http::get('gigiapi.zanforthstaging.com/api/getSystemCitiesByCountry',[
+                $response = Http::get(''.config('path.path.WebPath').'api/getSystemCitiesByCountry',[
                     'country' => session()->get('unAuthUserLocations')['country'],
                 ]);
-                // NEW CODE -- START
-                if($response->json() == null)
-                {
-                    // dd('yess');
-                    $right = false;
-                    while($right == false)
-                    {
-                        $response = Http::get('gigiapi.zanforthstaging.com/api/getSystemCitiesByCountry',[
-                            'country' => session()->get('unAuthUserLocations')['country'],
-                        ]);
-                        if($response->json() == null)
-                        {
-
-                        }
-                        else
-                        {
-                            // dd('yes');
-                            break;
-                        }
-                    }
-                }
-                // NEW CODE --END
-                // dd($request->country);
                 $cities = $response->json();
             }
             elseif(session()->has('Authenticated_user_data') && session()->get('Authenticated_user_data')['type'] == 1)
             {
                 $UserType = 'User';
                 $session_data = session()->get('unAuthUserLocations');
-                $response = Http::get('gigiapi.zanforthstaging.com/api/getSystemCitiesByCountry',[
-                    'country' => session()->get('Authenticated_user_data')['location']['country'],
+                $response = Http::get(''.config('path.path.WebPath').'api/getSystemCitiesByCountry',[
+                    'country' => session()->get('Authenticated_user_data')['userLocations'][0]['country'],
                 ]);
-                // NEW CODE -- START
-                if($response->json() == null)
-                {
-                    // dd('yess');
-                    $right = false;
-                    while($right == false)
-                    {
-                        $response = Http::get('gigiapi.zanforthstaging.com/api/getSystemCitiesByCountry',[
-                            'country' => session()->get('Authenticated_user_data')['location']['country'],
-                        ]);
-                        if($response->json() == null)
-                        {
-
-                        }
-                        else
-                        {
-                            // dd('yes');
-                            break;
-                        }
-                    }
-                }
-                // NEW CODE --END
-                // dd($request->country);
                 $cities = $response->json();
             }
-            // dd($cities);
+      
+            $categories_req = Http::get(''.config('path.path.WebPath').'api/categoryAutoComplete');
+            $categories = $categories_req->json()['data'];
 
-            // dd(session()->get('Authenticated_user_data'));
-            // session()->forget('Authenticated_user_data');
-            $url = 'gigiapi.zanforthstaging.com/api/categoryAutoComplete';
-            $categories = Http::get($url)->json()['data'];
-            //Trending Deals
-
-            if( !session()->has('Authenticated_user_data') && session()->has('unAuthUserLocations'))
-            {
-                $UserType = 'LocationUser';
-                $response = Http::get('gigiapi.zanforthstaging.com/api/user/getTrendingDeals',[
-                    'limit' => 10000,
-                    'page' => 1,
-                    'returnType' => 'customPagination',
-                    'lat' => session()->get('unAuthUserLocations')['lat'],
-                    'long' =>session()->get('unAuthUserLocations')['long'],
-                    'cities[0]' =>session()->get('unAuthUserLocations')['city'],
-                    'country' =>session()->get('unAuthUserLocations')['country'],
-
-                ]);
-
-                // NEW CODE -- START
-                if($response->json() == null)
-                {
-                    // dd('yess');
-                    $right = false;
-                    while($right == false)
-                    {
-                        $response = Http::get('gigiapi.zanforthstaging.com/api/user/getTrendingDeals',[
-                            'limit' => 10000,
-                            'page' => 1,
-                            'returnType' => 'customPagination',
-                            'lat' => session()->get('unAuthUserLocations')['lat'],
-                            'long' =>session()->get('unAuthUserLocations')['long'],
-                            'cities[0]' =>session()->get('unAuthUserLocations')['city'],
-                            'country' =>session()->get('unAuthUserLocations')['country'],
-        
-                        ]);
-                        if($response->json() == null)
-                        {
-
-                        }
-                        else
-                        {
-                            // dd('yes');
-                            break;
-                        }
-                    }
-                }
-                // NEW CODE --END
-
-
-                $TrendingDealsResult = $response->json();
-
-                $trendingDeals = (array) null;
-                foreach($TrendingDealsResult['data'] as $key => $d)
-                {
-                    $trendingDeals[] = $d;
-                    if($key == 3)
-                    {
-                        break;
-                    }
-                }
-                // dd($trendingDeals);
-
-                foreach($trendingDeals as $key => &$datum)
-                {
-                    //NearBy Deal
-                    $datum['nearby'] = 0;
-                    $datum['nearbyBranch'] = 0;
-                    $distances = [];
-                    $firstDistanceArray = reset($datum['distance']);
-                    foreach($datum['distance'] as $i => &$d)
-                    {
-                    
-                        $datum['nearby'] = $firstDistanceArray['distance_in_km'];
-                        $datum['nearbyBranch'] = $firstDistanceArray['branch_name'];
-
-                        if($d['distance_in_km'] < $datum['nearby'])
-                        {
-                            $datum['nearby'] = $d['distance_in_km'];
-                            $datum['nearbyBranch'] = $d['branch_name'];
-                        }
-                    }
-                }
-
-                // foreach($trendingDeals as $key => &$datum)
-                // {
-                //     $datum['nearby'] = 0;
-                //     $datum['nearbyBranch'] = 0;
-                //     // dd(2);
-                //     // dd($datum['distance'][$key]);
-
-                //     foreach($datum['distance'] as &$d)
-                //     {
-                //         // dd($d);
-                //         $datum['nearby'] = $d['distance_in_km'];
-                //         $datum['nearbyBranch'] = $d['branch_name'];
-                //         if($d['distance_in_km'] <= $datum['nearby'])
-                //         {
-                //             $datum['nearby'] = $d['distance_in_km'];
-                //             $datum['nearbyBranch'] = $d['branch_name'];
-                //         }
-                //     }
-                // }
-                
-
-                // dd($trendingDeals);
-                $TopSellers = $trendingDeals;
-                // dd($TopSellers);
-
-                
-                
-            }
-            elseif(session()->has('Authenticated_user_data') && session()->get('Authenticated_user_data')['type'] == 1)
-            {
-                $UserType = 'User';
-                $lat = (float)session()->get('Authenticated_user_data')['location']['lat'];
-                $long = (float)session()->get('Authenticated_user_data')['location']['long'];
-
-                    //DROP DOWN CHANGE CODE
-                    if(session()->has('AuthenticatedUserSelectedCities'))
-                    {
-                        $city = session()->get('AuthenticatedUserSelectedCities');    
-                    }
-                    else
-                    {
-                        $city = session()->get('Authenticated_user_data')['location']['city'];
-                    }
-
-                // $city = session()->get('Authenticated_user_data')['location']['city'];
-                $country = session()->get('Authenticated_user_data')['location']['country'];
-
-                $token = session()->get('Authenticated_user_data')['token'];
-                $response = Http::withToken($token);
-                $response = $response->get('gigiapi.zanforthstaging.com/api/user/getUserLocations');
-                $userCities = $response->json()['data'];
-                $data = ['limit' => 10000,
-                'page' => 1,
-                'returnType' => 'customPagination',
-                'lat' => $lat ,
-                'long' => $long,
-                'country' =>$country];
-
-                    //DROP DOWN CHANGE CODE
-                    if(session()->has('AuthenticatedUserSelectedCities'))
-                    {
-                            $data['cities[0]'] = session()->get('AuthenticatedUserSelectedCities');    
-                    }
-                    else
-                    {
-                        foreach($userCities as $key => $c)
-                        {
-                            $data['cities['.$key.']'] = $c['city'];
-                        }
-                    }
-
-                // foreach($userCities as $key => $c)
-                // {
-                //     $data['cities['.$key.']'] = $c['city'];
-                // }
-                // dd($data);
-                $response = Http::get('gigiapi.zanforthstaging.com/api/user/getTrendingDeals',$data);
-                $TrendingDealsResult = $response->json();
-
-                // $trendingDeals;
-                $trendingDeals = (array) null;
-                foreach($TrendingDealsResult['data'] as $key => $d)
-                {
-                    $trendingDeals[] = $d;
-                    if($key == 3)
-                    {
-                        break;
-                    }
-                }
-                // dd($trendingDeals);
-
-                foreach($trendingDeals as $key => &$datum)
-                {
-                    //NearBy Deal
-                    $datum['nearby'] = 0;
-                    $datum['nearbyBranch'] = 0;
-                    $distances = [];
-                    $firstDistanceArray = reset($datum['distance']);
-                    foreach($datum['distance'] as $i => &$d)
-                    {
-                    
-                        $datum['nearby'] = $firstDistanceArray['distance_in_km'];
-                        $datum['nearbyBranch'] = $firstDistanceArray['branch_name'];
-
-                        if($d['distance_in_km'] < $datum['nearby'])
-                        {
-                            $datum['nearby'] = $d['distance_in_km'];
-                            $datum['nearbyBranch'] = $d['branch_name'];
-                        }
-                    }
-                }
-
-                // foreach($trendingDeals as $key => &$datum)
-                // {
-                //     $datum['nearby'] = 0;
-                //     $datum['nearbyBranch'] = 0;
-                //     // dd(2);
-                //     // dd($datum['distance'][$key]);
-
-                //     foreach($datum['distance'] as &$d)
-                //     {
-                //         // dd($d);
-                //         $datum['nearby'] = $d['distance_in_km'];
-                //         $datum['nearbyBranch'] = $d['branch_name'];
-                //         if($d['distance_in_km'] <= $datum['nearby'])
-                //         {
-                //             $datum['nearby'] = $d['distance_in_km'];
-                //             $datum['nearbyBranch'] = $d['branch_name'];
-                //         }
-                //     }
-                // }
-               
-                //--------------------------------
-                // dd(session()->get('Authenticated_user_data'));
-                $token = session()->get('Authenticated_user_data')['token'];
-                $response = Http::withToken($token);
-                $response = $response->get('gigiapi.zanforthstaging.com/api/user/getTrendingDeals',[
-                'limit' => 10000,
-                'page' => 1,
-                'returnType' => 'customPagination',
-                'lat' => $lat ,
-                'long' => $long,
-                'country' =>$country,
-                'cities[0]' => $city,
-                ]);
-                // dd($city);
-                // $TopSellers = $response->json();
-                // $trendingDeals = $trendingDeals['data'];
-                $TopSellers = $trendingDeals;
-
-
-                foreach($TopSellers as $key => &$datum)
-                {
-                    //NearBy Deal
-                    $datum['nearby'] = 0;
-                    $datum['nearbyBranch'] = 0;
-                    $distances = [];
-                    $firstDistanceArray = reset($datum['distance']);
-                    foreach($datum['distance'] as $i => &$d)
-                    {
-                    
-                        $datum['nearby'] = $firstDistanceArray['distance_in_km'];
-                        $datum['nearbyBranch'] = $firstDistanceArray['branch_name'];
-
-                        if($d['distance_in_km'] < $datum['nearby'])
-                        {
-                            $datum['nearby'] = $d['distance_in_km'];
-                            $datum['nearbyBranch'] = $d['branch_name'];
-                        }
-                    }
-                }
-
-                // foreach($TopSellers as $key => &$datum)
-                // {
-                //     $datum['nearby'] = 0;
-                //     $datum['nearbyBranch'] = 0;
-                //     // dd(2);
-                //     // dd($datum['distance'][$key]);
-
-                //     foreach($datum['distance'] as &$d)
-                //     {
-                //         // dd($d);
-                //         $datum['nearby'] = $d['distance_in_km'];
-                //         $datum['nearbyBranch'] = $d['branch_name'];
-                //         if($d['distance_in_km'] <= $datum['nearby'])
-                //         {
-                //             $datum['nearby'] = $d['distance_in_km'];
-                //             $datum['nearbyBranch'] = $d['branch_name'];
-                //         }
-                //     }
-                // }
-
-                // dd($TopSellers);
-            }
-            else
-            {
-                // dd(1);
-                $response = Http::get('gigiapi.zanforthstaging.com/api/user/getDeals',[
-                    'limit' => 10000,
-                    'page' => 1,
-                    'returnType' => 'customPagination'
-                ]);
-                $trendingDeals = $response->json();
-                $TrendingDealsResult = $response->json();
-                // $trendingDeals;
-                $trendingDeals = (array) null;
-                foreach($TrendingDealsResult['data'] as $key => $d)
-                {
-                    $trendingDeals[] = $d;
-                    if($key == 3)
-                    {
-                        break;
-                    }
-                }
-                $trendingDeals = $TrendingDealsResult['data'];
-                $TopSellers = $trendingDeals;
-                // dd($trendingDeals);
-                // dd($trendingDeals[0]['image']);
-            }
-
-            // dD(1);
-            // dd($trendingDeals[0]['images']['id']);
-            //Array for data to show
-            $cat_array = 
-            [
-                'couples' => 39,
-                'men' => 1,
-                'women' => 2,
-                'kids' => 3,
-                'family' => 40,
-                'travel' => 41,
-                'automobile' => 4,
-                'cleaning' => 6,
-            ];
-
-            // dd($cat_array['couples']);
             $notifications = null;
             if(session()->has('Authenticated_user_data') && session()->get('Authenticated_user_data')['type'] == 1)
             {
@@ -4149,9 +3562,6 @@ class UserController extends Controller
                 // dd($notifications);
             }
             
-            //trendingdeals merchantName
-            //TopSellers merchantName
-            // dd($cats_in_block);
             $AuthUserCities = [];
             if(session()->has('Authenticated_user_data') && session()->get('Authenticated_user_data')['type'] == 1)
             {
@@ -4169,8 +3579,12 @@ class UserController extends Controller
                 echo "</script>";
             }
             // dd($categorySection);
-            return view('user.index',compact('AuthUserCities','categories','CatBlockSection','cats_in_block','trendingDeals','cat_array','cities',
-                'categorySection','upperImageSection','lowerImageSection','footerImageSection','TopSellers','notifications'));
+            return view('user.index',compact('AuthUserCities','categories','trendingDeals','cities','sponsoredDeals',
+                'categorySection','crousel','notifications'));
+            // return view('user.index',compact('AuthUserCities','categories','CatBlockSection','trendingDeals','cities',
+            //     'categorySection','upperImageSection','crousel','lowerImageSection','footerImageSection','notifications'));
+            // return view('user.index',compact('AuthUserCities','categories','CatBlockSection','cats_in_block','trendingDeals','cat_array','cities',
+            //     'categorySection','upperImageSection','lowerImageSection','footerImageSection','TopSellers','notifications'));
         // } catch (\Exception $e) {
         //     return response()->json([
         //         'Success' => 'False',
@@ -4190,7 +3604,7 @@ class UserController extends Controller
             {
                 $UserType = 'LocationUser';
                 $session_data = session()->get('unAuthUserLocations');
-                $response = Http::get('gigiapi.zanforthstaging.com/api/getSystemCitiesByCountry',[
+                $response = Http::get(''.config('path.path.WebPath').'api/getSystemCitiesByCountry',[
                     'country' => session()->get('unAuthUserLocations')['country'],
                 ]);
                 // dd($request->country);
@@ -4200,14 +3614,14 @@ class UserController extends Controller
             {
                 $UserType = 'User';
                 $session_data = session()->get('unAuthUserLocations');
-                $response = Http::get('gigiapi.zanforthstaging.com/api/getSystemCitiesByCountry',[
-                    'country' => session()->get('Authenticated_user_data')['location']['country'],
+                $response = Http::get(''.config('path.path.WebPath').'api/getSystemCitiesByCountry',[
+                    'country' => session()->get('Authenticated_user_data')['userLocations'][0]['country'],
                 ]);
                 // dd($request->country);
                 $cities = $response->json();
             }
 
-            $url = 'gigiapi.zanforthstaging.com/api/categoryAutoComplete';
+            $url = ''.config('path.path.WebPath').'api/categoryAutoComplete';
             $categories = Http::get($url)->json()['data'];
             $notifications = null;
             if(session()->has('Authenticated_user_data') && session()->get('Authenticated_user_data')['type'] == 1)
@@ -4274,7 +3688,7 @@ class UserController extends Controller
         try
         {
             // dd($request);
-            $response = Http::post('gigiapi.zanforthstaging.com/api/verifyAccount',[
+            $response = Http::post(''.config('path.path.WebPath').'api/verifyAccount',[
                 'email' => $request->email,
                 'code' => $request->code,
             ]);
@@ -4300,7 +3714,7 @@ class UserController extends Controller
         try
         {
             // dd($request);
-            $response = Http::post('gigiapi.zanforthstaging.com/api/resendCode',[
+            $response = Http::post(''.config('path.path.WebPath').'api/resendCode',[
                 'email' => $request->email,
             ]);
             // dd($response->json());
@@ -4334,7 +3748,7 @@ class UserController extends Controller
         try
         {
             // dd($request);
-            $response = Http::post('gigiapi.zanforthstaging.com/api/sendResetPassword',[
+            $response = Http::post(''.config('path.path.WebPath').'api/sendResetPassword',[
                 'email' => $request->email,
             ]);
             // dd($response->json());
@@ -4390,7 +3804,14 @@ class UserController extends Controller
                 $token = session()->get('Authenticated_user_data')['token'];
                 $AuthUserCities = $this->getAuthUserLocations($token);
             }
-            return view('user.user_register',compact('AuthUserCities','type'));
+
+            $url = ''.config('path.path.WebPath').'api/getAllLanguages';
+            $languages = Http::get($url)->json()['data'];
+
+            $url = ''.config('path.path.WebPath').'api/getCountries';
+            $countries = Http::get($url)->json()['data'];
+
+            return view('user.user_register',compact('AuthUserCities','type','languages','countries'));
         } catch (\Exception $e) {
             return response()->json([
                 'Success' => 'False',
@@ -4417,7 +3838,7 @@ class UserController extends Controller
             {
                 $UserType = 'LocationUser';
                 $session_data = session()->get('unAuthUserLocations');
-                $response = Http::get('gigiapi.zanforthstaging.com/api/getSystemCitiesByCountry',[
+                $response = Http::get(''.config('path.path.WebPath').'api/getSystemCitiesByCountry',[
                     'country' => session()->get('unAuthUserLocations')['country'],
                 ]);
                 // dd($request->country);
@@ -4427,8 +3848,8 @@ class UserController extends Controller
             {
                 $UserType = 'User';
                 $session_data = session()->get('unAuthUserLocations');
-                $response = Http::get('gigiapi.zanforthstaging.com/api/getSystemCitiesByCountry',[
-                    'country' => session()->get('Authenticated_user_data')['location']['country'],
+                $response = Http::get(''.config('path.path.WebPath').'api/getSystemCitiesByCountry',[
+                    'country' => session()->get('Authenticated_user_data')['userLocations'][0]['country'],
                 ]);
                 // dd($request->country);
                 $cities = $response->json();
@@ -4437,25 +3858,34 @@ class UserController extends Controller
             if(session()->has('Authenticated_user_data') && session()->get('Authenticated_user_data')['type'] == 1)
             {
                 $UserType = 'User';
-                $lat = (float)session()->get('Authenticated_user_data')['location']['lat'];
-                $long = (float)session()->get('Authenticated_user_data')['location']['long'];
-                $response = Http::get('gigiapi.zanforthstaging.com/api/user/getDeal/'.$id.'',[
+                $lat = (float)session()->get('Authenticated_user_data')['userLocations'][0]['lat'];
+                $long = (float)session()->get('Authenticated_user_data')['userLocations'][0]['long'];
+                $response = Http::get(''.config('path.path.WebPath').'api/user/getDeal',[
                     'lat' => $lat ,
                     'long' => $long,
+                    'deal_id' => $id,
                 ]);
-                $deal = $response->json()['data'];
-                // dd($deal);
-                foreach($deal['distance'] as &$d)
-                {
-                    // dd($d);
-                    $deal['nearby'] = $d['distance_in_km'];
-                    $deal['nearbyBranch'] = $d['branch_name'];
-                    if($d['distance_in_km'] <= $deal['nearby'])
-                    {
-                        $deal['nearby'] = $d['distance_in_km'];
-                        $deal['nearbyBranch'] = $d['branch_name'];
-                    }
+                // dd($response->json());
+
+                if($response->json() !== null){
+                    $deal = $response->json()['data'];
+                }else{
+                    return redirect('categories')->with('alert','This Deal is not available right now. ');
                 }
+                
+
+                // dd($deal);
+                // foreach($deal['distance'] as &$d)
+                // {
+                //     // dd($d);
+                //     $deal['nearby'] = $d['distance_in_km'];
+                //     $deal['nearbyBranch'] = $d['branch_name'];
+                //     if($d['distance_in_km'] <= $deal['nearby'])
+                //     {
+                //         $deal['nearby'] = $d['distance_in_km'];
+                //         $deal['nearbyBranch'] = $d['branch_name'];
+                //     }
+                // }
                 // dd($data);
             }
             elseif(!session()->has('Authenticated_user_data') && session()->has('unAuthUserLocations'))
@@ -4463,34 +3893,47 @@ class UserController extends Controller
                 // dd('nAfetc');
                 $lat = (float)session()->get('unAuthUserLocations')['lat'];
                 $long = (float)session()->get('unAuthUserLocations')['long'];
-                $response = Http::get('gigiapi.zanforthstaging.com/api/user/getDeal/'.$id.'',[
+                $response = Http::get(''.config('path.path.WebPath').'api/user/getDeal',[
                     'lat' => $lat ,
                     'long' => $long,
+                    'deal_id' => $id,
                 ]);
-                $deal = $response->json()['data'];
-                // dd($deal);
-                foreach($deal['distance'] as &$d)
-                {
-                    // dd($d);
-                    $deal['nearby'] = $d['distance_in_km'];
-                    $deal['nearbyBranch'] = $d['branch_name'];
-                    if($d['distance_in_km'] <= $deal['nearby'])
-                    {
-                        $deal['nearby'] = $d['distance_in_km'];
-                        $deal['nearbyBranch'] = $d['branch_name'];
-                    }
+
+                if($response->json() !== null){
+                    $deal = $response->json()['data'];
+                }else{
+                    return redirect('categories')->with('alert','This Deal is not available right now. ');
                 }
+                // dd($deal);
+                // foreach($deal['distance'] as &$d)
+                // {
+                //     // dd($d);
+                //     $deal['nearby'] = $d['distance_in_km'];
+                //     $deal['nearbyBranch'] = $d['branch_name'];
+                //     if($d['distance_in_km'] <= $deal['nearby'])
+                //     {
+                //         $deal['nearby'] = $d['distance_in_km'];
+                //         $deal['nearbyBranch'] = $d['branch_name'];
+                //     }
+                // }
             }
             else
             {
-                $response = Http::get('gigiapi.zanforthstaging.com/api/user/getDeal/'.$id.'');
-                $deal = $response->json()['data'];
+                $response = Http::get(''.config('path.path.WebPath').'api/user/getDeal',[
+                    'deal_id' => $id,
+                ]);
+
+                if($response->json() !== null){
+                    $deal = $response->json()['data'];
+                }else{
+                    return redirect('categories')->with('alert','This Deal is not available right now. ');
+                }
             }
             
             // dd($deal);
             // REVIEWS
             
-            $response = Http::get('gigiapi.zanforthstaging.com/api/user/getDealsReviews/'.$id.'');
+            $response = Http::get(''.config('path.path.WebPath').'api/user/getDealsReviews/'.$id.'');
             $reviews = $response->json()['data'];
 
             foreach($reviews as &$r)
@@ -4498,7 +3941,7 @@ class UserController extends Controller
                 // dd($r);
                 if($r['child'] > 0)
                 {
-                    $response = Http::get('gigiapi.zanforthstaging.com/api/user/getChildReviews/'.$r['id'].'');
+                    $response = Http::get(''.config('path.path.WebPath').'api/user/getChildReviews/'.$r['id'].'');
                     // dd($response->json());
                     $r['replies'] = $response->json()['data'];
                 }
@@ -4509,10 +3952,24 @@ class UserController extends Controller
 
             // api/user/getDealsReviews/1
 
-            $response = Http::get('gigiapi.zanforthstaging.com/api/user/getMerchant/'.$deal['merchant_id'].'');
+
+            // dd($deal);
+            // $have_vid = false;
+            // foreach($deal['images'] as $media)
+            // {
+            //     if($media['mime_type'] == 'video')
+            //     {
+                    
+            //     }
+            // }
+
+
+
+
+            $response = Http::get(''.config('path.path.WebPath').'api/user/getMerchant/'.$deal['merchant_id'].'');
             $merchant = $response->json()['data'];
             $deal['merchant_name'] = $merchant['name'];
-            $url = 'gigiapi.zanforthstaging.com/api/categoryAutoComplete';
+            $url = ''.config('path.path.WebPath').'api/categoryAutoComplete';
             $categories = Http::get($url)->json()['data'];
             $notifications = null;
             if(session()->has('Authenticated_user_data') && session()->get('Authenticated_user_data')['type'] == 1)
@@ -4551,11 +4008,13 @@ class UserController extends Controller
     public function getAuthUserLocations($token)
     {
         $token = session()->get('Authenticated_user_data')['token'];
-        $locations = Http::withToken($token)->get('gigiapi.zanforthstaging.com/api/user/getUserLocations')->json()['data'];
+        $locations = Http::withToken($token)->get(''.config('path.path.WebPath').'api/user/getUserLocations')->json()['data'];
+        // dd($locations);
         $Usercities = [];
         if(count($locations) == 1)
         {
-            $Usercities[] = $locations['city'];
+            // $Usercities[] = $locations[0]['city'];
+            $Usercities[] = $locations[0]['cityName'];
         }
         else
         {
@@ -4563,11 +4022,13 @@ class UserController extends Controller
             {
                 if((int)$L['lat'] == 0 && (int)$L['long'] == 0)
                 {
-                    $primary_city = $L['city'];
+                    // $primary_city = $L['city'];
+                    $primary_city = $L['cityName'];
                 }
-                if(!in_array($L['city'],$Usercities))
+                if(!in_array($L['cityName'],$Usercities))
                 {
-                    $Usercities[] = $L['city'];
+                    // $Usercities[] = $L['city'];
+                    $Usercities[] = $L['cityName'];
                 }
             }
         }
@@ -4577,8 +4038,8 @@ class UserController extends Controller
 
     public function categories(Request $request)
     {
-        try
-        {
+        // try
+        // {
             // dd(session()->get('Authenticated_user_data'));
             $AuthUserCities = [];
             if(session()->has('Authenticated_user_data') && session()->get('Authenticated_user_data')['type'] == 1)
@@ -4608,12 +4069,12 @@ class UserController extends Controller
             //     // dd(1);
             //     $cities[] = 0;
             //     $session_data = session()->get('unAuthUserLocations');
-            //     $response = Http::get('gigiapi.zanforthstaging.com/api/getSystemCitiesByCountry',[
+            //     $response = Http::get(''.config('path.path.WebPath').'api/getSystemCitiesByCountry',[
             //         'country' => session()->get('unAuthUserLocations')['country'],
             //     ]);
             //     $cities = $response->json();
 
-            //     $response = Http::get('gigiapi.zanforthstaging.com/api/user/getNearByDeals',[
+            //     $response = Http::get(''.config('path.path.WebPath').'api/user/getNearByDeals',[
             //         'limit' => 10000,
             //         'page' => $page,
             //         'returnType' => 'customPagination',
@@ -4652,7 +4113,7 @@ class UserController extends Controller
 
 
             //     // dd($deals);
-            //     $url = 'gigiapi.zanforthstaging.com/api/categoryAutoComplete';
+            //     $url = ''.config('path.path.WebPath').'api/categoryAutoComplete';
             //     $categories = Http::get($url)->json()['data'];
             //     $what_page = 'categories';
             //     $title = "Categories : All";
@@ -4677,7 +4138,7 @@ class UserController extends Controller
             //     return view('user.categories', compact('AuthUserCities','deals','categories','title','cities','what_page','notifications','UserType'));
             // }
 
-// ------------------------
+            // ------------------------
 
             // dd(1);
             //SETTING CITIES FOR UN AUTH
@@ -4686,7 +4147,7 @@ class UserController extends Controller
             {
                 $UserType = 'LocationUser';
                 $session_data = session()->get('unAuthUserLocations');
-                $response = Http::get('gigiapi.zanforthstaging.com/api/getSystemCitiesByCountry',[
+                $response = Http::get(''.config('path.path.WebPath').'api/getSystemCitiesByCountry',[
                     'country' => session()->get('unAuthUserLocations')['country'],
                 ]);
                 // dd($request->country);
@@ -4696,128 +4157,137 @@ class UserController extends Controller
             {
                 $UserType = 'User';
                 $session_data = session()->get('unAuthUserLocations');
-                $response = Http::get('gigiapi.zanforthstaging.com/api/getSystemCitiesByCountry',[
-                    'country' => session()->get('Authenticated_user_data')['location']['country'],
+                $response = Http::get(''.config('path.path.WebPath').'api/getSystemCitiesByCountry',[
+                    'country' => session()->get('Authenticated_user_data')['userLocations'][0]['country'],
                 ]);
                 // dd($request->country);
                 $cities = $response->json();
             }
 
-            $url = 'gigiapi.zanforthstaging.com/api/categoryAutoComplete';
+            $url = ''.config('path.path.WebPath').'api/categoryAutoComplete';
             $categories = Http::get($url)->json()['data'];
             // dd($categories);
+
+            $url = ''.config('path.path.WebPath').'api/categoryAutoComplete';
+            $categories = Http::get($url)->json()['data'];
 
             if(session()->has('Authenticated_user_data') && session()->get('Authenticated_user_data')['type'] == 1)
             {
                 $UserType = 'User';
-                $lat = (float)session()->get('Authenticated_user_data')['location']['lat'];
-                $long = (float)session()->get('Authenticated_user_data')['location']['long'];
-                $city = session()->get('Authenticated_user_data')['location']['city'];
-                $country = session()->get('Authenticated_user_data')['location']['country'];
+                $lat = (float)session()->get('Authenticated_user_data')['userLocations'][0]['lat'];
+                $long = (float)session()->get('Authenticated_user_data')['userLocations'][0]['long'];
+                $city = session()->get('Authenticated_user_data')['userLocations'][0]['city'];
+                $country = session()->get('Authenticated_user_data')['userLocations'][0]['country'];
 
                 $token = session()->get('Authenticated_user_data')['token'];
                 $response = Http::withToken($token);
-                $response = $response->get('gigiapi.zanforthstaging.com/api/user/getUserLocations');
+                $response = $response->get(''.config('path.path.WebPath').'api/user/getUserLocations');
                 $userCities = $response->json()['data'];
                 $data = [
                 'limit' => 10000,
                 'page' => 1,
                 'returnType' => 'customPagination',
-                'lat' => $lat ,
-                'long' => $long,
-                'timeSort' => 'desc',
-                'country' =>$country];
+                // 'lat' => $lat ,
+                // 'long' => $long,
+                // 'timeSort' => 'desc',
+                // 'country' =>$country
+                ];
 
 
                     //DROP DOWN CHANGE CODE
-                if(session()->has('AuthenticatedUserSelectedCities'))
-                {
-                        $data['cities[0]'] = session()->get('AuthenticatedUserSelectedCities');    
-                }
-                else
-                {
-                    foreach($userCities as $key => $c)
-                    {
-                        $data['cities['.$key.']'] = $c['city'];
-                    }
-                }
-                
-                $response = Http::get('gigiapi.zanforthstaging.com/api/user/getNearByDeals',$data);
+                // if(session()->has('AuthenticatedUserSelectedCities'))
+                // {
+                //         $data['cities[0]'] = session()->get('AuthenticatedUserSelectedCities');    
+                // }
+                // else
+                // {
+                //     foreach($userCities as $key => $c)
+                //     {
+                //         $data['cities['.$key.']'] = $c['city'];
+                //     }
+                // }
+                    // dd($data);
+                $response = Http::get(''.config('path.path.WebPath').'api/user/getDeals',$data);
 
-                if($response->json()['status'] == true)
-                {
-                    $data = $response->json()['data'];
-                    foreach($data as $key => &$datum)
-                    {
-                        //NearBy Deal
-                        $datum['nearby'] = 0;
-                        $datum['nearbyBranch'] = 0;
-                        $distances = [];
-                        $firstDistanceArray = reset($datum['distance']);
-                        foreach($datum['distance'] as $i => &$d)
-                        {
-                        
-                            $datum['nearby'] = $firstDistanceArray['distance_in_km'];
-                            $datum['nearbyBranch'] = $firstDistanceArray['branch_name'];
-    
-                            if($d['distance_in_km'] < $datum['nearby'])
-                            {
-                                $datum['nearby'] = $d['distance_in_km'];
-                                $datum['nearbyBranch'] = $d['branch_name'];
-                            }
-                        }
-                    }
-                }
-                $deals = $this->paginate($data);
-            }
-            elseif( !session()->has('Authenticated_user_data') && session()->has('unAuthUserLocations'))
-            {
-                $UserType = 'LocationUser';
-                $response = Http::get('gigiapi.zanforthstaging.com/api/user/getNearByDeals',[
-                    'limit' => 10000,
-                    'page' => 1,
-                    'timeSort' => 'desc',
-                    'returnType' => 'customPagination',
-                    'lat' => (float)session()->get('unAuthUserLocations')['lat'] ,
-                    'long' => (float)session()->get('unAuthUserLocations')['long'],
-                    'cities[0]' => session()->get('unAuthUserLocations')['city'],
-                    'country' =>session()->get('unAuthUserLocations')['country'],
-                ]);
-                // dd($response);
-                if($response->json()['status'] == true)
-                {
-                    $data = $response->json()['data'];
-                    foreach($data as $key => &$datum)
-                    {
-                        //NearBy Deal
-                        $datum['nearby'] = 0;
-                        $datum['nearbyBranch'] = 0;
-                        $distances = [];
-                        $firstDistanceArray = reset($datum['distance']);
-                        foreach($datum['distance'] as $i => &$d)
-                        {
-                        
-                            $datum['nearby'] = $firstDistanceArray['distance_in_km'];
-                            $datum['nearbyBranch'] = $firstDistanceArray['branch_name'];
-    
-                            if($d['distance_in_km'] < $datum['nearby'])
-                            {
-                                $datum['nearby'] = $d['distance_in_km'];
-                                $datum['nearbyBranch'] = $d['branch_name'];
-                            }
-                        }
-                    }
-                }
-                // dd($smallest);
-                // dd($data);
-                // $offers_fetched = $response->json()['data'];
-                // dd($offers_fetched);
-                $deals = $this->paginate($data);
+                // dd($response->json());
 
+                //////////////////
+                // if($response->json()['status'] == true)
+                // {
+                //     $data = $response->json()['data'];
+                //     foreach($data as $key => &$datum)
+                //     {
+                //         //NearBy Deal
+                //         $datum['nearby'] = 0;
+                //         $datum['nearbyBranch'] = 0;
+                //         $distances = [];
+                //         $firstDistanceArray = reset($datum['distance']);
+                //         foreach($datum['distance'] as $i => &$d)
+                //         {
+                        
+                //             $datum['nearby'] = $firstDistanceArray['distance_in_km'];
+                //             $datum['nearbyBranch'] = $firstDistanceArray['branch_name'];
+    
+                //             if($d['distance_in_km'] < $datum['nearby'])
+                //             {
+                //                 $datum['nearby'] = $d['distance_in_km'];
+                //                 $datum['nearbyBranch'] = $d['branch_name'];
+                //             }
+                //         }
+                //     }
+                // }
+                // $deals = $this->paginate($data);
+                /////////////
+                $deals = $this->paginate($response->json()['data']);
             }
+            // elseif( !session()->has('Authenticated_user_data') && session()->has('unAuthUserLocations'))
+            // {
+            //     $UserType = 'LocationUser';
+            //     $response = Http::get(''.config('path.path.WebPath').'api/user/getNearByDeals',[
+            //         'limit' => 10000,
+            //         'page' => 1,
+            //         'timeSort' => 'desc',
+            //         'returnType' => 'customPagination',
+            //         'lat' => (float)session()->get('unAuthUserLocations')['lat'] ,
+            //         'long' => (float)session()->get('unAuthUserLocations')['long'],
+            //         'cities[0]' => session()->get('unAuthUserLocations')['city'],
+            //         'country' =>session()->get('unAuthUserLocations')['country'],
+            //     ]);
+            //     // dd($response);
+            //     if($response->json()['status'] == true)
+            //     {
+            //         $data = $response->json()['data'];
+            //         foreach($data as $key => &$datum)
+            //         {
+            //             //NearBy Deal
+            //             $datum['nearby'] = 0;
+            //             $datum['nearbyBranch'] = 0;
+            //             $distances = [];
+            //             $firstDistanceArray = reset($datum['distance']);
+            //             foreach($datum['distance'] as $i => &$d)
+            //             {
+                        
+            //                 $datum['nearby'] = $firstDistanceArray['distance_in_km'];
+            //                 $datum['nearbyBranch'] = $firstDistanceArray['branch_name'];
+    
+            //                 if($d['distance_in_km'] < $datum['nearby'])
+            //                 {
+            //                     $datum['nearby'] = $d['distance_in_km'];
+            //                     $datum['nearbyBranch'] = $d['branch_name'];
+            //                 }
+            //             }
+            //         }
+            //     }
+            //     // dd($smallest);
+            //     // dd($data);
+            //     // $offers_fetched = $response->json()['data'];
+            //     // dd($offers_fetched);
+            //     $deals = $this->paginate($data);
+
+            // }
             else
             {
-                $response = Http::get('gigiapi.zanforthstaging.com/api/user/getDeals',[
+                $response = Http::get(''.config('path.path.WebPath').'api/user/getDeals',[
                     'limit' => 10000,
                     'page' => 1,
                     'returnType' => 'customPagination'
@@ -4828,6 +4298,7 @@ class UserController extends Controller
             }
 
             // dd($deals);
+
             $what_page = 'categories';
             $title = "Categories : All";
             $notifications = null;
@@ -4835,6 +4306,7 @@ class UserController extends Controller
             {
                 $UserType = 'User';
                 $token = session()->get('Authenticated_user_data')['token'];
+                // dd($token);
                 $notifications = $this->getNotifications($token);
                 $notifications =  $notifications['data'];
             }
@@ -4848,14 +4320,15 @@ class UserController extends Controller
                 echo "var id = `". $id ."` ;";
                 echo "</script>";
             }
+            // dd($deals);
             return view('user.categories', compact('AuthUserCities','deals','categories','title','cities','what_page','notifications','UserType','AuthUserCities'));
-        } catch (\Exception $e) {
-            return response()->json([
-                'Success' => 'False',
-                'Error' => $e->getMessage(),
-                // 'Message' => $response->json()['error'],
-            ]);
-        }
+        // } catch (\Exception $e) {
+        //     return response()->json([
+        //         'Success' => 'False',
+        //         'Error' => $e->getMessage(),
+        //         // 'Message' => $response->json()['error'],
+        //     ]);
+        // }
     }
 
     public function PriceFilter(Request $request)
@@ -4886,7 +4359,7 @@ class UserController extends Controller
             {
                 $UserType = 'LocationUser';
                 $session_data = session()->get('unAuthUserLocations');
-                $response = Http::get('gigiapi.zanforthstaging.com/api/getSystemCitiesByCountry',[
+                $response = Http::get(''.config('path.path.WebPath').'api/getSystemCitiesByCountry',[
                     'country' => session()->get('unAuthUserLocations')['country'],
                 ]);
                 // dd($request->country);
@@ -4896,14 +4369,14 @@ class UserController extends Controller
             {
                 $UserType = 'User';
                 $session_data = session()->get('unAuthUserLocations');
-                $response = Http::get('gigiapi.zanforthstaging.com/api/getSystemCitiesByCountry',[
-                    'country' => session()->get('Authenticated_user_data')['location']['country'],
+                $response = Http::get(''.config('path.path.WebPath').'api/getSystemCitiesByCountry',[
+                    'country' => session()->get('Authenticated_user_data')['userLocations'][0]['country'],
                 ]);
                 // dd($request->country);
                 $cities = $response->json();
             }
 
-            $url = 'gigiapi.zanforthstaging.com/api/categoryAutoComplete';
+            $url = ''.config('path.path.WebPath').'api/categoryAutoComplete';
             $categories = Http::get($url)->json()['data'];
             // dd($categories);
 
@@ -4913,14 +4386,14 @@ class UserController extends Controller
             if(session()->has('Authenticated_user_data') && session()->get('Authenticated_user_data')['type'] == 1)
             {
                 $UserType = 'User';
-                $lat = (float)session()->get('Authenticated_user_data')['location']['lat'];
-                $long = (float)session()->get('Authenticated_user_data')['location']['long'];
-                $city = session()->get('Authenticated_user_data')['location']['city'];
-                $country = session()->get('Authenticated_user_data')['location']['country'];
+                $lat = (float)session()->get('Authenticated_user_data')['userLocations'][0]['lat'];
+                $long = (float)session()->get('Authenticated_user_data')['userLocations'][0]['long'];
+                $city = session()->get('Authenticated_user_data')['userLocations'][0]['city'];
+                $country = session()->get('Authenticated_user_data')['userLocations'][0]['country'];
 
                 $token = session()->get('Authenticated_user_data')['token'];
                 $response = Http::withToken($token);
-                $response = $response->get('gigiapi.zanforthstaging.com/api/user/getUserLocations');
+                $response = $response->get(''.config('path.path.WebPath').'api/user/getUserLocations');
                 $userCities = $response->json()['data'];
                 $data = ['limit' => 10000,
                 'page' => 1,
@@ -4950,16 +4423,16 @@ class UserController extends Controller
                 // {
                 //     $data['cities['.$key.']'] = $c['city'];
                 // }
-                $response = Http::get('gigiapi.zanforthstaging.com/api/user/getNearByDeals',$data);
+                $response = Http::get(''.config('path.path.WebPath').'api/user/getNearByDeals',$data);
 
-                // dd(session()->get('Authenticated_user_data')['location']);
-                // $lat = (float)session()->get('Authenticated_user_data')['location']['lat'];
-                // $long = (float)session()->get('Authenticated_user_data')['location']['long'];
-                // $city = session()->get('Authenticated_user_data')['location']['city'];
-                // $country = session()->get('Authenticated_user_data')['location']['country'];
-                // dd(session()->get('Authenticated_user_data')['location']);
+                // dd(session()->get('Authenticated_user_data')['userLocations'][0]);
+                // $lat = (float)session()->get('Authenticated_user_data')['userLocations'][0]['lat'];
+                // $long = (float)session()->get('Authenticated_user_data')['userLocations'][0]['long'];
+                // $city = session()->get('Authenticated_user_data')['userLocations'][0]['city'];
+                // $country = session()->get('Authenticated_user_data')['userLocations'][0]['country'];
+                // dd(session()->get('Authenticated_user_data')['userLocations'][0]);
                 // dd($lat);
-                // $response = Http::get('gigiapi.zanforthstaging.com/api/user/getNearByDeals',[
+                // $response = Http::get(''.config('path.path.WebPath').'api/user/getNearByDeals',[
                 //     'limit' => 10000,
                 //     'page' => 1,
                 //     'returnType' => 'customPagination',
@@ -4974,7 +4447,7 @@ class UserController extends Controller
             elseif( !session()->has('Authenticated_user_data') && session()->has('unAuthUserLocations'))
             {
                 $UserType = 'LocationUser';
-                $response = Http::get('gigiapi.zanforthstaging.com/api/user/getNearByDeals',[
+                $response = Http::get(''.config('path.path.WebPath').'api/user/getNearByDeals',[
                     'limit' => 10000,
                     'page' => 1,
                     'returnType' => 'customPagination',
@@ -4988,7 +4461,7 @@ class UserController extends Controller
             }
             else
             {
-                $response = Http::get('gigiapi.zanforthstaging.com/api/user/getDeals',[
+                $response = Http::get(''.config('path.path.WebPath').'api/user/getDeals',[
                     'limit' => 10000,
                     'page' => 1,
                     'returnType' => 'customPagination',
@@ -5103,7 +4576,7 @@ class UserController extends Controller
             {
                 $UserType = 'LocationUser';
                 $session_data = session()->get('unAuthUserLocations');
-                $response = Http::get('gigiapi.zanforthstaging.com/api/getSystemCitiesByCountry',[
+                $response = Http::get(''.config('path.path.WebPath').'api/getSystemCitiesByCountry',[
                     'country' => session()->get('unAuthUserLocations')['country'],
                 ]);
                 // dd($request->country);
@@ -5113,14 +4586,14 @@ class UserController extends Controller
             {
                 $UserType = 'User';
                 $session_data = session()->get('unAuthUserLocations');
-                $response = Http::get('gigiapi.zanforthstaging.com/api/getSystemCitiesByCountry',[
-                    'country' => session()->get('Authenticated_user_data')['location']['country'],
+                $response = Http::get(''.config('path.path.WebPath').'api/getSystemCitiesByCountry',[
+                    'country' => session()->get('Authenticated_user_data')['userLocations'][0]['country'],
                 ]);
                 // dd($request->country);
                 $cities = $response->json();
             }
             // dd($sort_type);
-            $url = 'gigiapi.zanforthstaging.com/api/categoryAutoComplete';
+            $url = ''.config('path.path.WebPath').'api/categoryAutoComplete';
             $categories = Http::get($url)->json()['data'];
             // dd($categories);
 
@@ -5156,14 +4629,14 @@ class UserController extends Controller
                 {
                     $UserType = 'User';
 
-                    $lat = (float)session()->get('Authenticated_user_data')['location']['lat'];
-                    $long = (float)session()->get('Authenticated_user_data')['location']['long'];
-                    $city = session()->get('Authenticated_user_data')['location']['city'];
-                    $country = session()->get('Authenticated_user_data')['location']['country'];
+                    $lat = (float)session()->get('Authenticated_user_data')['userLocations'][0]['lat'];
+                    $long = (float)session()->get('Authenticated_user_data')['userLocations'][0]['long'];
+                    $city = session()->get('Authenticated_user_data')['userLocations'][0]['city'];
+                    $country = session()->get('Authenticated_user_data')['userLocations'][0]['country'];
 
                     $token = session()->get('Authenticated_user_data')['token'];
                     $response = Http::withToken($token);
-                    $response = $response->get('gigiapi.zanforthstaging.com/api/user/getUserLocations');
+                    $response = $response->get(''.config('path.path.WebPath').'api/user/getUserLocations');
                     $userCities = $response->json()['data'];
                     $data = ['limit' => 10000,
                     'page' => 1,
@@ -5178,7 +4651,7 @@ class UserController extends Controller
                     {
                         $data['cities['.$key.']'] = $c['city'];
                     }
-                    $response = Http::get('gigiapi.zanforthstaging.com/api/user/getNearByDeals',$data);
+                    $response = Http::get(''.config('path.path.WebPath').'api/user/getNearByDeals',$data);
 
                     $loc_yes_or_no = true;
             
@@ -5186,7 +4659,7 @@ class UserController extends Controller
                 elseif( !session()->has('Authenticated_user_data') && session()->has('unAuthUserLocations'))
                 {
                     $UserType = 'LocationUser';
-                    $response = Http::get('gigiapi.zanforthstaging.com/api/user/getNearByDeals',[
+                    $response = Http::get(''.config('path.path.WebPath').'api/user/getNearByDeals',[
                         'limit' => 10000,
                         'page' => 1,
                         'returnType' => 'customPagination',
@@ -5201,7 +4674,7 @@ class UserController extends Controller
                 }
                 else
                 {
-                    $response = Http::get('gigiapi.zanforthstaging.com/api/user/getDeals',[
+                    $response = Http::get(''.config('path.path.WebPath').'api/user/getDeals',[
                         'limit' => 10000,
                         'page' => 1,
                         'returnType' => 'customPagination',
@@ -5218,14 +4691,14 @@ class UserController extends Controller
                 if(session()->has('Authenticated_user_data') && session()->get('Authenticated_user_data')['type'] == 1)
                 {
                     $UserType = 'User';
-                    $lat = (float)session()->get('Authenticated_user_data')['location']['lat'];
-                    $long = (float)session()->get('Authenticated_user_data')['location']['long'];
-                    $city = session()->get('Authenticated_user_data')['location']['city'];
-                    $country = session()->get('Authenticated_user_data')['location']['country'];
+                    $lat = (float)session()->get('Authenticated_user_data')['userLocations'][0]['lat'];
+                    $long = (float)session()->get('Authenticated_user_data')['userLocations'][0]['long'];
+                    $city = session()->get('Authenticated_user_data')['userLocations'][0]['city'];
+                    $country = session()->get('Authenticated_user_data')['userLocations'][0]['country'];
 
                     $token = session()->get('Authenticated_user_data')['token'];
                     $response = Http::withToken($token);
-                    $response = $response->get('gigiapi.zanforthstaging.com/api/user/getUserLocations');
+                    $response = $response->get(''.config('path.path.WebPath').'api/user/getUserLocations');
                     $userCities = $response->json()['data'];
                     $data = ['limit' => 10000,
                     'page' => 1,
@@ -5253,7 +4726,7 @@ class UserController extends Controller
                     // {
                     //     $data['cities['.$key.']'] = $c['city'];
                     // }
-                    $response = Http::get('gigiapi.zanforthstaging.com/api/user/getNearByDeals',$data);
+                    $response = Http::get(''.config('path.path.WebPath').'api/user/getNearByDeals',$data);
 
                     $loc_yes_or_no = true;
              
@@ -5262,7 +4735,7 @@ class UserController extends Controller
                 elseif( !session()->has('Authenticated_user_data') && session()->has('unAuthUserLocations'))
                 {
                     $UserType = 'LocationUser';
-                    $response = Http::get('gigiapi.zanforthstaging.com/api/user/getNearByDeals',[
+                    $response = Http::get(''.config('path.path.WebPath').'api/user/getNearByDeals',[
                         'limit' => 10000,
                         'page' => 1,
                         'returnType' => 'customPagination',
@@ -5277,7 +4750,7 @@ class UserController extends Controller
                 }
                 else
                 {
-                    $response = Http::get('gigiapi.zanforthstaging.com/api/user/getDeals',[
+                    $response = Http::get(''.config('path.path.WebPath').'api/user/getDeals',[
                         'limit' => 10000,
                         'page' => 1,
                         'returnType' => 'customPagination',
@@ -5291,7 +4764,7 @@ class UserController extends Controller
             }
             else
             {
-                $response = Http::get('gigiapi.zanforthstaging.com/api/user/getDeals',[
+                $response = Http::get(''.config('path.path.WebPath').'api/user/getDeals',[
                     'limit' => 10000,
                     'page' => 1,
                     'returnType' => 'customPagination',
@@ -5429,7 +4902,7 @@ class UserController extends Controller
             {
                 $UserType = 'LocationUser';
                 $session_data = session()->get('unAuthUserLocations');
-                $response = Http::get('gigiapi.zanforthstaging.com/api/getSystemCitiesByCountry',[
+                $response = Http::get(''.config('path.path.WebPath').'api/getSystemCitiesByCountry',[
                     'country' => session()->get('unAuthUserLocations')['country'],
                 ]);
                 // dd($request->country);
@@ -5439,14 +4912,14 @@ class UserController extends Controller
             {
                 $UserType = 'User';
                 $session_data = session()->get('unAuthUserLocations');
-                $response = Http::get('gigiapi.zanforthstaging.com/api/getSystemCitiesByCountry',[
-                    'country' => session()->get('Authenticated_user_data')['location']['country'],
+                $response = Http::get(''.config('path.path.WebPath').'api/getSystemCitiesByCountry',[
+                    'country' => session()->get('Authenticated_user_data')['userLocations'][0]['country'],
                 ]);
                 // dd($request->country);
                 $cities = $response->json();
             }
 
-            $url = 'gigiapi.zanforthstaging.com/api/categoryAutoComplete';
+            $url = ''.config('path.path.WebPath').'api/categoryAutoComplete';
             $categories = Http::get($url)->json()['data'];
             // dd($categories);
 
@@ -5454,14 +4927,14 @@ class UserController extends Controller
             {
                 $UserType = 'User';
 
-                $lat = (float)session()->get('Authenticated_user_data')['location']['lat'];
-                $long = (float)session()->get('Authenticated_user_data')['location']['long'];
-                $city = session()->get('Authenticated_user_data')['location']['city'];
-                $country = session()->get('Authenticated_user_data')['location']['country'];
+                $lat = (float)session()->get('Authenticated_user_data')['userLocations'][0]['lat'];
+                $long = (float)session()->get('Authenticated_user_data')['userLocations'][0]['long'];
+                $city = session()->get('Authenticated_user_data')['userLocations'][0]['city'];
+                $country = session()->get('Authenticated_user_data')['userLocations'][0]['country'];
 
                 $token = session()->get('Authenticated_user_data')['token'];
                 $response = Http::withToken($token);
-                $response = $response->get('gigiapi.zanforthstaging.com/api/user/getUserLocations');
+                $response = $response->get(''.config('path.path.WebPath').'api/user/getUserLocations');
                 $userCities = $response->json()['data'];
                 $data = ['limit' => 10000,
                 'page' => 1,
@@ -5490,14 +4963,14 @@ class UserController extends Controller
                 // {
                 //     $data['cities['.$key.']'] = $c['city'];
                 // }
-                $response = Http::get('gigiapi.zanforthstaging.com/api/user/getNearByDeals',$data);
+                $response = Http::get(''.config('path.path.WebPath').'api/user/getNearByDeals',$data);
                 // dd($response->json());
                 $loc_yes_no = true;
             }
             elseif( !session()->has('Authenticated_user_data') && session()->has('unAuthUserLocations'))
             {
                 $UserType = 'LocationUser';
-                $response = Http::get('gigiapi.zanforthstaging.com/api/user/getNearByDeals',[
+                $response = Http::get(''.config('path.path.WebPath').'api/user/getNearByDeals',[
                     'limit' => 10000,
                     'page' => 1,
                     'category' => $id,
@@ -5515,7 +4988,7 @@ class UserController extends Controller
             }
             else
             {
-                $response = Http::get('gigiapi.zanforthstaging.com/api/user/getDeals',[
+                $response = Http::get(''.config('path.path.WebPath').'api/user/getDeals',[
                     'limit' => 10000,
                     'page' => 1,
                     'category' => $id,
@@ -5580,7 +5053,7 @@ class UserController extends Controller
                 }
                 $deals = $this->paginate($data);
             }
-            $category = Http::get('gigiapi.zanforthstaging.com/api/getCategory/'.$id.'')->json();
+            $category = Http::get(''.config('path.path.WebPath').'api/getCategory/'.$id.'')->json();
             // dd($category);
             $what_page = 'dealsByCat';
             $title = "Category : ".$category['data']['name']."";
@@ -5659,7 +5132,7 @@ class UserController extends Controller
             {
                 $UserType = 'LocationUser';
                 $session_data = session()->get('unAuthUserLocations');
-                $response = Http::get('gigiapi.zanforthstaging.com/api/getSystemCitiesByCountry',[
+                $response = Http::get(''.config('path.path.WebPath').'api/getSystemCitiesByCountry',[
                     'country' => session()->get('unAuthUserLocations')['country'],
                 ]);
                 // dd($request->country);
@@ -5669,14 +5142,14 @@ class UserController extends Controller
             {
                 $UserType = 'User';
                 $session_data = session()->get('unAuthUserLocations');
-                $response = Http::get('gigiapi.zanforthstaging.com/api/getSystemCitiesByCountry',[
-                    'country' => session()->get('Authenticated_user_data')['location']['country'],
+                $response = Http::get(''.config('path.path.WebPath').'api/getSystemCitiesByCountry',[
+                    'country' => session()->get('Authenticated_user_data')['userLocations'][0]['country'],
                 ]);
                 // dd($request->country);
                 $cities = $response->json();
             }
 
-            $url = 'gigiapi.zanforthstaging.com/api/categoryAutoComplete';
+            $url = ''.config('path.path.WebPath').'api/categoryAutoComplete';
             $categories = Http::get($url)->json()['data'];
             // dd($categories);
 
@@ -5688,14 +5161,14 @@ class UserController extends Controller
             {
                 $UserType = 'User';
 
-                $lat = (float)session()->get('Authenticated_user_data')['location']['lat'];
-                $long = (float)session()->get('Authenticated_user_data')['location']['long'];
-                $city = session()->get('Authenticated_user_data')['location']['city'];
-                $country = session()->get('Authenticated_user_data')['location']['country'];
+                $lat = (float)session()->get('Authenticated_user_data')['userLocations'][0]['lat'];
+                $long = (float)session()->get('Authenticated_user_data')['userLocations'][0]['long'];
+                $city = session()->get('Authenticated_user_data')['userLocations'][0]['city'];
+                $country = session()->get('Authenticated_user_data')['userLocations'][0]['country'];
 
                 $token = session()->get('Authenticated_user_data')['token'];
                 $response = Http::withToken($token);
-                $response = $response->get('gigiapi.zanforthstaging.com/api/user/getUserLocations');
+                $response = $response->get(''.config('path.path.WebPath').'api/user/getUserLocations');
                 $userCities = $response->json()['data'];
 
                 if($sort_type == 'dateAsc' || $sort_type == 'dateDesc' )
@@ -5742,7 +5215,7 @@ class UserController extends Controller
                 // {
                 //     $data['cities['.$key.']'] = $c['city'];
                 // }
-                $response = Http::get('gigiapi.zanforthstaging.com/api/user/getNearByDeals',$data);
+                $response = Http::get(''.config('path.path.WebPath').'api/user/getNearByDeals',$data);
                 $loc_yes_no = true;
             }
             elseif( !session()->has('Authenticated_user_data') && session()->has('unAuthUserLocations'))
@@ -5751,7 +5224,7 @@ class UserController extends Controller
 
                 if($sort_type == 'dateAsc' || $sort_type == 'dateDesc' )
                 {
-                    $response = Http::get('gigiapi.zanforthstaging.com/api/user/getNearByDeals',[
+                    $response = Http::get(''.config('path.path.WebPath').'api/user/getNearByDeals',[
                         'limit' => 10000,
                         'page' => 1,
                         'category' => $id,
@@ -5766,7 +5239,7 @@ class UserController extends Controller
                 }
                 elseif($sort_type == 'priceAsc' || $sort_type == 'priceDesc')
                 {
-                    $response = Http::get('gigiapi.zanforthstaging.com/api/user/getNearByDeals',[
+                    $response = Http::get(''.config('path.path.WebPath').'api/user/getNearByDeals',[
                         'limit' => 10000,
                         'page' => 1,
                         'category' => $id,
@@ -5787,7 +5260,7 @@ class UserController extends Controller
             {
                 if($sort_type == 'dateAsc' || $sort_type == 'dateDesc' )
                 {
-                    $response = Http::get('gigiapi.zanforthstaging.com/api/user/getDeals',[
+                    $response = Http::get(''.config('path.path.WebPath').'api/user/getDeals',[
                         'limit' => 10000,
                         'page' => 1,
                         'category' => $id,
@@ -5798,7 +5271,7 @@ class UserController extends Controller
                 }
                 elseif($sort_type == 'priceAsc' || $sort_type == 'priceDesc')
                 {
-                    $response = Http::get('gigiapi.zanforthstaging.com/api/user/getDeals',[
+                    $response = Http::get(''.config('path.path.WebPath').'api/user/getDeals',[
                         'limit' => 10000,
                         'page' => 1,
                         'category' => $id,
@@ -5863,7 +5336,7 @@ class UserController extends Controller
                 }
                 $deals = $this->paginate($data);
             }
-            $category = Http::get('gigiapi.zanforthstaging.com/api/getCategory/'.$id.'')->json();
+            $category = Http::get(''.config('path.path.WebPath').'api/getCategory/'.$id.'')->json();
             // dd($category);
             $what_page = 'dealsByCat';
             $title = "Category : ".$category['data']['name']."";

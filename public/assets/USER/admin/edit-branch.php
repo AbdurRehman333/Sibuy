@@ -57,7 +57,7 @@ while($row = $result->fetch_assoc()) {
 }
 ?>
 <head>
-    <title>GiGi</title>
+    <title>Sibuy</title>
 
     <?php include 'layouts/head.php'; ?>
 

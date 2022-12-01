@@ -14,7 +14,7 @@
     <link href="{{asset('assets/vendor/datatables/css/jquery.dataTables.min.css')}}" rel="stylesheet">
 
     <!-- Favicon icon -->
-    <link rel="icon" type="image/png" sizes="16x16" href="{{asset('assets/images/favicon.png')}}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{{asset('assets/images/sibuy.png')}}">
     <link rel="stylesheet" href="{{asset('asset/vendor/chartist/css/chartist.min.css')}}">
     <link href="{{asset('assets/vendor/bootstrap-select/dist/css/bootstrap-select.min.css')}}" rel="stylesheet">
     <link href="{{asset('assets/vendor/owl-carousel/owl.carousel.css')}}" rel="stylesheet">
@@ -25,18 +25,24 @@
     rel="stylesheet"  type='text/css'>    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&family=Roboto:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
 
 
-    
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <!-- Required vendors -->
+ 
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js" defer=""></script>
-    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
-    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    
+
 
     <link rel="stylesheet" href="//code.jquery.com/ui/1.13.1/themes/base/jquery-ui.css">
     <link rel="stylesheet" href="/resources/demos/style.css">
-    {{-- <script src="https://code.jquery.com/jquery-3.6.0.js"  defer=""></script> --}}
-    <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.js"  defer=""></script>
+
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.0/css/toastr.min.css" integrity="sha512-HPSfJxnyVYJb4v9afT3fXvs0mXvdg/C7eYxBl1EYS7uQHuCU/0lSGhaH9o23Tw8FofBiGQfFWzMYD9TqK8tv/g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
+
     {{-- tag input  --}}
     {{-- <link
     href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.0/css/bootstrap.min.css"
@@ -121,7 +127,7 @@
                     {{-- <img class="logo-abbr" src="{{asset('assets/images/logo.png')}}" alt="">
                     <img class="logo-compact" src="{{asset('assets/images/logo-text.png')}}" alt="">
                     <img class="brand-title" src="{{asset('assets/images/logo-text.png')}}" alt=""> --}}
-                    <img class="logo-abbr" src="{{asset('assets/USER/img/heading/homey.png')}}" width="40px" alt="">
+                    <img class="logo-abbr" src="{{asset('assets/images/sibuy.png')}}" width="40px" alt="">
                     {{-- <img class="logo-compact" src="{{asset('assets/images/logo-text.png')}}" alt=""> --}}
                     {{-- <img class="brand-title" src="{{asset('assets/images/logo-text.png')}}" alt=""> --}}
                 </a>

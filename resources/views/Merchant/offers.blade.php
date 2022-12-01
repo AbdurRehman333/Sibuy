@@ -1,7 +1,7 @@
 @extends('Merchant.layouts.master')
 
-@section('title', 'Merchant Offers')
-@section('header', 'Offers')
+@section('title', 'Merchant Deals')
+@section('header', 'Voucher Deals')
 
 @section('content')
 
@@ -33,7 +33,7 @@
             </style>
 
 
-            <div class="col-xl-8 col-xxl-8">
+            <div class="col-xl-9 col-xxl-8">
                 <div>
 
                     <h1 class="class_offers">All Offers</h1>
@@ -111,19 +111,13 @@
                         {{-- @if(array_key_exists('image' , $offer)) --}}
                             {{-- @if($image) --}}
                             <img class="rounded mr-3 mb-md-0 mb-3"
-                            src="{{'https://gigiapi.zanforthstaging.com/'.config('path.path.DealsPath').'/'.$offer['image']['image'].''}}" alt=""
+                            src="{{''.config('path.path.WebPath').''.config('path.path.DealsPath').'/'.$offer['image']['image'].''}}" alt=""
                             width="120">
                             {{-- @endif --}}
                         {{-- @endif --}}
                        
                     </a>
-                    {{-- <img class="rounded mr-3 mb-md-0 mb-3"
-                        src="{{'gigiapi.zanforthstaging.com/'.$offer['images']['path'].'/'.$offer['images']['image'].''}}"
-                        alt="" width="120"></a> --}}
-                    {{-- <img class="rounded mr-3 mb-md-0 mb-3"
-                        src="{{asset(''.$offer['image']['path'].'/'.$offer['image']['image'].'')}}" alt=""
-                        width="120"></a> --}}
-
+         
 
 
                     <div class="media-body col-lg-8 pl-0">
@@ -158,7 +152,7 @@
                                 Entire Menu </span>
 
 
-                                @if($offer['additional_discount'] && $result)
+                                {{-- @if($offer['additional_discount'] && $result)
                                 <span class="badge light badge-danger"
                                 style="margin-left: 8px !important;float: right !important;">
                                 {{$offer['additional_discount']}}% off</span>
@@ -167,12 +161,12 @@
 
                                 <span class="badge light badge-primary"
                                     style="margin-left: 8px !important;float: right !important;">
-                                    {{$offer['discount_on_price']}}% off</span>
+                                    {{$offer['discount_on_price']}}% off</span> --}}
 
 
                                 @else
 
-                                            @if($offer['additional_discount'] && $result)
+                                            {{-- @if($offer['additional_discount'] && $result)
 
 
                                             <span class="fs-14 text-primary font-w500"
@@ -194,26 +188,26 @@
 
 
 
-                                            @else
+                                            @else --}}
 
                                             <span class="fs-14 text-primary font-w500"
                                             style="color:rgb(210, 45, 45) !important; font-size:1.2rem !important;">
 
-                                            <del>{{$offer['price']}}Azn</del> </span>
+                                            ${{$offer['price']}} </span>
 
-                                            <span class="fs-14 text-primary font-w500" style="font-size:1rem !important;">
+                                            {{-- <span class="fs-14 text-primary font-w500" style="font-size:1rem !important;">
                                                 {{$price_to_pay}}Azn
-                                            </span>
+                                            </span> --}}
 
-                                            @endif
+                                            {{-- @endif --}}
 
 
 
-                                            @if($offer['additional_discount'] && $result)
+                                            {{-- @if($offer['additional_discount'] && $result)
                                             <span class="badge light badge-danger"
                                             style="margin-left: 8px !important;float: right !important;">
                                             {{$offer['additional_discount']}}% off</span>
-                                            @endif
+                                            @endif --}}
 
                                         {{-- <span class="fs-14 text-primary font-w500"
                                             style="color:rgb(210, 45, 45) !important; font-size:1.2rem !important;">
@@ -221,9 +215,9 @@
                                         {{-- <span class="fs-14 text-primary font-w500" style="font-size:1rem !important;">
                                             {{$percentage_to_pay}}%
                                         </span> --}}
-                                        <span class="badge light badge-primary"
+                                        {{-- <span class="badge light badge-primary"
                                             style="margin-left: 8px !important;float: right !important;">
-                                            {{$offer['discount_on_price']}}% off</span>
+                                            {{$offer['discount_on_price']}}% off</span> --}}
                                 @endif
                             </div>
                             {{-- <ul class="d-flex flex-wrap mb-sm-0 mb-2">
@@ -237,22 +231,16 @@
                             <div style="    text-align: -webkit-center;  margin-top: 10px;">
 
 
-                                @if($offer['status'] == 0)
+                                {{-- @if($offer['status'] == 0) --}}
                                 <a style="text-decoration: none;" href="{{ URL('MerchantEditOffer/'.$offer['id'])}}">
 
                                     <button class="btn btn-primary">
                                         <span style="color:#efe8e8">Edit</span>
                                     </button>
                                 </a>
-                                @endif
+                                {{-- @endif --}}
 
-                                {{-- <a style="text-decoration: none;" href="{{ URL('MerchantDeleteOffer/'.$offer['id'])}}">
-
-                                    <button class="btn btn-danger">
-                                        <span style="color:#efe8e8">Delete</span>
-                                    </button>
-                                </a> --}}
-
+                               
                                 <a style="text-decoration: none;" href="{{ URL('MerchantInActiveOffer/'.$offer['id'])}}">
 
                                     <button class="btn btn-info">

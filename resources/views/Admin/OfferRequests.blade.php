@@ -56,7 +56,7 @@
                                 <a href="{{url('OfferDetails/'.$deal['id'])}}">
                                     {{-- <img class="rounded mr-3 mb-md-0 mb-3"
                                         src="images/menus/5.png" alt="" width="120"> --}}
-                                        <img class="rounded mr-3 mb-md-0 mb-3" src="{{'https://gigiapi.zanforthstaging.com/'.config('path.path.DealsPath').'/'.$deal['image']['image'].''}}" alt="" width="120">
+                                        <img class="rounded mr-3 mb-md-0 mb-3" src="{{''.config('path.path.WebPath').''.config('path.path.DealsPath').'/'.$deal['image']['image'].''}}" alt="" width="120">
                                     
                                     </a>
 
@@ -65,10 +65,8 @@
                                     <h6 class="fs-16 font-w600"><a href="{{url('OfferDetails/'.$deal['id'])}}"
                                             class="text-black" >{{$deal['name']}}</a>
                                         
-                                            @if($deal['additional_discount'] && $result)
-                                            <button style="margin-left: 10px;" class="badge badge-sm badge-danger">Double Discount Request</button>
-                                            {{-- <button style="margin-left: 10px;" class="badge badge-sm badge-info">Valid Till : {{$deal['additional_discount_date']}}</button> --}}
-
+                                            @if($deal['is_updated'] == 1)
+                                            <button style="margin-left: 10px;" class="badge badge-sm badge-danger">Edit Request</button>
                                             @else
                                             <button style="margin-left: 10px;" class="badge badge-sm badge-primary">New Offer Request</button>
                                             @endif
@@ -97,7 +95,7 @@
                                                 Entire Menu </span>
 
 
-                                                @if($deal['additional_discount'] && $result)
+                                                {{-- @if($deal['additional_discount'] && $result)
                                                 <span class="badge light badge-danger"
                                                 style="margin-left: 8px !important;float: right !important;">
                                                 {{$deal['additional_discount']}}% off</span>
@@ -106,12 +104,12 @@
 
                                                 <span class="badge light badge-primary"
                                                     style="margin-left: 8px !important;float: right !important;">
-                                                    {{$deal['discount_on_price']}}% off</span>
+                                                    {{$deal['discount_on_price']}}% off</span> --}}
 
 
                                             @else
 
-                                                @if($deal['additional_discount'] && $result)
+                                                {{-- @if($deal['additional_discount'] && $result)
 
 
                                                 <span class="fs-14 text-primary font-w500"
@@ -133,30 +131,30 @@
 
 
 
-                                                @else
+                                                @else --}}
 
                                                 <span class="fs-14 text-primary font-w500"
                                                 style="color:rgb(210, 45, 45) !important; font-size:1.2rem !important;">
 
-                                                <del>{{$deal['price']}}Azn</del> </span>
+                                                ${{$deal['price']}} </span>
 
-                                                <span class="fs-14 text-primary font-w500" style="font-size:1rem !important;">
+                                                {{-- <span class="fs-14 text-primary font-w500" style="font-size:1rem !important;">
                                                     {{$price_to_pay}}Azn
-                                                </span>
+                                                </span> --}}
 
-                                                @endif
+                                                {{-- @endif --}}
 
 
-                                                @if($deal['additional_discount'] && $result)
+                                                {{-- @if($deal['additional_discount'] && $result)
                                                 <span class="badge light badge-danger"
                                                 style="margin-left: 8px !important;float: right !important;">
                                                 {{$deal['additional_discount']}}% off</span>
-                                                @endif
+                                                @endif --}}
                                                 
 
                                                 <span class="badge light badge-primary"
                                                     style="margin-left: 8px !important;float: right !important;">
-                                                    {{$deal['discount_on_price']}}% off</span>
+                                                    ${{$deal['discount']}} OFF</span>
 
                                             @endif
 

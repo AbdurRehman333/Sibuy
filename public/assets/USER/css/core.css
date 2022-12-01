@@ -10329,7 +10329,8 @@ a.displaynone {
     display: none;
 }
 a.locationmenu:after {
-    content: "Baku";
+    content: "Phnom Penh";
+    /* content: "Baku"; */
     font-size: 16px;
     padding: 7px 20px;
     border: 1px solid #333;

@@ -59,7 +59,7 @@ class AjaxLoadDealsController extends Controller
         if( !session()->has('Authenticated_user_data') && session()->has('unAuthUserLocations'))
         {
             $session_data = session()->get('unAuthUserLocations');
-            $response = Http::get('gigiapi.zanforthstaging.com/api/getSystemCitiesByCountry',[
+            $response = Http::get(''.config('path.path.WebPath').'api/getSystemCitiesByCountry',[
                 'country' => session()->get('unAuthUserLocations')['country'],
             ]);
             $cities = $response->json();
@@ -67,12 +67,12 @@ class AjaxLoadDealsController extends Controller
         elseif(session()->has('Authenticated_user_data') && session()->get('Authenticated_user_data')['type'] == 1)
         {
             $session_data = session()->get('unAuthUserLocations');
-            $response = Http::get('gigiapi.zanforthstaging.com/api/getSystemCitiesByCountry',[
+            $response = Http::get(''.config('path.path.WebPath').'api/getSystemCitiesByCountry',[
                 'country' => session()->get('Authenticated_user_data')['location']['country'],
             ]);
             $cities = $response->json();
         }
-        $url = 'gigiapi.zanforthstaging.com/api/categoryAutoComplete';
+        $url = ''.config('path.path.WebPath').'api/categoryAutoComplete';
         $categories = Http::get($url)->json()['data'];
         if(session()->has('Authenticated_user_data') && session()->get('Authenticated_user_data')['type'] == 1)
         {
@@ -83,7 +83,7 @@ class AjaxLoadDealsController extends Controller
 
             $token = session()->get('Authenticated_user_data')['token'];
             $response = Http::withToken($token);
-            $response = $response->get('gigiapi.zanforthstaging.com/api/user/getUserLocations');
+            $response = $response->get(''.config('path.path.WebPath').'api/user/getUserLocations');
             $userCities = $response->json()['data'];
             $data = [
             'limit' => 10000,
@@ -97,7 +97,7 @@ class AjaxLoadDealsController extends Controller
             {
                 $data['cities['.$key.']'] = $c['city'];
             }
-            $response = Http::get('gigiapi.zanforthstaging.com/api/user/getNearByDeals',$data);
+            $response = Http::get(''.config('path.path.WebPath').'api/user/getNearByDeals',$data);
             if($response->json()['status'] == true)
             {
                 $data = $response->json()['data'];
@@ -122,7 +122,7 @@ class AjaxLoadDealsController extends Controller
         }
         elseif( !session()->has('Authenticated_user_data') && session()->has('unAuthUserLocations'))
         {
-            $response = Http::get('gigiapi.zanforthstaging.com/api/user/getNearByDeals',[
+            $response = Http::get(''.config('path.path.WebPath').'api/user/getNearByDeals',[
                 'limit' => 10000,
                 'page' => 1,
                 'returnType' => 'customPagination',
@@ -154,7 +154,7 @@ class AjaxLoadDealsController extends Controller
         }
         else
         {
-            $response = Http::get('gigiapi.zanforthstaging.com/api/user/getDeals',[
+            $response = Http::get(''.config('path.path.WebPath').'api/user/getDeals',[
                 'limit' => 10000,
                 'page' => 1,
                 'returnType' => 'customPagination'
@@ -169,7 +169,7 @@ class AjaxLoadDealsController extends Controller
 
         $html = `<div> `;
         
-        // src=`.'https://gigiapi.zanforthstaging.com/'.$deal['image']['path'].'/'.$deal['image']['image'].''.`
+ 
         
         foreach($deals as $key => $deal)
         {
@@ -180,7 +180,7 @@ class AjaxLoadDealsController extends Controller
                 style='width:100%; height:250px; object-fit: contain;'
                 
            
-                src='https://gigiapi.zanforthstaging.com/images/deals/ade6e09783544caec854ad48435231b4.png'
+                src='`.config('path.path.WebPath').`images/deals/ade6e09783544caec854ad48435231b4.png'
                 
                 />
 
@@ -189,7 +189,7 @@ class AjaxLoadDealsController extends Controller
             `;
             $html .= `</div> `;
             return $html;
-
+            
             $html .= `
 
 
@@ -214,7 +214,7 @@ class AjaxLoadDealsController extends Controller
                             
                         $html .= `<img 
                         style='width:100%; height:250px; object-fit: contain;'
-                        src='`.'https://gigiapi.zanforthstaging.com/'.$deal['image']['path'].'/'.$deal['image']['image'].''.`' />
+                        src='`.''.config('path.path.WebPath').''.$deal['image']['path'].'/'.$deal['image']['image'].''.`' />
 
                         <p style="margin-bottom: 0px;"><span> `.$deal['merchant_name'].`</span></p> `;
 

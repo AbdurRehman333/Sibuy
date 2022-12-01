@@ -349,16 +349,16 @@
 
     {{-- <input type="hidden" id="token" value="{{$token}}">
     <input type="hidden" id="id" value="{{$id}}"> --}}
-
+    <input type="hidden" id="WebPath" value="{{config('path.path.WebPath')}}">
     <script src="https://js.pusher.com/7.2/pusher.min.js"></script>
-
     
-        <script>
+    
+    <script>
             Pusher.logToConsole = true;
-    
-            var pusher = new Pusher('814fe1b741785e7ace5e', {
+            WebPath = document.getElementById('WebPath').value;
+            var pusher = new Pusher('5c357c77e10eb34aedcb', {
                 cluster: 'ap2',
-                authEndpoint: "https://gigiapi.zanforthstaging.com/api/channelAuthorization",
+                authEndpoint: `${WebPath}api/channelAuthorization`,
                 auth: {
                     headers: {
                         "Authorization": `Bearer ${bearer_token}`,

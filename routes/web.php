@@ -40,6 +40,7 @@ use App\Http\Middleware\AuthAdminMerchantCommon;
 
 Route::group(['middleware' => 'web'], function () {
     Route::post('/load_qr',[AdminHomeController::class, "load_qr"])->name('load_qr');
+    Route::get('/getSideBarCount',[AdminHomeController::class, "getSideBarCount"])->name('getSideBarCount');
     Route::post('/loadBranchesBeforeQR',[AdminHomeController::class, "loadBranchesBeforeQR"])->name('loadBranchesBeforeQR');
 
     Route::middleware([AuthCheckAdmin::class])->group(function(){
@@ -75,11 +76,16 @@ Route::group(['middleware' => 'web'], function () {
         Route::get('/AdminAllReviewsFilterUsers',[AdminHomeController::class, "AdminAllReviewsFilterUsers"])->name('AdminAllReviewsFilterUsers');
 
         //Merchant Management
+        Route::get('/AdminManageReviewRequests',[AdminHomeController::class, "AdminManageReviewRequests"])->name('AdminManageReviewRequests');
         Route::get('/AdminManageMerchants',[AdminHomeController::class, "AdminManageMerchants"])->name('AdminManageMerchants');
         Route::get('/ActiveMerchants',[AdminHomeController::class, "ActiveMerchants"])->name('ActiveMerchants');
         Route::get('/AdminMerchantProfile/{id}',[AdminHomeController::class, "AdminMerchantProfile"])->name('AdminMerchantProfile');
         Route::get('/AdminEditMerchant/{id}',[MerchantManagementController::class, "AdminEditMerchant"])->name('AdminEditMerchant');
         Route::post('/AdminMerchantProfileUpdate',[MerchantManagementController::class, "AdminMerchantProfileUpdate"])->name('AdminMerchantProfileUpdate');
+        Route::post('/SetMerchantCommission',[MerchantManagementController::class, "SetMerchantCommission"])->name('SetMerchantCommission');
+        Route::post('/AcceptAndSetMerchantCommission',[MerchantManagementController::class, "AcceptAndSetMerchantCommission"])->name('AcceptAndSetMerchantCommission');
+        Route::get('/InactiveMerchant/{id}',[MerchantManagementController::class, "InactiveMerchant"])->name('InactiveMerchant');
+        Route::get('/ActiveMerchant/{id}',[MerchantManagementController::class, "ActiveMerchant"])->name('ActiveMerchant');
         
         Route::get('/AdminMerchantReviews/{id}',[MerchantManagementController::class, "AdminMerchantReviews"])->name('AdminMerchantReviews');
         //CATEGORIES
@@ -93,6 +99,8 @@ Route::group(['middleware' => 'web'], function () {
         //REVIEW
         Route::get('/AdminEditReview/{id}',[ReviewController::class, "AdminEditReview"])->name('AdminEditReview');
         Route::post('/AdminReviewUpdate',[ReviewController::class, "AdminReviewUpdate"])->name('AdminReviewUpdate');
+        Route::get('/AdminAcceptReview/{id}',[ReviewController::class, "AdminAcceptReview"])->name('AdminAcceptReview');
+        Route::get('/AdminRejectReview/{id}',[ReviewController::class, "AdminRejectReview"])->name('AdminRejectReview');
 
         //Tags
         Route::get('/AdminAllTags',[TagController::class, "AdminAllTags"])->name('AdminAllTags');
@@ -129,6 +137,18 @@ Route::group(['middleware' => 'web'], function () {
         Route::get('AdminHomePageManagement',[AdminHomeController::class, "AdminHomePageManagement"])->name('AdminHomePageManagement');
         Route::get('AdminHomeSectionEdit/{id}',[AdminHomeController::class, "AdminHomeSectionEdit"])->name('AdminHomeSectionEdit');
         Route::post('UpdateSectionBox',[AdminHomeController::class, "UpdateSectionBox"])->name('UpdateSectionBox');
+        //CROUSEL
+        Route::get('AdminHomeCrouselManagement',[AdminHomeController::class, "AdminHomeCrouselManagement"])->name('AdminHomeCrouselManagement');
+        Route::get('AddBanner',[AdminHomeController::class, "AddBanner"])->name('AddBanner');
+        Route::post('AddBannerConfirm',[AdminHomeController::class, "AddBannerConfirm"])->name('AddBannerConfirm');
+        Route::get('EditBanner/{id}',[AdminHomeController::class, "EditBanner"])->name('EditBanner');
+        Route::post('EditbannerConfirm',[AdminHomeController::class, "EditbannerConfirm"])->name('EditBannerConfirm');
+        Route::get('DeleteBanner/{id}',[AdminHomeController::class, "DeleteBanner"])->name('DeleteBanner');
+
+        Route::get('AdminTransactions',[AdminHomeController::class, "AdminTransactions"])->name('AdminTransactions');
+        Route::get('AdminPaymentRequests',[AdminHomeController::class, "AdminPaymentRequests"])->name('AdminPaymentRequests');
+        Route::get('AdminMerchantAmounts',[AdminHomeController::class, "AdminMerchantAmounts"])->name('AdminMerchantAmounts');
+        Route::get('AdminServiceChargesRecord',[AdminHomeController::class, "AdminServiceChargesRecord"])->name('AdminServiceChargesRecord');
         
         Route::post('admin_logout',[CommonAuthController::class, "admin_logout"])->name('admin_logout');
 
@@ -138,6 +158,8 @@ Route::group(['middleware' => 'web'], function () {
 
         //Merchant -------- Will decide later.
     Route::get('/register/merchant',[CommonAuthController::class, "registerMerchant"])->name('registerMerchant');
+    Route::post('getCities',[CommonAuthController::class, "getCities"])->name('getCities');
+    Route::post('ContactNumberAlreadyTaken',[CommonAuthController::class, "ContactNumberAlreadyTaken"])->name('ContactNumberAlreadyTaken');
     Route::post('register_merchant',[CommonAuthController::class, "register_merchant"])->name('register_merchant');
     Route::get('/login/merchant',[CommonAuthController::class, "Login"])->name('Merchantlogin');
     Route::post('merchant_login',[CommonAuthController::class, "merchant_login"])->name('merchant_login');
@@ -146,6 +168,9 @@ Route::group(['middleware' => 'web'], function () {
     Route::middleware([AuthCheckMerchant::class])->group(function(){
 
         Route::get('/MerchantAllNotifications',[MerchantHomeController::class, "MerchantAllNotifications"])->name('MerchantAllNotifications');
+        Route::get('/Transactions',[MerchantHomeController::class, "Transactions"])->name('Transactions');
+        Route::get('/RequestPayment',[MerchantHomeController::class, "RequestPayment"])->name('RequestPayment');
+        Route::get('/BankDetails',[MerchantHomeController::class, "BankDetails"])->name('BankDetails');
 
         Route::any('/MerchantSearchCoupons',[MerchantHomeController::class, "MerchantSearchCoupons"])->name('/MerchantSearchCoupons');
         
@@ -229,6 +254,7 @@ Route::group(['middleware' => 'web'], function () {
     Route::get('/',[UserController::class, "home"]);
     Route::get('/home',[UserController::class, "home"])->name('home');
     Route::get('/boost',[UserController::class, "boost"])->name('boost');
+    Route::get('/aboutus',[UserController::class, "boost"])->name('aboutus');
     Route::get('/TrendingDealsSeeMore',[UserController::class, "TrendingDealsSeeMore"])->name('TrendingDealsSeeMore');
     Route::get('/TrendingDealsSort/{sortType}',[UserController::class, "TrendingDealsSort"])->name('TrendingDealsSort');
 
@@ -276,6 +302,8 @@ Route::group(['middleware' => 'web'], function () {
         
         Route::post('user_logout',[UserMerchantAuthController::class, "user_logout"])->name('user_logout');
         Route::get('myprofile',[UserController::class, "myprofile"])->name('myprofile');
+
+        Route::get('ReferralCode',[UserController::class, "ReferralCode"])->name('ReferralCode');
 
         Route::post('SETCITIES',[UserController::class, "SETCITIES"])->name('SETCITIES');
         Route::get('UserSelectedCity/{city}',[UserController::class, "UserSelectedCity"])->name('UserSelectedCity');

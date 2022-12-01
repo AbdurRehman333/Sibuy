@@ -15,7 +15,7 @@ class TagController extends Controller
     public function getNotifications($token)
     {
         $response = Http::withToken($token);
-        $response = $response->get('gigiapi.zanforthstaging.com/api/getNotifications',[
+        $response = $response->get(''.config('path.path.WebPath').'api/getNotifications',[
             'limit' => 50,
             'page' => 1,
             'timeSort' => 'desc',
@@ -29,7 +29,7 @@ class TagController extends Controller
             while($right == false)
             {
                 $response = Http::withToken($token);
-                $response = $response->get('gigiapi.zanforthstaging.com/api/getNotifications',[
+                $response = $response->get(''.config('path.path.WebPath').'api/getNotifications',[
                     'limit' => 50,
                     'page' => 1,
                     'timeSort' => 'desc',
@@ -55,7 +55,7 @@ class TagController extends Controller
         try{
             $token = session()->get('Authenticated_user_data')['token'];
             $response = Http::withToken($token);
-            $response = $response->get('gigiapi.zanforthstaging.com/api/admin/getTags' , [
+            $response = $response->get(''.config('path.path.WebPath').'api/admin/getTags' , [
                 'limit' => 100000,
                 'page' => 1,
                 'returnType' => 'customPagination'
@@ -64,7 +64,7 @@ class TagController extends Controller
             // dd($categories);
             $token = session('Authenticated_user_data')['token'];
             $response = Http::withToken($token);
-            $response = $response->get('gigiapi.zanforthstaging.com/api/getConversations');
+            $response = $response->get(''.config('path.path.WebPath').'api/getConversations');
             // NEW CODE -- START
             if($response->json() == null)
             {
@@ -73,7 +73,7 @@ class TagController extends Controller
                 while($right == false)
                 {
                     $response = Http::withToken($token);
-                    $response = $response->get('gigiapi.zanforthstaging.com/api/getConversations');
+                    $response = $response->get(''.config('path.path.WebPath').'api/getConversations');
                     if($response->json() == null)
                     {
 
@@ -110,7 +110,7 @@ class TagController extends Controller
         try{
             $token = session('Authenticated_user_data')['token'];
             $response = Http::withToken($token);
-            $response = $response->get('gigiapi.zanforthstaging.com/api/getConversations');
+            $response = $response->get(''.config('path.path.WebPath').'api/getConversations');
             // NEW CODE -- START
             if($response->json() == null)
             {
@@ -119,7 +119,7 @@ class TagController extends Controller
                 while($right == false)
                 {
                     $response = Http::withToken($token);
-                    $response = $response->get('gigiapi.zanforthstaging.com/api/getConversations');
+                    $response = $response->get(''.config('path.path.WebPath').'api/getConversations');
                     if($response->json() == null)
                     {
 
@@ -154,7 +154,7 @@ class TagController extends Controller
     {
         try{
             $token = session()->get('Authenticated_user_data')['token'];
-            $response = Http::withToken($token)->post('gigiapi.zanforthstaging.com/api/admin/createTag', [
+            $response = Http::withToken($token)->post(''.config('path.path.WebPath').'api/admin/createTag', [
                 'name' =>  $request->name,
             ]);
             
@@ -177,7 +177,7 @@ class TagController extends Controller
     {
         try{
             $token = session()->get('Authenticated_user_data')['token'];
-            $url = 'gigiapi.zanforthstaging.com/api/admin/updateTag/'.$id.'';
+            $url = ''.config('path.path.WebPath').'api/admin/updateTag/'.$id.'';
             $response = Http::withToken($token);
             $data = [
                 'name' => $request->name,
@@ -205,12 +205,12 @@ class TagController extends Controller
             $token = session()->get('Authenticated_user_data')['token'];
             //Get Specific Tag Info
             $response = Http::withToken($token);
-            $response = $response->get('gigiapi.zanforthstaging.com/api/admin/getTag/'.$id.'');
+            $response = $response->get(''.config('path.path.WebPath').'api/admin/getTag/'.$id.'');
             $tag = $response->json();
             // dd($tag);
             $token = session('Authenticated_user_data')['token'];
             $response = Http::withToken($token);
-            $response = $response->get('gigiapi.zanforthstaging.com/api/getConversations');
+            $response = $response->get(''.config('path.path.WebPath').'api/getConversations');
             // NEW CODE -- START
             if($response->json() == null)
             {
@@ -219,7 +219,7 @@ class TagController extends Controller
                 while($right == false)
                 {
                     $response = Http::withToken($token);
-                    $response = $response->get('gigiapi.zanforthstaging.com/api/getConversations');
+                    $response = $response->get(''.config('path.path.WebPath').'api/getConversations');
                     if($response->json() == null)
                     {
 
@@ -254,7 +254,7 @@ class TagController extends Controller
     {
         try{
             $token = session()->get('Authenticated_user_data')['token'];
-            $response = Http::withToken($token)->post('gigiapi.zanforthstaging.com/api/admin/deleteTag/'.$id.'');
+            $response = Http::withToken($token)->post(''.config('path.path.WebPath').'api/admin/deleteTag/'.$id.'');
             // return redirect()->back()->with('alert',$response->json()['message']);
             return redirect()->back()->with('alert','Tag Deleted Successfuly!');
         } catch (\Exception $e) {
