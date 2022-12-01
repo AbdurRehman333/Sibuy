@@ -70,17 +70,17 @@
                     @endphp
 
                     @if($length > 0 && $length <= 8 )
-                        <div class="nav-search navSearch {{$length}}" style="width: 46%;border:1.5px solid grey;padding:8px;border-radius: 16px;margin-bottom:4.5px;"> 
+                        <div class="nav-search navSearch {{$length}}" style="width: 48%;border:1.5px solid grey;padding:8px;border-radius: 16px;margin-bottom:4.5px;"> 
                     @elseif($length > 8 && $length <= 10)
-                        <div class="nav-search navSearch" style="width: 44%;border:1.5px solid grey;padding:8px;border-radius: 16px;margin-bottom:4.5px;"> 
+                        <div class="nav-search navSearch" style="width: 47%;border:1.5px solid grey;padding:8px;border-radius: 16px;margin-bottom:4.5px;"> 
                     @elseif($length > 10 && $length <= 12)
-                        <div class="nav-search navSearch" style="width: 41%;border:1.5px solid grey;padding:8px;border-radius: 16px;margin-bottom:4.5px;"> 
-                    @elseif($length > 12 && $length <= 16)
-                        <div class="nav-search navSearch" style="width: 40%;border:1.5px solsid grey;padding:8px;border-radius: 16px;margin-bottom:4.5px;"> 
-                    @elseif($length > 16 && $length <= 20)
-                        <div class="nav-search navSearch" style="width: 39%;border:1.5px solsid grey;padding:8px;border-radius: 16px;margin-bottom:4.5px;"> 
-                    @else
                         <div class="nav-search navSearch" style="width: 43%;border:1.5px solid grey;padding:8px;border-radius: 16px;margin-bottom:4.5px;"> 
+                    @elseif($length > 12 && $length <= 16)
+                        <div class="nav-search navSearch" style="width: 45%;border:1.5px solid grey;padding:8px;border-radius: 16px;margin-bottom:4.5px;"> 
+                    @elseif($length > 16 && $length <= 20)
+                        <div class="nav-search navSearch" style="width: 42%;border:1.5px solid grey;padding:8px;border-radius: 16px;margin-bottom:4.5px;"> 
+                    @else
+                        <div class="nav-search navSearch" style="width: 45%;border:1.5px solid grey;padding:8px;border-radius: 16px;margin-bottom:4.5px;"> 
                     @endif
 
                     @else
@@ -2487,25 +2487,37 @@
 
                 @if(!session()->has('Authenticated_user_data') || session()->get('Authenticated_user_data')['type'] == 1)
                 <a class="nav-buy" href="#" data-shop-count="0">
+
+
+
                     <div style="padding: 0;
-                    background: white;" class="gradient-button-blue-small flatcolor OnHoverForLangDrop" id="LangDropDownButton"> <img loading="lazy" class="flag"
+                        background: white;" class="gradient-button-blue-small flatcolor OnHoverForLangDrop" id="LangDropDownButton"> <img loading="lazy" class="flag"
                         src="{{asset('assets/USER/img/icons/flags/gb.svg')}}" alt="United Kingdom"
                         width="23" height="17" /> </div>
+
+
+
                     <div class="lang_drop_down OnHoverForLangDrop" id="lang_drop_down_id">
                         <ul style="list-style: none; width:120px;" >
+
+                            {{-- languages  --}}
+
                             <li><img loading="lazy" class="flag"
                                 src="{{asset('assets/USER/img/icons/flags/gb.svg')}}" alt="United Kingdom"
                                 width="23" height="17" /> 
-                                
                                 <span onclick="location.href='ChangeLang/En'" class="name"> English </span>
-                            
                             </li>
+                            
                             <li> <img loading="lazy" class="flag"
                                 src="{{asset('assets/USER/img/icons/flags/china.png')}}" alt="Cambodia" style="    height: 123%;"
                                 width="23" height="17" />  Chinese </li>
+
                             <li> <img loading="lazy" class="flag"
                                 src="{{asset('assets/USER/img/icons/flags/cambodia.png')}}" alt="Cambodia" style="    height: 123%;"
                                 width="23" height="17" /> <span class="name"> Khmer </li>
+
+
+
                         </ul>
                     </div>
                 </a>

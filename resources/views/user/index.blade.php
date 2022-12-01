@@ -466,7 +466,7 @@
                     }
 
                     .carousel {
-                        background: black;
+                        /* background: black; */
                     }
 
                     .carousel-cell {
@@ -559,7 +559,12 @@
                 <!-- Flickity HTML init -->
                 @if(count($crousel) !== 0 )
                 <div class="container">
-                    <div class="carousel js-flickity">
+                    <div class="carousel js-flickity"  data-flickity='{ "wrapAround": true,
+                        "autoPlay": 2000, 
+                        "pauseAutoPlayOnHover": false, 
+                        "prevNextButtons": false,
+                        "pageDots": false
+                        }'>
                         <!-- images from unsplash.com -->
     
                         @foreach($crousel as $key => $banner)
@@ -579,7 +584,7 @@
                     $('.main-gallery').flickity({
                         // options
                         cellAlign: 'left',
-                        contain: true
+                        contain: true,
                         });
                 </script>
 

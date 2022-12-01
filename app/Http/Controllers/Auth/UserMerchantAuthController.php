@@ -112,7 +112,8 @@ class UserMerchantAuthController extends Controller
                 }
             }
             
-            // dd($response->json());
+            dd($response->json());
+            
             session(['Authenticated_user_data' => $response->json()['data']]);
             // dd(session()->get('Authenticated_user_data'));
             if(session('Authenticated_user_data')['type'] == 3)
